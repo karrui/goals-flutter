@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:goals_flutter/screens/auth/sign_in_screen.dart';
 
 import './widgets/auth_button.dart';
 import '../../widgets/text_button.dart';
 
-class LoginScreen extends StatelessWidget {
+class AuthScreen extends StatelessWidget {
+  void handleSignIn(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => SignInScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +58,7 @@ class LoginScreen extends StatelessWidget {
                   text: 'Sign in with email',
                   icon: FontAwesomeIcons.solidEnvelope,
                   backgroundColor: Colors.grey[900],
-                  onPressed: () => print('signin email'),
+                  onPressed: () => handleSignIn(context),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

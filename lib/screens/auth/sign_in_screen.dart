@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:goals_flutter/screens/auth/widgets/auth_button.dart';
+
+import 'utils/form_validator.dart';
+import 'widgets/auth_button.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -21,7 +23,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   void initState() {
-    bool hasBlurredEmailInput = false;
     emailFocusNode = FocusNode();
     passwordFocusNode = FocusNode();
     emailInputController = TextEditingController();
@@ -34,28 +35,6 @@ class _SignInScreenState extends State<SignInScreen> {
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
     super.dispose();
-  }
-
-  String emailValidator(String value) {
-    if (value.isEmpty) {
-      return 'Email cannot be empty';
-    }
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value)) {
-      return 'Invalid email format';
-    } else {
-      return null;
-    }
-  }
-
-  String passwordValidator(String value) {
-    if (value.isEmpty) {
-      return 'Password cannot be empty';
-    } else {
-      return null;
-    }
   }
 
   Widget _showEmailInput() {

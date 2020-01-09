@@ -19,6 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg:
+  font_awesome_flutter:
   firebase_core: ^0.4.0+9
   firebase_analytics: ^5.0.2
   firebase_auth: ^0.14.0+5
@@ -41,6 +43,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/images/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

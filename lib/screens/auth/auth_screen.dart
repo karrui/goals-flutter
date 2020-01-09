@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:goals_flutter/screens/auth/sign_in_screen.dart';
-import 'package:goals_flutter/screens/auth/sign_up_screen.dart';
 
 import './widgets/auth_button.dart';
+import '../../constants.dart';
 import '../../widgets/text_button.dart';
 
 class AuthScreen extends StatelessWidget {
   void handleSignIn(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => SignInScreen()));
+    Navigator.pushNamed(context, signInRoute);
   }
 
   void handleSignUp(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => SignUpScreen()));
+    Navigator.pushNamed(context, signUpRoute);
   }
 
   @override

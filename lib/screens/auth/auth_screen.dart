@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:goals_flutter/screens/auth/sign_in_screen.dart';
+import 'package:goals_flutter/screens/auth/sign_up_screen.dart';
 
 import './widgets/auth_button.dart';
 import '../../widgets/text_button.dart';
@@ -10,6 +11,11 @@ class AuthScreen extends StatelessWidget {
   void handleSignIn(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => SignInScreen()));
+  }
+
+  void handleSignUp(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => SignUpScreen()));
   }
 
   @override
@@ -66,7 +72,7 @@ class AuthScreen extends StatelessWidget {
                     SizedBox(
                       height: 40.0,
                       child: TextButton(
-                        onPressed: () => print('signup'),
+                        onPressed: () => handleSignUp(context),
                         text: "Sign up with email",
                       ),
                     ),

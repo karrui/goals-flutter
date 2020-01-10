@@ -22,6 +22,7 @@ dependencies:
   # Misc dependencies
   flutter_svg:
   font_awesome_flutter:
+  page_transition: "^1.1.5"
   # Firebase
   firebase_core: ^0.4.0+9
   firebase_analytics: ^5.0.2

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goals_flutter/screens/splash_screen.dart';
 
 import 'constants.dart';
 import 'screens/auth/auth_screen.dart';
@@ -9,6 +10,8 @@ import 'screens/jars_screen.dart';
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case splashRoute:
+        return MaterialPageRoute(builder: (_) => SplashScreen());
       case homeRoute:
         return MaterialPageRoute(builder: (_) => JarsScreen());
       case authRoute:
@@ -19,10 +22,12 @@ class Router {
         return MaterialPageRoute(builder: (_) => SignUpScreen());
       default:
         return MaterialPageRoute(
-            builder: (_) => Scaffold(
-                  body: Center(
-                      child: Text('No route defined for ${settings.name}')),
-                ));
+          builder: (_) => Scaffold(
+            body: Center(
+              child: Text('No route defined for ${settings.name}'),
+            ),
+          ),
+        );
     }
   }
 }

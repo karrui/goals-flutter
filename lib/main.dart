@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:goals_flutter/router.dart';
 
-import './screens/auth/auth_screen.dart';
 import 'router.dart';
+import 'screens/splash_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AuthScreen(),
+      home: SplashScreen(),
       onGenerateRoute: Router.generateRoute,
     );
   }

@@ -21,8 +21,6 @@ class RoundedButton extends StatelessWidget {
       elevation: 5.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       color: backgroundColor,
-      // TODO: Set color to primary theme color
-      splashColor: Colors.greenAccent,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [

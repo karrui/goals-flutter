@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:goals_flutter/constants.dart';
+import 'package:goals_flutter/screens/auth/utils/generate_auth_error_message.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
@@ -15,6 +18,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _emailFormKey = GlobalKey<FormState>();
   final _passwordFormKey = GlobalKey<FormState>();
 
+  String _errorMessage = "";
   bool isSignUpButtonEnabled = false;
 
   FocusNode emailFocusNode;
@@ -53,6 +57,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           FocusScope.of(context).requestFocus(passwordFocusNode);
         },
         onChanged: (_) {
+          if (_errorMessage != "") {
+            setState(() {
+              _errorMessage = "";
+            });
+          }
           if (hasBlurredEmailInput) {
             _emailFormKey.currentState.validate();
           }
@@ -88,6 +97,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           _emailFormKey.currentState.validate();
         },
         onChanged: (_) {
+          if (_errorMessage != "") {
+            setState(() {
+              _errorMessage = "";
+            });
+          }
           setState(() {
             isSignUpButtonEnabled = _emailFormKey.currentState.validate() &&
                 _passwordFormKey.currentState.validate();
@@ -112,13 +126,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: AuthButton(
         text: 'Sign up',
         backgroundColor: Colors.grey[900],
-        onPressed: isSignUpButtonEnabled
-            ? () => Provider.of<Auth>(context, listen: false)
-                .signUpWithEmailAndPassword(
-                    emailInputController.text, passwordInputController.text)
-            : null,
+        onPressed: isSignUpButtonEnabled ? _handleSignUp : null,
       ),
     );
+  }
+
+  Widget _showErrorMessage(String errorMessage) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        errorMessage,
+        style: TextStyle(color: Colors.redAccent),
+      ),
+    );
+  }
+
+  Future<void> _handleSignUp() async {
+    if (_errorMessage != "") {
+      setState(() {
+        _errorMessage = "";
+      });
+    }
+    try {
+      final result = await Provider.of<Auth>(context, listen: false)
+          .signUpWithEmailAndPassword(
+              emailInputController.text, passwordInputController.text);
+      return result;
+    } on PlatformException catch (error) {
+      setState(() {
+        _errorMessage = generateAuthErrorMessage(error);
+      });
+    }
   }
 
   @override
@@ -135,6 +173,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               _showEmailInput(),
               _showPasswordInput(),
               _showSignUpButton(context),
+              _showErrorMessage(_errorMessage),
             ],
           ),
         ),

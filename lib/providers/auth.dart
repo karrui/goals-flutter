@@ -51,6 +51,22 @@ class Auth with ChangeNotifier {
     }
   }
 
+  Future<FirebaseUser> signInWithEmailAndPassword(
+      String email, String password) async {
+    final result = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
+    print(result.user);
+    return result.user;
+  }
+
+  Future<FirebaseUser> signUpWithEmailAndPassword(
+      String email, String password) async {
+    final result = await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    print(result.user);
+    return result.user;
+  }
+
   Future<void> logout() async {
     _auth.signOut();
   }

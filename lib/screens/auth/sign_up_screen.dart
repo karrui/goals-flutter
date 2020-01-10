@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/auth.dart';
 import 'utils/form_validator.dart';
 import 'widgets/auth_button.dart';
 
@@ -104,13 +106,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _showSignUpButton() {
+  Widget _showSignUpButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
       child: AuthButton(
         text: 'Sign up',
         backgroundColor: Colors.grey[900],
-        onPressed: isSignUpButtonEnabled ? () => print('signup') : null,
+        onPressed: isSignUpButtonEnabled
+            ? () => Provider.of<Auth>(context, listen: false)
+                .signUpWithEmailAndPassword(
+                    emailInputController.text, passwordInputController.text)
+            : null,
       ),
     );
   }
@@ -128,7 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: <Widget>[
               _showEmailInput(),
               _showPasswordInput(),
-              _showSignUpButton(),
+              _showSignUpButton(context),
             ],
           ),
         ),

@@ -50,4 +50,8 @@ class Auth with ChangeNotifier {
         return null;
     }
   }
+
+  Future<void> logout() async {
+    _auth.signOut();
+  }
 }

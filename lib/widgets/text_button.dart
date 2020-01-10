@@ -14,6 +14,7 @@ class TextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (new FlatButton(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       child: new Text(
         text,
         textAlign: TextAlign.center,

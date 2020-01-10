@@ -27,11 +27,20 @@ class MyApp extends StatelessWidget {
           home: FutureBuilder<FirebaseUser>(
             future: authData.user,
             builder: (ctx, AsyncSnapshot<FirebaseUser> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                return JarsScreen();
-              } else
-                return AuthScreen();
+              switch (snapshot.connectionState) {
+                case ConnectionState.done:
+                  if (snapshot.hasData) {
+                    return JarsScreen();
+                  }
+                  return AuthScreen();
+                default:
+                  // Loading, return empty container
+                  return Scaffold(
+                    body: Center(
+                      child: Container(),
+                    ),
+                  );
+              }
             },
           ),
           onGenerateRoute: Router.generateRoute,

@@ -22,6 +22,11 @@ class AuthScreen extends StatelessWidget {
     authProvider.signInWithGoogle();
   }
 
+  void _handleSignInWithFacebook(BuildContext context) {
+    final authProvider = Provider.of<Auth>(context, listen: false);
+    authProvider.signInWithFacebook();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +67,7 @@ class AuthScreen extends StatelessWidget {
                   text: 'Sign in with Facebook',
                   icon: FontAwesomeIcons.facebookF,
                   backgroundColor: Color(0xFF3b5998),
-                  onPressed: () => print('signin facebook'),
+                  onPressed: () => _handleSignInWithFacebook(context),
                 ),
                 AuthButton(
                   text: 'Sign in with email',

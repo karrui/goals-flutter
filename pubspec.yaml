@@ -23,6 +23,7 @@ dependencies:
   flutter_svg: ^0.15.0
   font_awesome_flutter: ^8.5.0
   page_transition: ^1.1.5
+  provider: ^4.0.1
   # Firebase
   firebase_core: ^0.4.0+9
   firebase_analytics: ^5.0.2

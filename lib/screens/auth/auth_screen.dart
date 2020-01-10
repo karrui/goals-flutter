@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 import './widgets/auth_button.dart';
 import '../../constants.dart';
+import '../../providers/auth.dart';
 import '../../widgets/text_button.dart';
 
 class AuthScreen extends StatelessWidget {
-  void handleSignIn(BuildContext context) {
+  void _handleSignInWithEmail(BuildContext context) {
     Navigator.pushNamed(context, signInRoute);
   }
 
-  void handleSignUp(BuildContext context) {
+  void _handleSignUpWithEmail(BuildContext context) {
     Navigator.pushNamed(context, signUpRoute);
+  }
+
+  void _handleSignInWithGoogle(BuildContext context) {
+    final authProvider = Provider.of<Auth>(context, listen: false);
+    authProvider.signInWithGoogle();
   }
 
   @override
@@ -49,7 +56,7 @@ class AuthScreen extends StatelessWidget {
                 AuthButton(
                   text: 'Sign in with Google',
                   icon: FontAwesomeIcons.google,
-                  onPressed: () => print('signin google'),
+                  onPressed: () => _handleSignInWithGoogle(context),
                 ),
                 AuthButton(
                   text: 'Sign in with Facebook',
@@ -61,7 +68,7 @@ class AuthScreen extends StatelessWidget {
                   text: 'Sign in with email',
                   icon: FontAwesomeIcons.solidEnvelope,
                   backgroundColor: Colors.grey[900],
-                  onPressed: () => handleSignIn(context),
+                  onPressed: () => _handleSignInWithEmail(context),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -69,7 +76,7 @@ class AuthScreen extends StatelessWidget {
                     SizedBox(
                       height: 40.0,
                       child: TextButton(
-                        onPressed: () => handleSignUp(context),
+                        onPressed: () => _handleSignUpWithEmail(context),
                         text: "Sign up with email",
                       ),
                     ),

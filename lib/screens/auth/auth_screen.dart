@@ -53,7 +53,7 @@ class AuthScreen extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(48.0, 24.0, 48.0, 24.0),
                   child: Center(
                     child: Text(
-                      'Welcome to Goals!\nSign in to be able to share your goals for others to contribute.',
+                      'Welcome to Goals!\nSign in to start goals and to be able to share your goals for others to contribute.',
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -83,13 +83,6 @@ class AuthScreen extends StatelessWidget {
                       child: TextButton(
                         onPressed: () => _handleSignUpWithEmail(context),
                         text: "Sign up with email",
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40.0,
-                      child: TextButton(
-                        onPressed: () => print('guest'),
-                        text: "Continue as guest",
                       ),
                     ),
                   ],

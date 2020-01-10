@@ -1,4 +1,4 @@
-package com.example.goals_flutter
+package dev.karrui.goals
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

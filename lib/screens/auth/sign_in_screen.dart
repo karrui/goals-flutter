@@ -148,10 +148,11 @@ class _SignInScreenState extends State<SignInScreen> {
       });
     }
     try {
-      final result = await Provider.of<Auth>(context, listen: false)
+      await Provider.of<Auth>(context, listen: false)
           .signInWithEmailAndPassword(
               emailInputController.text, passwordInputController.text);
-      return result;
+      // Required to trigger navigation since this screen is stacked on the main screen that changes.
+      Navigator.pop(context);
     } on PlatformException catch (error) {
       setState(() {
         _errorMessage = generateAuthErrorMessage(error);

@@ -6,9 +6,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 class Auth with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  String _token;
-  DateTime _expiryDate;
-  String _userId;
+  Future<FirebaseUser> get user {
+    return _auth.currentUser();
+  }
 
   Future<FirebaseUser> signInWithGoogle() async {
     final googleSignIn = GoogleSignIn();
@@ -16,7 +16,6 @@ class Auth with ChangeNotifier {
 
     /// returns `null` if sign in is cancelled, so we do nothing
     if (googleUser == null) {
-      print("user cancelled");
       return null;
     }
 
@@ -27,35 +26,31 @@ class Auth with ChangeNotifier {
       idToken: googleAuth.idToken,
     );
 
-    final FirebaseUser user =
-        (await _auth.signInWithCredential(credential)).user;
-    print(user);
-    return user;
+    final result = await _auth.signInWithCredential(credential);
+    notifyListeners();
+    return result.user;
   }
 
   Future<FirebaseUser> signInWithFacebook() async {
     final facebookSignIn = FacebookLogin();
     final facebookSignInResult = await facebookSignIn.logIn(['email']);
 
-    switch (facebookSignInResult.status) {
-      case FacebookLoginStatus.loggedIn:
-        final accessToken = facebookSignInResult.accessToken.token;
-        final credential =
-            FacebookAuthProvider.getCredential(accessToken: accessToken);
-        final FirebaseUser user =
-            (await _auth.signInWithCredential(credential)).user;
-        print(user);
-        return user;
-      default:
-        return null;
+    if (facebookSignInResult.status == FacebookLoginStatus.loggedIn) {
+      final accessToken = facebookSignInResult.accessToken.token;
+      final credential =
+          FacebookAuthProvider.getCredential(accessToken: accessToken);
+      final result = await _auth.signInWithCredential(credential);
+      notifyListeners();
+      return result.user;
     }
+    return null;
   }
 
   Future<FirebaseUser> signInWithEmailAndPassword(
       String email, String password) async {
     final result = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
-    print(result.user);
+    notifyListeners();
     return result.user;
   }
 
@@ -63,11 +58,13 @@ class Auth with ChangeNotifier {
       String email, String password) async {
     final result = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
-    print(result.user);
+    notifyListeners();
     return result.user;
   }
 
-  Future<void> logout() async {
-    _auth.signOut();
+  Future logout() async {
+    final result = await _auth.signOut();
+    notifyListeners();
+    return result;
   }
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:goals_flutter/constants.dart';
-import 'package:goals_flutter/screens/auth/utils/generate_auth_error_message.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
 import 'utils/form_validator.dart';
+import 'utils/generate_auth_error_message.dart';
 import 'widgets/auth_button.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -148,10 +147,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
     try {
-      final result = await Provider.of<Auth>(context, listen: false)
+      await Provider.of<Auth>(context, listen: false)
           .signUpWithEmailAndPassword(
               emailInputController.text, passwordInputController.text);
-      return result;
+      // Required to trigger navigation since this screen is stacked on the main screen that changes.
+      Navigator.pop(context);
     } on PlatformException catch (error) {
       setState(() {
         _errorMessage = generateAuthErrorMessage(error);

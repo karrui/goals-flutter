@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:goals_flutter/constants.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
@@ -148,6 +147,9 @@ class _SignInScreenState extends State<SignInScreen> {
       });
     }
     try {
+      setState(() {
+        isSignInButtonEnabled = false;
+      });
       await Provider.of<Auth>(context, listen: false)
           .signInWithEmailAndPassword(
               emailInputController.text, passwordInputController.text);
@@ -156,6 +158,7 @@ class _SignInScreenState extends State<SignInScreen> {
     } on PlatformException catch (error) {
       setState(() {
         _errorMessage = generateAuthErrorMessage(error);
+        isSignInButtonEnabled = true;
       });
     }
   }

@@ -147,6 +147,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
     try {
+      setState(() {
+        isSignUpButtonEnabled = false;
+      });
       await Provider.of<Auth>(context, listen: false)
           .signUpWithEmailAndPassword(
               emailInputController.text, passwordInputController.text);
@@ -155,6 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } on PlatformException catch (error) {
       setState(() {
         _errorMessage = generateAuthErrorMessage(error);
+        isSignUpButtonEnabled = true;
       });
     }
   }

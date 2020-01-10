@@ -9,24 +9,6 @@ import '../../providers/auth.dart';
 import '../../widgets/text_button.dart';
 
 class AuthScreen extends StatelessWidget {
-  void _handleSignInWithEmail(BuildContext context) {
-    Navigator.pushNamed(context, signInRoute);
-  }
-
-  void _handleSignUpWithEmail(BuildContext context) {
-    Navigator.pushNamed(context, signUpRoute);
-  }
-
-  void _handleSignInWithGoogle(BuildContext context) {
-    final authProvider = Provider.of<Auth>(context, listen: false);
-    authProvider.signInWithGoogle();
-  }
-
-  void _handleSignInWithFacebook(BuildContext context) {
-    final authProvider = Provider.of<Auth>(context, listen: false);
-    authProvider.signInWithFacebook();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,40 +40,104 @@ class AuthScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                AuthButton(
-                  text: 'Sign in with Google',
-                  icon: FontAwesomeIcons.google,
-                  onPressed: () => _handleSignInWithGoogle(context),
-                ),
-                AuthButton(
-                  text: 'Sign in with Facebook',
-                  icon: FontAwesomeIcons.facebookF,
-                  backgroundColor: Color(0xFF3b5998),
-                  onPressed: () => _handleSignInWithFacebook(context),
-                ),
-                AuthButton(
-                  text: 'Sign in with email',
-                  icon: FontAwesomeIcons.solidEnvelope,
-                  backgroundColor: Colors.grey[900],
-                  onPressed: () => _handleSignInWithEmail(context),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 40.0,
-                      child: TextButton(
-                        onPressed: () => _handleSignUpWithEmail(context),
-                        text: "Sign up with email",
-                      ),
-                    ),
-                  ],
-                ),
+                AuthButtons(),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class AuthButtons extends StatefulWidget {
+  @override
+  _AuthButtonsState createState() => _AuthButtonsState();
+}
+
+class _AuthButtonsState extends State<AuthButtons> {
+  var _areButtonsDisabled = false;
+
+  void _handleSignInWithEmail(BuildContext context) {
+    Navigator.pushNamed(context, signInRoute);
+  }
+
+  void _handleSignUpWithEmail(BuildContext context) {
+    Navigator.pushNamed(context, signUpRoute);
+  }
+
+  void _handleSignInWithGoogle(BuildContext context) async {
+    setState(() {
+      _areButtonsDisabled = true;
+    });
+    final authProvider = Provider.of<Auth>(context, listen: false);
+    final result = await authProvider.signInWithGoogle();
+
+    // Only set back to disabled if there were errors
+    if (result == null) {
+      setState(() {
+        _areButtonsDisabled = false;
+      });
+    }
+  }
+
+  void _handleSignInWithFacebook(BuildContext context) async {
+    setState(() {
+      _areButtonsDisabled = true;
+    });
+    final authProvider = Provider.of<Auth>(context, listen: false);
+    final result = await authProvider.signInWithFacebook();
+
+    // Only set back to disabled if there were errors
+    if (result == null) {
+      setState(() {
+        _areButtonsDisabled = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        AuthButton(
+          text: 'Sign in with Google',
+          icon: FontAwesomeIcons.google,
+          onPressed: _areButtonsDisabled
+              ? null
+              : () => _handleSignInWithGoogle(context),
+        ),
+        AuthButton(
+          text: 'Sign in with Facebook',
+          icon: FontAwesomeIcons.facebookF,
+          backgroundColor: Color(0xFF3b5998),
+          onPressed: _areButtonsDisabled
+              ? null
+              : () => _handleSignInWithFacebook(context),
+        ),
+        AuthButton(
+          text: 'Sign in with email',
+          icon: FontAwesomeIcons.solidEnvelope,
+          backgroundColor: Colors.grey[900],
+          onPressed: _areButtonsDisabled
+              ? null
+              : () => _handleSignInWithEmail(context),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 40.0,
+              child: TextButton(
+                onPressed: _areButtonsDisabled
+                    ? null
+                    : () => _handleSignUpWithEmail(context),
+                text: "Sign up with email",
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

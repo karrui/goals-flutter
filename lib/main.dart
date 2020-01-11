@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'providers/auth.dart';
 import 'router.dart';
 import 'screens/auth/auth_screen.dart';
-import 'screens/jars_screen.dart';
+import 'screens/home/home_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
               switch (snapshot.connectionState) {
                 case ConnectionState.done:
                   if (snapshot.hasData) {
-                    return JarsScreen();
+                    return HomeScreen();
                   }
                   return AuthScreen();
                 default:

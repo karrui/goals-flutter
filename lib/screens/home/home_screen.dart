@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../constants.dart';
-import '../dummy_data.dart';
-import '../jar_item.dart';
+import '../../constants.dart';
+import '../../dummy_data.dart';
+import '../../jar_item.dart';
 
-class JarsScreen extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

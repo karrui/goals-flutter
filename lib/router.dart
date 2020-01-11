@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goals_flutter/screens/settings/settings_screen.dart';
 
 import 'constants.dart';
 import 'screens/auth/auth_screen.dart';
@@ -17,6 +18,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => SignInScreen());
       case signUpRoute:
         return MaterialPageRoute(builder: (_) => SignUpScreen());
+      case settingsRoute:
+        return MaterialPageRoute(builder: (_) => SettingsScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

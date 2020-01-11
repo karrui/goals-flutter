@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../providers/auth.dart';
+import '../constants.dart';
 import '../dummy_data.dart';
 import '../jar_item.dart';
 
@@ -11,18 +11,20 @@ class JarsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Goals'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(FontAwesomeIcons.cog),
+            onPressed: () => Navigator.pushNamed(context, settingsRoute),
+          )
+        ],
       ),
-      body: ListView(children: [
-        ...DUMMY_JARS
+      body: ListView(
+        children: DUMMY_JARS
             .map((jar) => JarItem(
                   name: jar.name,
                 ))
             .toList(),
-        FlatButton(
-          onPressed: () => Provider.of<Auth>(context, listen: false).logout(),
-          child: Text("Logout"),
-        )
-      ]),
+      ),
     );
   }
 }

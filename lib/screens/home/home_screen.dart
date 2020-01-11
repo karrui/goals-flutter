@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../constants.dart';
 import '../../dummy_data.dart';
-import '../../jar_item.dart';
+import 'widgets/jar.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: ListView(
         children: DUMMY_JARS
-            .map((jar) => JarItem(
+            .map((jar) => Jar(
                   name: jar.name,
                 ))
             .toList(),

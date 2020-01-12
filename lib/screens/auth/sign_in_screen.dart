@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:goals_flutter/utils/notification_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
@@ -154,9 +155,14 @@ class _SignInScreenState extends State<SignInScreen> {
       final result = await Provider.of<Auth>(context, listen: false)
           .signInWithEmailAndPassword(
               emailInputController.text, passwordInputController.text);
-      if (arguments != null &&
-          emailInputController.text == arguments['oldEmail']) {
-        result.linkWithCredential(arguments['credential']);
+      if (arguments != null) {
+        if (emailInputController.text == arguments['oldEmail']) {
+          await result.linkWithCredential(arguments['credential']);
+          showSuccessToast("Successfully linked accounts.");
+        } else {
+          showFailureToast(
+              "Logged in email address does not match, no linking of accounts was done.");
+        }
       }
 
       // Required to trigger navigation since this screen is stacked on the main screen that changes.

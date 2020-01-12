@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:goals_flutter/utils/notification_util.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../constants.dart';
@@ -151,9 +153,14 @@ class Auth with ChangeNotifier {
                       await authResult.linkWithCredential(credential);
                       final result =
                           await _auth.signInWithCredential(credential);
+                      showSuccessToast("Successfully linked accounts.");
                       notifyListeners();
                       return result.user;
                     } else {
+                      if (authResult != null && authResult.email != oldEmail) {
+                        showFailureToast(
+                            "Logged in email address does not match, no linking of accounts was done.");
+                      }
                       return null;
                     }
                   }),

@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -10,7 +15,7 @@ class Auth with ChangeNotifier {
     return _auth.currentUser();
   }
 
-  Future<FirebaseUser> signInWithGoogle() async {
+  Future<FirebaseUser> signInWithGoogle(BuildContext context) async {
     final googleSignIn = GoogleSignIn();
     final GoogleSignInAccount googleUser = await googleSignIn.signIn();
 
@@ -26,24 +31,119 @@ class Auth with ChangeNotifier {
       idToken: googleAuth.idToken,
     );
 
-    final result = await _auth.signInWithCredential(credential);
-    notifyListeners();
-    return result.user;
+    /// Since `@gmail` accounts are a trusted provider, it will replace any other sign ins without errors. See https://stackoverflow.com/questions/40766312/firebase-overwrites-signin-with-google-account.
+    /// Preemptively check if user as already signed in with other providers.
+    final httpClient = new HttpClient();
+    final googleRequest = await httpClient.getUrl(Uri.parse(
+        "https://www.googleapis.com/oauth2/v1/userinfo?access_token=${googleAuth.accessToken}"));
+    final googleResponse = await googleRequest.close();
+    final googleResponseJSON =
+        json.decode((await googleResponse.transform(utf8.decoder).single));
+    final email = googleResponseJSON["email"];
+    // Now we have both credential and email that is required for linking
+    final signInMethods =
+        await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: email);
+    if (signInMethods.length > 0) {
+      return _showDialog(
+          "Google", signInMethods[0], context, email, credential);
+    }
+
+    try {
+      final result = await _auth.signInWithCredential(credential);
+      notifyListeners();
+      return result.user;
+    } on PlatformException catch (error) {
+      if (error.code != 'ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL') {
+        throw error;
+      }
+      _showDialog("Google", signInMethods[0], context, email, credential);
+    }
   }
 
-  Future<FirebaseUser> signInWithFacebook() async {
+  Future<FirebaseUser> signInWithFacebook(BuildContext context) async {
     final facebookSignIn = FacebookLogin();
-    final facebookSignInResult = await facebookSignIn.logIn(['email']);
+    final FacebookLoginResult facebookSignInResult =
+        await facebookSignIn.logIn(['email']);
 
     if (facebookSignInResult.status == FacebookLoginStatus.loggedIn) {
       final accessToken = facebookSignInResult.accessToken.token;
       final credential =
           FacebookAuthProvider.getCredential(accessToken: accessToken);
-      final result = await _auth.signInWithCredential(credential);
-      notifyListeners();
-      return result.user;
+      try {
+        final result = await _auth.signInWithCredential(credential);
+        notifyListeners();
+        return result.user;
+      } on PlatformException catch (error) {
+        if (error.code != 'ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL') {
+          throw error;
+        }
+        // Retrieve email that already exists in Firebase
+        final httpClient = new HttpClient();
+        final graphRequest = await httpClient.getUrl(Uri.parse(
+            "https://graph.facebook.com/v2.12/me?fields=email&access_token=$accessToken"));
+        final graphResponse = await graphRequest.close();
+        final graphResponseJSON =
+            json.decode((await graphResponse.transform(utf8.decoder).single));
+        final email = graphResponseJSON["email"];
+        // Now we have both credential and email that is required for linking
+        final signInMethods = await FirebaseAuth.instance
+            .fetchSignInMethodsForEmail(email: email);
+        _showDialog("Facebook", signInMethods[0], context, email, credential);
+      }
     }
     return null;
+  }
+
+  Future _showDialog(String failedSignInDisplayName, String signInMethod,
+      BuildContext context, String oldEmail, AuthCredential credential) {
+    String signInDisplayName;
+    Function signInFunction;
+
+    switch (signInMethod) {
+      case "google.com":
+        signInDisplayName = "Google";
+        signInFunction = signInWithGoogle;
+        break;
+      case "facebook.com":
+        signInDisplayName = "Facebook";
+        signInFunction = () => signInWithFacebook(context);
+        break;
+      default:
+        throw Exception("Invalid sign in method");
+    }
+
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text("Different sign up method found"),
+            content: Text(
+                "Sign in with your $signInDisplayName account first to also link $failedSignInDisplayName to your Goals account"),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                  child: Text("Cancel"),
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                    return;
+                  }),
+              CupertinoDialogAction(
+                  isDefaultAction: true,
+                  child: Text("Continue"),
+                  onPressed: () async {
+                    Navigator.of(context, rootNavigator: true).pop();
+                    final authResult = await signInFunction();
+                    if (authResult.email == oldEmail) {
+                      await authResult.linkWithCredential(credential);
+                      final result =
+                          await _auth.signInWithCredential(credential);
+                      notifyListeners();
+                      return result.user;
+                    } else
+                      return null;
+                  }),
+            ],
+          );
+        });
   }
 
   Future<FirebaseUser> signInWithEmailAndPassword(

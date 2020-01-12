@@ -72,7 +72,7 @@ class _AuthButtonsState extends State<AuthButtons> {
       _areButtonsDisabled = true;
     });
     final authProvider = Provider.of<Auth>(context, listen: false);
-    final result = await authProvider.signInWithGoogle();
+    final result = await authProvider.signInWithGoogle(context);
 
     // Only set back to disabled if there were errors
     if (result == null) {
@@ -87,7 +87,7 @@ class _AuthButtonsState extends State<AuthButtons> {
       _areButtonsDisabled = true;
     });
     final authProvider = Provider.of<Auth>(context, listen: false);
-    final result = await authProvider.signInWithFacebook();
+    final result = await authProvider.signInWithFacebook(context);
 
     // Only set back to disabled if there were errors
     if (result == null) {

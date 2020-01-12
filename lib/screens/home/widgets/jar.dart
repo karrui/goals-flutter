@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goals_flutter/models/jar.dart';
+import 'package:goals_flutter/models/jar_model.dart';
 
 class Jar extends StatelessWidget {
   final JarModel jar;

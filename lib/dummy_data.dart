@@ -1,4 +1,4 @@
-import './models/jar.dart';
+import './models/jar_model.dart';
 
 var dummyJars = [
   JarModel(

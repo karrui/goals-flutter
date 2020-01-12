@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:goals_flutter/models/jar_model.dart';
+
+import '../../../models/jar_model.dart';
+import '../../../utils/number_util.dart';
+import 'add_transaction_button.dart';
 
 class Jar extends StatelessWidget {
   final JarModel jar;
@@ -8,24 +11,96 @@ class Jar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Stack(
       children: <Widget>[
         Container(
+          width: double.infinity,
           decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(8.0))),
-          margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(20.0),
+            ),
+          ),
+          margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.fromLTRB(35, 25, 35, 25),
             child: Column(
               children: <Widget>[
-                Text(jar.name),
-                Text(jar.currentAmount.toString())
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        jar.name.toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          letterSpacing: 1.5,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                    // This box is for a gap so that it will not eat into the add transaction button.
+                    SizedBox(
+                      width: 60.0,
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
+                  child: RichText(
+                    textAlign: TextAlign.end,
+                    text: TextSpan(
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                      children: <TextSpan>[
+                        // TODO: Allow user selectable locale currency
+                        TextSpan(
+                          text: '\$',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        TextSpan(
+                          text:
+                              convertDoubleToCurrencyString(jar.currentAmount),
+                          style: TextStyle(
+                            fontSize: 35.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextSpan(
+                          text:
+                              ' / \$${convertDoubleToCurrencyString(jar.goalAmount)}',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                RichText(
+                  textAlign: TextAlign.end,
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: Colors.grey[500],
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(text: "You are "),
+                      TextSpan(
+                          text: convertDoubleToPercentString(
+                              jar.currentAmount / jar.goalAmount),
+                          style: TextStyle(color: Colors.black)),
+                      TextSpan(text: " of the way there!")
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
+        ),
+        Positioned(
+          right: 40,
+          top: 30,
+          child: AddTransactionButton(),
         )
       ],
     );

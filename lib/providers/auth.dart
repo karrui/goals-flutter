@@ -46,8 +46,8 @@ class Auth with ChangeNotifier {
     final signInMethods =
         await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: email);
     if (signInMethods.length > 0) {
-      return _showDialog(
-          "Google", signInMethods[0], context, email, credential);
+      _showDialog("Google", signInMethods[0], context, email, credential);
+      return null;
     }
 
     try {
@@ -59,6 +59,7 @@ class Auth with ChangeNotifier {
         throw error;
       }
       _showDialog("Google", signInMethods[0], context, email, credential);
+      return null;
     }
   }
 
@@ -114,8 +115,11 @@ class Auth with ChangeNotifier {
       case "password":
         signInDisplayName = "email";
         isEmailSignInMethod = true;
-        signInFunction = () => Navigator.pushNamed(context, signInRoute,
-            arguments: {'credential': credential, 'oldEmail': oldEmail});
+        signInFunction = () => Navigator.pushNamed(
+              context,
+              signInRoute,
+              arguments: {'credential': credential, 'oldEmail': oldEmail},
+            );
         break;
       default:
         throw Exception("Invalid sign in method");
@@ -133,7 +137,7 @@ class Auth with ChangeNotifier {
                   child: Text("Cancel"),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
-                    return;
+                    return null;
                   }),
               CupertinoDialogAction(
                   isDefaultAction: true,
@@ -141,14 +145,17 @@ class Auth with ChangeNotifier {
                   onPressed: () async {
                     Navigator.of(context, rootNavigator: true).pop();
                     final authResult = await signInFunction();
-                    if (!isEmailSignInMethod && authResult.email == oldEmail) {
+                    if (!isEmailSignInMethod &&
+                        authResult != null &&
+                        authResult.email == oldEmail) {
                       await authResult.linkWithCredential(credential);
                       final result =
                           await _auth.signInWithCredential(credential);
                       notifyListeners();
                       return result.user;
-                    } else
+                    } else {
                       return null;
+                    }
                   }),
             ],
           );

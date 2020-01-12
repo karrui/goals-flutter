@@ -15,7 +15,8 @@ class Router {
       case authRoute:
         return MaterialPageRoute(builder: (_) => AuthScreen());
       case signInRoute:
-        return MaterialPageRoute(builder: (_) => SignInScreen());
+        return MaterialPageRoute(
+            builder: (_) => SignInScreen(), settings: settings);
       case signUpRoute:
         return MaterialPageRoute(builder: (_) => SignUpScreen());
       case settingsRoute:

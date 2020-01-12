@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../constants.dart';
+
 class Auth with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -97,6 +99,7 @@ class Auth with ChangeNotifier {
   Future _showDialog(String failedSignInDisplayName, String signInMethod,
       BuildContext context, String oldEmail, AuthCredential credential) {
     String signInDisplayName;
+    bool isEmailSignInMethod = false;
     Function signInFunction;
 
     switch (signInMethod) {
@@ -107,6 +110,12 @@ class Auth with ChangeNotifier {
       case "facebook.com":
         signInDisplayName = "Facebook";
         signInFunction = () => signInWithFacebook(context);
+        break;
+      case "password":
+        signInDisplayName = "email";
+        isEmailSignInMethod = true;
+        signInFunction = () => Navigator.pushNamed(context, signInRoute,
+            arguments: {'credential': credential, 'oldEmail': oldEmail});
         break;
       default:
         throw Exception("Invalid sign in method");
@@ -132,7 +141,7 @@ class Auth with ChangeNotifier {
                   onPressed: () async {
                     Navigator.of(context, rootNavigator: true).pop();
                     final authResult = await signInFunction();
-                    if (authResult.email == oldEmail) {
+                    if (!isEmailSignInMethod && authResult.email == oldEmail) {
                       await authResult.linkWithCredential(credential);
                       final result =
                           await _auth.signInWithCredential(credential);

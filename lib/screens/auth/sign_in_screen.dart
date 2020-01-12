@@ -119,13 +119,14 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Widget _showSignInButton(BuildContext context) {
+  Widget _showSignInButton(BuildContext context, Map arguments) {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
       child: AuthButton(
         text: 'Sign in',
         backgroundColor: Colors.grey[900],
-        onPressed: isSignInButtonEnabled ? _handleSignIn : null,
+        onPressed:
+            isSignInButtonEnabled ? () => _handleSignIn(arguments) : null,
       ),
     );
   }
@@ -140,7 +141,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Future<void> _handleSignIn() async {
+  Future<void> _handleSignIn(Map arguments) async {
     if (_errorMessage != "") {
       setState(() {
         _errorMessage = "";
@@ -150,9 +151,14 @@ class _SignInScreenState extends State<SignInScreen> {
       setState(() {
         isSignInButtonEnabled = false;
       });
-      await Provider.of<Auth>(context, listen: false)
+      final result = await Provider.of<Auth>(context, listen: false)
           .signInWithEmailAndPassword(
               emailInputController.text, passwordInputController.text);
+      if (arguments != null &&
+          emailInputController.text == arguments['oldEmail']) {
+        result.linkWithCredential(arguments['credential']);
+      }
+
       // Required to trigger navigation since this screen is stacked on the main screen that changes.
       Navigator.pop(context);
     } on PlatformException catch (error) {
@@ -165,6 +171,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // If arguments were passed in due to merging of providers, we process after signing in.
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     return Scaffold(
       appBar: AppBar(
         title: Text("Sign in with email"),
@@ -176,7 +184,7 @@ class _SignInScreenState extends State<SignInScreen> {
             children: <Widget>[
               _showEmailInput(),
               _showPasswordInput(),
-              _showSignInButton(context),
+              _showSignInButton(context, arguments),
               _showErrorMessage(_errorMessage),
             ],
           ),

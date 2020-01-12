@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         builder: (ctx, authData, _) => MaterialApp(
           title: 'Goals',
           theme: ThemeData(
-            primaryColor: Color(0xFF0052D4),
+            primaryColor: Color(0xFF6981EC),
             // Middle gradient color when needed
             // #65C7F7
             accentColor: Color(0xFF9CECFB),

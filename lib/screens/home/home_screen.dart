@@ -36,8 +36,10 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView(
-                children: dummyJars.map((jar) => Jar(jar: jar)).toList(),
+              child: Scrollbar(
+                child: ListView(
+                  children: dummyJars.map((jar) => Jar(jar: jar)).toList(),
+                ),
               ),
             ),
           ],

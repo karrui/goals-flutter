@@ -18,12 +18,15 @@ class HomeScreen extends StatelessWidget {
           )
         ],
       ),
-      body: ListView(
-        children: DUMMY_JARS
-            .map((jar) => Jar(
-                  name: jar.name,
-                ))
-            .toList(),
+      body: Container(
+        color: Colors.grey[100],
+        child: ListView(
+          children: dummyJars
+              .map((jar) => Jar(
+                    jar: jar,
+                  ))
+              .toList(),
+        ),
       ),
     );
   }

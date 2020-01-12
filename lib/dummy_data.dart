@@ -1,12 +1,22 @@
 import './models/jar.dart';
 
-const DUMMY_JARS = const [
-  Jar(id: 'j1', name: 'Dummy 1', owners: {'p1'}),
-  Jar(id: 'j2', name: 'Dummy 2', owners: {'p1'}),
-  Jar(id: 'j3', name: 'Dummy 3', owners: {'p1'}),
-  Jar(id: 'j4', name: 'Dummy 4', owners: {'p1'}),
-  Jar(id: 'j5', name: 'Dummy 5', owners: {'p1'}),
-  Jar(id: 'j6', name: 'Dummy 6', owners: {'p1'}),
-  Jar(id: 'j7', name: 'Dummy 7', owners: {'p1'}),
-  Jar(id: 'j8', name: 'Dummy 8', owners: {'p1'}),
+var dummyJars = [
+  JarModel(
+    id: 'j1',
+    name: 'Dummy 1',
+    owner: '1234',
+    currentAmount: 270.55,
+    goalAmount: 600.0,
+    lastUpdated: DateTime.parse("2018-02-27 13:27:00"),
+    sharedTo: <String>[],
+  ),
+  JarModel(
+    id: 'j2',
+    name: 'Dummy 2',
+    owner: '1234',
+    currentAmount: 380.45,
+    goalAmount: 600.0,
+    lastUpdated: DateTime.parse("2018-03-27 13:27:00"),
+    sharedTo: <String>[],
+  ),
 ];

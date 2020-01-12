@@ -22,7 +22,11 @@ class MyApp extends StatelessWidget {
         builder: (ctx, authData, _) => MaterialApp(
           title: 'Goals',
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primaryColor: Color(0xFF0052D4),
+            // Middle gradient color when needed
+            // #65C7F7
+            accentColor: Color(0xFF9CECFB),
+            scaffoldBackgroundColor: Color(0xFFF3F5F7),
           ),
           home: FutureBuilder<FirebaseUser>(
             future: authData.user,

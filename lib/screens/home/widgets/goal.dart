@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/jar_model.dart';
+import '../../../models/goal_model.dart';
 import '../../../utils/number_util.dart';
 import 'add_transaction_button.dart';
 
-class Jar extends StatelessWidget {
-  final JarModel jar;
+class Goal extends StatelessWidget {
+  final GoalModel goal;
 
-  Jar({this.jar});
+  Goal({this.goal});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class Jar extends StatelessWidget {
                   children: <Widget>[
                     Flexible(
                       child: Text(
-                        jar.name.toUpperCase(),
+                        goal.name.toUpperCase(),
                         style: TextStyle(
                           fontSize: 16.0,
                           letterSpacing: 1.5,
@@ -63,7 +63,7 @@ class Jar extends StatelessWidget {
                         ),
                         TextSpan(
                           text:
-                              convertDoubleToCurrencyString(jar.currentAmount),
+                              convertDoubleToCurrencyString(goal.currentAmount),
                           style: TextStyle(
                             fontSize: 35.0,
                             fontWeight: FontWeight.bold,
@@ -71,7 +71,7 @@ class Jar extends StatelessWidget {
                         ),
                         TextSpan(
                           text:
-                              ' / \$${convertDoubleToCurrencyString(jar.goalAmount)}',
+                              ' / \$${convertDoubleToCurrencyString(goal.goalAmount)}',
                         ),
                       ],
                     ),
@@ -87,7 +87,7 @@ class Jar extends StatelessWidget {
                       TextSpan(text: "You are "),
                       TextSpan(
                           text: convertDoubleToPercentString(
-                              jar.currentAmount / jar.goalAmount),
+                              goal.currentAmount / goal.goalAmount),
                           style: TextStyle(color: Colors.black)),
                       TextSpan(text: " of the way there!")
                     ],

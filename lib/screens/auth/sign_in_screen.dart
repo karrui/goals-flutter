@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:goals_flutter/utils/notification_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
+import '../../utils/notification_util.dart';
 import 'utils/form_validator.dart';
 import 'utils/generate_auth_error_message.dart';
 import 'widgets/auth_button.dart';

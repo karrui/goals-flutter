@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'models/goal_model.dart';
 import 'providers/auth.dart';
+import 'providers/database.dart';
 import 'router.dart';
 import 'screens/auth/auth_screen.dart';
 import 'screens/home/home_screen.dart';
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => Auth(),
-        )
+        ),
       ],
       child: Consumer<Auth>(
         builder: (ctx, authData, _) => MaterialApp(
@@ -34,7 +36,10 @@ class MyApp extends StatelessWidget {
               switch (snapshot.connectionState) {
                 case ConnectionState.done:
                   if (snapshot.hasData) {
-                    return HomeScreen();
+                    return StreamProvider<List<GoalModel>>(
+                      create: (_) => Database(uid: snapshot.data.uid).jars,
+                      child: HomeScreen(),
+                    );
                   }
                   return AuthScreen();
                 default:

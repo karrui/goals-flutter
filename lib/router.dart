@@ -4,14 +4,11 @@ import 'constants.dart';
 import 'screens/auth/auth_screen.dart';
 import 'screens/auth/sign_in_screen.dart';
 import 'screens/auth/sign_up_screen.dart';
-import 'screens/home/home_screen.dart';
 import 'screens/settings/settings_screen.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case homeRoute:
-        return MaterialPageRoute(builder: (_) => HomeScreen());
       case authRoute:
         return MaterialPageRoute(builder: (_) => AuthScreen());
       case signInRoute:

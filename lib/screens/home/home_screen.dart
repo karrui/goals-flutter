@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../dummy_data.dart';
 import '../../widgets/inkless_icon_button.dart';
-import 'widgets/jar.dart';
+import 'widgets/goal_list.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -37,9 +36,7 @@ class HomeScreen extends StatelessWidget {
             ),
             Expanded(
               child: Scrollbar(
-                child: ListView(
-                  children: dummyJars.map((jar) => Jar(jar: jar)).toList(),
-                ),
+                child: GoalList(),
               ),
             ),
           ],

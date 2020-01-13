@@ -1,26 +1,55 @@
 import 'package:flutter/material.dart';
 
-class TextButton extends StatelessWidget {
+class TextButton extends StatefulWidget {
   final String text;
-  final VoidCallback onPressed;
-  final Color color;
+  final Function onPressed;
 
   TextButton({
     @required this.text,
     @required this.onPressed,
-    this.color = Colors.black,
   });
 
   @override
+  _TextButtonState createState() => _TextButtonState();
+}
+
+class _TextButtonState extends State<TextButton> {
+  bool _isTapDown = false;
+
+  Color get color {
+    if (_isTapDown) {
+      return Theme.of(context).primaryColor;
+    }
+    if (widget.onPressed == null) {
+      return Colors.grey;
+    }
+
+    return Colors.black;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return (new FlatButton(
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      child: new Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(decoration: TextDecoration.underline, color: color),
+    return GestureDetector(
+      child: Text(
+        widget.text,
+        style: TextStyle(color: color),
       ),
-      onPressed: onPressed,
-    ));
+      onTap: () {
+        setState(() {
+          _isTapDown = false;
+        });
+        widget.onPressed();
+      },
+      onTapDown: (_) {
+        setState(() {
+          _isTapDown = true;
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          _isTapDown = false;
+        });
+      },
+    );
   }
 }

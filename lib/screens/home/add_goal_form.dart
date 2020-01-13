@@ -110,7 +110,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
                         height: 20.0,
                       ),
                       TextButton(
-                          text: "Add",
+                          text: Text("Add"),
                           onPressed: () {
                             _formKey.currentState.validate();
                           }),

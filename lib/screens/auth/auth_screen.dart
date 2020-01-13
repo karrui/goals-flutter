@@ -130,10 +130,10 @@ class _AuthButtonsState extends State<AuthButtons> {
             SizedBox(
               height: 40.0,
               child: TextButton(
+                text: "Sign up with email",
                 onPressed: _areButtonsDisabled
                     ? null
                     : () => _handleSignUpWithEmail(context),
-                text: "Sign up with email",
               ),
             ),
           ],

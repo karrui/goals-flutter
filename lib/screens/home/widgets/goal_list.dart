@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/goal_model.dart';
+import '../../../shared/constants.dart';
+import '../../goal_details/goal_details_screen.dart';
 import 'goal.dart';
 
 class GoalList extends StatefulWidget {
@@ -19,8 +21,15 @@ class _GoalListState extends State<GoalList> {
         : ListView.builder(
             itemCount: goals.length,
             itemBuilder: (context, index) {
-              return Goal(
-                goal: goals[index],
+              return GestureDetector(
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  goalDetailsRoute,
+                  arguments: GoalDetailsArguments(goals[index]),
+                ),
+                child: Goal(
+                  goal: goals[index],
+                ),
               );
             },
           );

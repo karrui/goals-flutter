@@ -6,3 +6,4 @@ const String authRoute = '/auth';
 const String signInRoute = '/auth/signin';
 const String signUpRoute = '/auth/signup';
 const String settingsRoute = '/settings';
+const String goalDetailsRoute = '/goals';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'screens/auth/auth_screen.dart';
 import 'screens/auth/sign_in_screen.dart';
 import 'screens/auth/sign_up_screen.dart';
+import 'screens/goal_details/goal_details_screen.dart';
 import 'screens/settings/settings_screen.dart';
 import 'shared/constants.dart';
 
@@ -18,6 +19,10 @@ class Router {
         return MaterialPageRoute(builder: (_) => SignUpScreen());
       case settingsRoute:
         return MaterialPageRoute(builder: (_) => SettingsScreen());
+      case goalDetailsRoute:
+        final GoalDetailsArguments args = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => GoalDetailsScreen(goal: args.goal));
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:goals_flutter/constants.dart';
+
+import '../shared/constants.dart';
 
 class InklessIconButton extends StatefulWidget {
   final IconData icon;

@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import './widgets/auth_button.dart';
-import '../../constants.dart';
 import '../../providers/auth.dart';
+import '../../shared/constants.dart';
 import '../../widgets/text_button.dart';
 
 class AuthScreen extends StatelessWidget {

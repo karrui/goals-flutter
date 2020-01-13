@@ -6,11 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:goals_flutter/utils/notification_util.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../constants.dart';
+import '../shared/constants.dart';
+import '../utils/notification_util.dart';
 
 class Auth with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;

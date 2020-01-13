@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
 import 'screens/auth/auth_screen.dart';
 import 'screens/auth/sign_in_screen.dart';
 import 'screens/auth/sign_up_screen.dart';
 import 'screens/settings/settings_screen.dart';
+import 'shared/constants.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {

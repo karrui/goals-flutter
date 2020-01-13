@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/database.dart';
 import '../../widgets/keyboard_bar.dart';
 import '../../widgets/rounded_button.dart';
 
@@ -29,6 +31,16 @@ class _AddGoalFormState extends State<AddGoalForm> {
     _startingAmountFocusNode.dispose();
     _goalAmountFocusNode.dispose();
     super.dispose();
+  }
+
+  _submitForm() async {
+    final db = Provider.of<Database>(context, listen: false);
+    await db.createGoal(
+      name: _goalNameTextController.value.text,
+      startingAmount: _startingAmountTextController.numberValue,
+      goalAmount: _goalAmountTextController.numberValue,
+    );
+    Navigator.of(context).pop();
   }
 
   @override
@@ -176,7 +188,9 @@ class _AddGoalFormState extends State<AddGoalForm> {
                 text: "Add goal",
                 backgroundColor: Colors.grey[900],
                 onPressed: () {
-                  if (!_formKey.currentState.validate()) {
+                  if (_formKey.currentState.validate()) {
+                    _submitForm();
+                  } else {
                     setState(() {
                       _hasErrorOccured = true;
                     });

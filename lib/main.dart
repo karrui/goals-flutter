@@ -14,12 +14,8 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => Auth(),
-        ),
-      ],
+    return ChangeNotifierProvider(
+      create: (_) => Auth(),
       child: Consumer<Auth>(
         builder: (ctx, authData, _) => MaterialApp(
           title: 'Goals',
@@ -36,8 +32,15 @@ class MyApp extends StatelessWidget {
               switch (snapshot.connectionState) {
                 case ConnectionState.done:
                   if (snapshot.hasData) {
-                    return StreamProvider<List<GoalModel>>(
-                      create: (_) => Database(uid: snapshot.data.uid).jars,
+                    return MultiProvider(
+                      providers: [
+                        StreamProvider<List<GoalModel>>(
+                            create: (_) =>
+                                Database(uid: snapshot.data.uid).jars),
+                        Provider<Database>(
+                          create: (_) => Database(uid: snapshot.data.uid),
+                        )
+                      ],
                       child: HomeScreen(),
                     );
                   }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../models/goal_model.dart';
-import '../../../utils/number_util.dart';
 import 'add_transaction_button.dart';
+import 'animated_goal_amount.dart';
+import 'animated_percentage.dart';
 
 class Goal extends StatelessWidget {
   final GoalModel goal;
@@ -47,50 +48,20 @@ class Goal extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0, bottom: 5.0),
-                  child: RichText(
-                    textAlign: TextAlign.end,
-                    text: TextSpan(
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                      children: <TextSpan>[
-                        // TODO: Allow user selectable locale currency
-                        TextSpan(
-                          text: '\$',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                          ),
-                        ),
-                        TextSpan(
-                          text:
-                              convertDoubleToCurrencyString(goal.currentAmount),
-                          style: TextStyle(
-                            fontSize: 35.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        TextSpan(
-                          text:
-                              ' / \$${convertDoubleToCurrencyString(goal.goalAmount)}',
-                        ),
-                      ],
+                  child: AnimatedGoalAmount(
+                    currentAmount: goal.currentAmount,
+                    totalAmount: goal.goalAmount,
+                    primaryTextStyle: const TextStyle(
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                RichText(
-                  textAlign: TextAlign.end,
-                  text: TextSpan(
-                    style: TextStyle(
-                      color: Colors.grey[500],
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(text: "You are "),
-                      TextSpan(
-                          text: convertDoubleToPercentString(
-                              goal.currentAmount / goal.goalAmount),
-                          style: TextStyle(color: Colors.black)),
-                      TextSpan(text: " of the way there!")
-                    ],
+                AnimatedPercentage(
+                  percentage: goal.currentAmount / goal.goalAmount,
+                  primaryTextStyle: TextStyle(color: Colors.black),
+                  secondaryTextStyle: TextStyle(
+                    color: Colors.grey[500],
                   ),
                 ),
               ],

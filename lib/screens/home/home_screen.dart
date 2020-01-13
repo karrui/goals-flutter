@@ -2,10 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:goals_flutter/screens/home/add_goal_form.dart';
-import 'package:goals_flutter/widgets/rounded_button.dart';
 
+import '../../shared/constants.dart';
 import '../../widgets/inkless_icon_button.dart';
+import '../../widgets/rounded_button.dart';
+import 'add_goal_form.dart';
 import 'widgets/goal_list.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -29,6 +30,7 @@ class HomeScreen extends StatelessWidget {
                 InklessIconButton(
                   icon: FontAwesomeIcons.cog,
                   size: 25.0,
+                  onPressed: () => Navigator.pushNamed(context, settingsRoute),
                 ),
               ],
             )

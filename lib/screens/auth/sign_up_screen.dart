@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_progress_button/flutter_progress_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
 import 'utils/form_validator.dart';
 import 'utils/generate_auth_error_message.dart';
-import 'widgets/auth_button.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -121,11 +121,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget _showSignUpButton(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0),
-      child: AuthButton(
-        text: 'Sign up',
-        backgroundColor: Colors.grey[900],
-        onPressed: isSignUpButtonEnabled ? _handleSignUp : null,
+      padding: EdgeInsets.fromLTRB(48.0, 26.0, 48.0, 6.0),
+      child: ProgressButton(
+        progressWidget: const CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        ),
+        defaultWidget: Text(
+          "Sign up",
+          style: TextStyle(color: Colors.white),
+        ),
+        borderRadius: 30.0,
+        onPressed: isSignUpButtonEnabled ? () => _handleSignUp : null,
+        color: Colors.grey[900],
       ),
     );
   }

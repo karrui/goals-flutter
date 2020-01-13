@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../../providers/database.dart';
 import '../../shared/constants.dart';
+import '../../widgets/animated_progress_button.dart';
 import '../../widgets/inkless_icon_button.dart';
-import '../../widgets/rounded_button.dart';
 import 'add_goal_form.dart';
 import 'widgets/goal_list.dart';
 
@@ -73,13 +73,11 @@ class HomeScreen extends StatelessWidget {
     }
 
     _showAddGoalButton() {
-      return Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-        child: RoundedButton(
-          backgroundColor: Colors.grey[900],
-          text: "Add new goal",
-          onPressed: _showAddGoalModalSheet,
-        ),
+      return AnimatedProgressButton(
+        padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0),
+        backgroundColor: Colors.grey[900],
+        text: "Add new goal",
+        onPressed: _showAddGoalModalSheet,
       );
     }
 

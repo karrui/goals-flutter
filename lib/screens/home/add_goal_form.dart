@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:flutter_progress_button/flutter_progress_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/database.dart';
+import '../../widgets/animated_progress_button.dart';
 import '../../widgets/keyboard_bar.dart';
 
 class AddGoalForm extends StatefulWidget {
@@ -193,21 +193,11 @@ class _AddGoalFormState extends State<AddGoalForm> {
                 ),
               ),
             ),
-            Padding(
+            AnimatedProgressButton(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: ProgressButton(
-                progressWidget: const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-                defaultWidget: Text(
-                  _submitButtonText,
-                  style: TextStyle(color: Colors.white),
-                ),
-                borderRadius: 30.0,
-                height: 35.0,
-                onPressed: _submitForm,
-                color: Colors.grey[900],
-              ),
+              onPressed: _submitForm,
+              backgroundColor: Colors.grey[900],
+              text: _submitButtonText,
             ),
             SizedBox(
               height: 20.0,

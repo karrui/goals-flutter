@@ -3,9 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-import './widgets/auth_button.dart';
 import '../../providers/auth.dart';
 import '../../shared/constants.dart';
+import '../../widgets/animated_progress_button.dart';
 import '../../widgets/text_button.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -101,42 +101,35 @@ class _AuthButtonsState extends State<AuthButtons> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        AuthButton(
-          text: 'Sign in with Google',
-          icon: FontAwesomeIcons.google,
-          onPressed: _areButtonsDisabled
-              ? null
-              : () => _handleSignInWithGoogle(context),
+        AnimatedProgressButton(
+          text: "Sign in with Google",
+          backgroundColor: Colors.blue,
+          iconData: FontAwesomeIcons.google,
+          enabled: !_areButtonsDisabled,
+          onPressed: () => _handleSignInWithGoogle(context),
         ),
-        AuthButton(
+        AnimatedProgressButton(
           text: 'Sign in with Facebook',
-          icon: FontAwesomeIcons.facebookF,
+          iconData: FontAwesomeIcons.facebookSquare,
           backgroundColor: Color(0xFF3b5998),
-          onPressed: _areButtonsDisabled
-              ? null
-              : () => _handleSignInWithFacebook(context),
+          enabled: !_areButtonsDisabled,
+          onPressed: () => _handleSignInWithFacebook(context),
         ),
-        AuthButton(
+        AnimatedProgressButton(
           text: 'Sign in with email',
-          icon: FontAwesomeIcons.solidEnvelope,
+          iconData: FontAwesomeIcons.solidEnvelope,
           backgroundColor: Colors.grey[900],
-          onPressed: _areButtonsDisabled
-              ? null
-              : () => _handleSignInWithEmail(context),
+          enabled: !_areButtonsDisabled,
+          onPressed: () => _handleSignInWithEmail(context),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 40.0,
-              child: TextButton(
-                text: "Sign up with email",
-                onPressed: _areButtonsDisabled
-                    ? null
-                    : () => _handleSignUpWithEmail(context),
-              ),
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: TextButton(
+            text: "Sign up with email",
+            onPressed: _areButtonsDisabled
+                ? null
+                : () => _handleSignUpWithEmail(context),
+          ),
         ),
       ],
     );

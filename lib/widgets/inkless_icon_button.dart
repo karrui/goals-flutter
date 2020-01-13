@@ -16,13 +16,13 @@ class _InklessIconButtonState extends State<InklessIconButton> {
 
   Color get color {
     if (_isTapDown) {
-      return Theme.of(context).primaryColor;
+      return Theme.of(context).accentColor;
     }
     if (widget.onPressed == null) {
       return Colors.grey;
     }
 
-    return Colors.black;
+    return Theme.of(context).iconTheme.color;
   }
 
   @override

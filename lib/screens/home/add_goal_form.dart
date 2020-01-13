@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_progress_button/flutter_progress_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/database.dart';
 import '../../widgets/keyboard_bar.dart';
-import '../../widgets/rounded_button.dart';
 
 class AddGoalForm extends StatefulWidget {
   @override
@@ -24,6 +24,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
   final FocusNode _goalAmountFocusNode = FocusNode();
 
   bool _hasErrorOccured = false;
+  String _submitButtonText = "Add goal";
 
   @override
   void dispose() {
@@ -34,13 +35,23 @@ class _AddGoalFormState extends State<AddGoalForm> {
   }
 
   _submitForm() async {
+    if (!_formKey.currentState.validate()) {
+      return null;
+    }
+
     final db = Provider.of<Database>(context, listen: false);
     await db.createGoal(
       name: _goalNameTextController.value.text,
       startingAmount: _startingAmountTextController.numberValue,
       goalAmount: _goalAmountTextController.numberValue,
     );
-    Navigator.of(context).pop();
+
+    return () {
+      setState(() {
+        _submitButtonText = "Success!";
+      });
+      Navigator.of(context).pop();
+    };
   }
 
   @override
@@ -184,18 +195,18 @@ class _AddGoalFormState extends State<AddGoalForm> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: RoundedButton(
-                text: "Add goal",
-                backgroundColor: Colors.grey[900],
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    _submitForm();
-                  } else {
-                    setState(() {
-                      _hasErrorOccured = true;
-                    });
-                  }
-                },
+              child: ProgressButton(
+                progressWidget: const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+                defaultWidget: Text(
+                  _submitButtonText,
+                  style: TextStyle(color: Colors.white),
+                ),
+                borderRadius: 30.0,
+                height: 35.0,
+                onPressed: _submitForm,
+                color: Colors.grey[900],
               ),
             ),
             SizedBox(

@@ -15,17 +15,9 @@ class _AddGoalFormState extends State<AddGoalForm> {
   final _goalAmountTextController = MoneyMaskedTextController(
       decimalSeparator: '.', thousandSeparator: ',', leftSymbol: '\$ ');
 
-  FocusNode _goalNameFocusNode;
-  FocusNode _startingAmountFocusNode;
-  FocusNode _goalAmountFocusNode;
-
-  @override
-  void initState() {
-    _goalNameFocusNode = FocusNode();
-    _startingAmountFocusNode = FocusNode();
-    _goalAmountFocusNode = FocusNode();
-    super.initState();
-  }
+  final FocusNode _goalNameFocusNode = FocusNode();
+  final FocusNode _startingAmountFocusNode = FocusNode();
+  final FocusNode _goalAmountFocusNode = FocusNode();
 
   @override
   void dispose() {
@@ -39,89 +31,96 @@ class _AddGoalFormState extends State<AddGoalForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
-        children: <Widget>[
-          Text("New goal"),
-          // Goal card
-          Container(
-            constraints: BoxConstraints(maxHeight: 300),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey[300],
-                  offset: Offset(1.0, 3.0),
-                  blurRadius: 4.0,
+      child: Container(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Column(
+          children: <Widget>[
+            Text("New goal"),
+            // Goal card
+            Container(
+              constraints: BoxConstraints(maxHeight: 300),
+              padding: EdgeInsets.fromLTRB(35, 25, 35, 25),
+              margin: EdgeInsets.all(20.0),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey[300],
+                    offset: Offset(1.0, 3.0),
+                    blurRadius: 4.0,
+                  ),
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20.0),
                 ),
-              ],
-              color: Colors.white,
-              borderRadius: BorderRadius.all(
-                Radius.circular(20.0),
               ),
-            ),
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(35, 25, 35, 25),
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      focusNode: _goalNameFocusNode,
-                      textInputAction: TextInputAction.next,
-                      controller: _goalNameTextController,
-                      maxLines: null,
-                      autofocus: true,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        letterSpacing: 1.5,
+              child: SingleChildScrollView(
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        focusNode: _goalNameFocusNode,
+                        autocorrect: false,
+                        textInputAction: TextInputAction.next,
+                        controller: _goalNameTextController,
+                        maxLines: null,
+                        autofocus: true,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          letterSpacing: 1.5,
+                        ),
+                        validator: (val) => val.isEmpty ? "Required" : null,
+                        textAlign: TextAlign.start,
+                        decoration: InputDecoration(hintText: "GOAL NAME"),
+                        onFieldSubmitted: (_) => FocusScope.of(context)
+                            .requestFocus(_startingAmountFocusNode),
                       ),
-                      validator: (val) => val.isEmpty ? "Required" : null,
-                      textAlign: TextAlign.start,
-                      decoration: InputDecoration(hintText: "GOAL NAME"),
-                      onFieldSubmitted: (_) => FocusScope.of(context)
-                          .requestFocus(_startingAmountFocusNode),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: TextFormField(
-                            focusNode: _startingAmountFocusNode,
-                            controller: _startingAmountTextController,
-                            keyboardType: TextInputType.number,
-                            textInputAction: TextInputAction.next,
-                            textAlign: TextAlign.start,
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: TextFormField(
+                              focusNode: _startingAmountFocusNode,
+                              controller: _startingAmountTextController,
+                              keyboardType: TextInputType.number,
+                              textInputAction: TextInputAction.next,
+                              textAlign: TextAlign.start,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text("/"),
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            focusNode: _goalAmountFocusNode,
-                            controller: _goalAmountTextController,
-                            keyboardType: TextInputType.number,
-                            textInputAction: TextInputAction.next,
-                            validator: (val) => val.isEmpty ? "Required" : null,
-                            textAlign: TextAlign.start,
-                            decoration: InputDecoration(hintText: "999"),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text("/"),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    TextButton(
-                        text: "Add",
-                        onPressed: () {
-                          _formKey.currentState.validate();
-                        }),
-                  ],
+                          Expanded(
+                            child: TextFormField(
+                              focusNode: _goalAmountFocusNode,
+                              controller: _goalAmountTextController,
+                              keyboardType: TextInputType.number,
+                              textInputAction: TextInputAction.next,
+                              validator: (val) =>
+                                  val.isEmpty ? "Required" : null,
+                              textAlign: TextAlign.start,
+                              decoration: InputDecoration(hintText: "999"),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      TextButton(
+                          text: "Add",
+                          onPressed: () {
+                            _formKey.currentState.validate();
+                          }),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
     // return Form(

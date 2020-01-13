@@ -56,11 +56,7 @@ class HomeScreen extends StatelessWidget {
           return SafeArea(
             child: Wrap(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0,
-                      MediaQuery.of(context).viewInsets.bottom + 20.0),
-                  child: AddGoalForm(),
-                ),
+                AddGoalForm(),
               ],
             ),
           );
@@ -82,6 +78,7 @@ class HomeScreen extends StatelessWidget {
       resizeToAvoidBottomPadding: false,
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             _showAppBar(),
             _showGoalList(),

@@ -12,7 +12,8 @@ class Database {
   final CollectionReference usersCollection = db.collection('users');
   final CollectionReference goalsCollection = db.collection('goals');
 
-  void createJar({String name, double startingAmount, double goalAmount}) {
+  Future<void> createGoal(
+      {String name, double startingAmount, double goalAmount}) {
     final batch = db.batch();
     final newGoalRef = goalsCollection.document();
     batch.setData(newGoalRef, {
@@ -20,6 +21,8 @@ class Database {
       'currentAmount': startingAmount,
       'goalAmount': goalAmount,
       'owner': uid,
+      'createdAt': DateTime.now(),
+      'lastUpdated': DateTime.now(),
     });
     if (startingAmount > 0) {
       final newGoalHistoryRef = newGoalRef.collection('history').document();
@@ -34,7 +37,7 @@ class Database {
 
     batch.updateData(
         usersCollection.document(uid), {"jars.${newGoalRef.documentID}": true});
-    batch.commit();
+    return batch.commit();
   }
 
   List<GoalModel> _goalListFromSnapshot(QuerySnapshot snapshot) {
@@ -45,6 +48,7 @@ class Database {
         goalAmount: doc.data['goalAmount'] + .0,
         owner: doc.data['owner'],
         id: doc.documentID,
+        createdAt: doc.data['createdAt'].toDate(),
         lastUpdated: doc.data['lastUpdated'].toDate(),
       );
     }).toList();

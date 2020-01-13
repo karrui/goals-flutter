@@ -5,6 +5,7 @@ class GoalModel {
   double goalAmount;
   double currentAmount;
   DateTime lastUpdated;
+  DateTime createdAt;
 
   GoalModel({
     this.id,
@@ -13,5 +14,6 @@ class GoalModel {
     this.goalAmount,
     this.currentAmount,
     this.lastUpdated,
+    this.createdAt,
   });
 }

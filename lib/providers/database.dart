@@ -39,7 +39,6 @@ class Database {
 
   List<GoalModel> _goalListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
-      print(doc.data);
       return GoalModel(
         name: doc.data['name'],
         currentAmount: doc.data['currentAmount'] + .0,

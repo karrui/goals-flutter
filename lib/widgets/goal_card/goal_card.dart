@@ -30,6 +30,9 @@ class GoalCard extends StatelessWidget {
                   maxLines: null,
                 ),
               ),
+              SizedBox(
+                width: 10.0,
+              ),
               SquircleIconButton(
                 iconData: FontAwesomeIcons.plus,
                 onPressed: () => print("add transaction pressed"),

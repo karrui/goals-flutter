@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../models/goal_model.dart';
 import '../../services/database.dart';
 import '../../shared/constants.dart';
-import '../../widgets/buttons/squircle_button.dart';
+import '../../widgets/buttons/squircle_text_button.dart';
 import '../../widgets/buttons/squircle_icon_button.dart';
 import 'add_goal_form.dart';
 import 'widgets/goals_list.dart';
@@ -67,12 +67,19 @@ class HomeScreen extends StatelessWidget {
     }
 
     _showAddGoalButton() {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0),
-        child: SquircleButton(
-          child: Text("Add new goal"),
-          onPressed: _showAddGoalModalSheet,
-        ),
+      return Column(
+        children: [
+          SizedBox(
+            height: 12.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0),
+            child: SquircleTextButton(
+              text: "Add new goal",
+              onPressed: _showAddGoalModalSheet,
+            ),
+          ),
+        ],
       );
     }
 

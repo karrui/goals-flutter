@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 
-import '../../shared/neumorphism/squircle_icon_button_box_decoration.dart';
+import '../../shared/neumorphism/squircle_button_box_decoration.dart';
 
-class SquircleButton extends StatefulWidget {
+class SquircleTextButton extends StatefulWidget {
   final double height;
   final double width;
-  final Widget child;
+  final String text;
   final Function onPressed;
 
-  SquircleButton({
+  SquircleTextButton({
     this.height = 40.0,
     this.width = double.infinity,
-    @required this.child,
+    @required this.text,
     @required this.onPressed,
   });
 
   @override
-  _SquircleButtonState createState() => _SquircleButtonState();
+  _SquircleTextButtonState createState() => _SquircleTextButtonState();
 }
 
-class _SquircleButtonState extends State<SquircleButton> {
+class _SquircleTextButtonState extends State<SquircleTextButton> {
   bool _isTapDown = false;
 
   @override
@@ -29,9 +29,17 @@ class _SquircleButtonState extends State<SquircleButton> {
         height: widget.height,
         width: widget.width,
         decoration: _isTapDown
-            ? squircleIconButtonBoxDecorationDepressed(context)
-            : squircleIconButtonBoxDecoration(context),
-        child: widget.child,
+            ? squircleButtonBoxDecorationDepressed(context)
+            : squircleButtonBoxDecoration(context),
+        child: Center(
+          child: Text(
+            widget.text,
+            style: Theme.of(context)
+                .textTheme
+                .button
+                .copyWith(color: Theme.of(context).primaryColor),
+          ),
+        ),
       ),
       onTap: () {
         widget.onPressed();

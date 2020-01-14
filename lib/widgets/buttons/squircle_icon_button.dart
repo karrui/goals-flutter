@@ -6,6 +6,7 @@ class SquircleIconButton extends StatefulWidget {
   final double height;
   final double width;
   final double iconSize;
+  final Color iconColor;
   final IconData iconData;
   final Function onPressed;
 
@@ -13,6 +14,7 @@ class SquircleIconButton extends StatefulWidget {
     this.height = 40.0,
     this.width = 40.0,
     this.iconSize = 15.0,
+    this.iconColor,
     @required this.iconData,
     @required this.onPressed,
   });
@@ -26,6 +28,17 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
 
   @override
   Widget build(BuildContext context) {
+    Color getIconColor() {
+      if (_isTapDown) {
+        return Theme.of(context).buttonColor;
+      }
+
+      if (widget.iconColor != null) {
+        return widget.iconColor;
+      }
+      return Theme.of(context).textTheme.button.color;
+    }
+
     return GestureDetector(
       child: Container(
         height: widget.height,
@@ -36,9 +49,7 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
         child: Icon(
           widget.iconData,
           size: widget.iconSize,
-          color: _isTapDown
-              ? Theme.of(context).buttonColor
-              : Theme.of(context).textTheme.button.color,
+          color: getIconColor(),
         ),
       ),
       onTap: () {

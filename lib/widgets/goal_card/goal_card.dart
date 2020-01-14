@@ -9,8 +9,12 @@ import 'animated_percentage.dart';
 
 class GoalCard extends StatelessWidget {
   final GoalModel goal;
+  final bool showAddButton;
 
-  GoalCard({this.goal});
+  GoalCard({
+    @required this.goal,
+    this.showAddButton = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +37,16 @@ class GoalCard extends StatelessWidget {
               SizedBox(
                 width: 10.0,
               ),
-              SquircleIconButton(
-                iconData: FontAwesomeIcons.plus,
-                onPressed: () => print("add transaction pressed"),
-              ),
+              showAddButton
+                  ? SquircleIconButton(
+                      iconData: FontAwesomeIcons.plus,
+                      onPressed: () => print("add transaction pressed"),
+                    )
+                  : SizedBox(
+                      // Emulate button space for card height consistency.
+                      height: 40.0,
+                      width: 40.0,
+                    ),
             ],
           ),
           SizedBox(height: 16.0),

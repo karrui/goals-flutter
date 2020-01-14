@@ -87,7 +87,6 @@ class HomeScreen extends StatelessWidget {
     return StreamProvider<List<GoalModel>>(
       create: (_) => db.streamGoals(user),
       child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
         resizeToAvoidBottomPadding: false,
         body: SafeArea(
           child: Column(

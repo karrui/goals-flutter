@@ -27,7 +27,9 @@ class AppTheme {
   );
 
   static final _lightTheme = ThemeData(
+    scaffoldBackgroundColor: Color(0xFFF4FAFF),
     brightness: Brightness.light,
+    errorColor: Color(0xFFFF416C),
     primarySwatch: Colors.grey,
     primaryColor: Color(0xFFF4FAFF),
     primaryColorLight: Colors.white,

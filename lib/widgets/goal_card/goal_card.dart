@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:goals_flutter/widgets/goal_card/add_transaction_button.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../models/goal_model.dart';
 import '../../shared/neumorphism/card_box_decoration.dart';
+import '../squared_icon_button.dart';
 import 'animated_goal_amount.dart';
 import 'animated_percentage.dart';
 
@@ -29,7 +30,10 @@ class GoalCard extends StatelessWidget {
                   maxLines: null,
                 ),
               ),
-              AddTransactionButton(),
+              SquaredIconButton(
+                iconData: FontAwesomeIcons.plus,
+                onPressed: () => print("add transaction pressed"),
+              ),
             ],
           ),
           SizedBox(height: 16.0),

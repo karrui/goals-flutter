@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/theme.dart';
 import '../../services/auth.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -10,6 +12,8 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Settings"),
@@ -17,11 +21,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         body: ListView(
           children: <Widget>[
             ListTile(
-              title: Text('Enable Feature'),
+              title: Text('Enable Dark Theme'),
               trailing: Checkbox(
-                value: true,
-                onChanged: (val) {},
-              ),
+                  value: themeProvider.isDarkTheme,
+                  onChanged: (bool value) {
+                    themeProvider.isDarkTheme = value;
+                  }),
               onTap: () {},
             ),
             FlatButton(

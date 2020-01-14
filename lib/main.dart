@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/theme.dart';
@@ -39,6 +40,10 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: Consumer<ThemeProvider>(builder: (context, _, child) {
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          statusBarBrightness:
+              themeProvider.isDarkTheme ? Brightness.dark : Brightness.light,
+        ));
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: AppTheme.themeData(themeProvider.isDarkTheme, context),

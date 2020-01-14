@@ -33,6 +33,7 @@ class AppTheme {
     primaryColorLight: Colors.white,
     primaryColorDark: Color(0xFFA3B1C6).withOpacity(0.2),
     buttonColor: Color(0xFF38496C),
+    cursorColor: Color(0xFF495C83),
     backgroundColor: Color(0xFFF4FAFF),
     textTheme: TextTheme(
       title: TextStyle(

@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:goals_flutter/shared/neumorphism/card_box_decoration.dart';
+import 'package:goals_flutter/widgets/buttons/squircle_text_button.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:goals_flutter/widgets/buttons/static_squircle_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/database.dart';
-import '../../widgets/animated_progress_button.dart';
 import '../../widgets/keyboard_bar.dart';
 
 class AddGoalForm extends StatefulWidget {
@@ -27,7 +30,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
   final FocusNode _goalAmountFocusNode = FocusNode();
 
   bool _hasErrorOccured = false;
-  String _submitButtonText = "Add goal";
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -42,24 +45,29 @@ class _AddGoalFormState extends State<AddGoalForm> {
       return null;
     }
 
+    setState(() {
+      _isLoading = true;
+    });
+
     await db.createGoal(
       name: _goalNameTextController.value.text,
       startingAmount: _startingAmountTextController.numberValue,
       goalAmount: _goalAmountTextController.numberValue,
       user: user,
     );
-
-    return () {
-      setState(() {
-        _submitButtonText = "Success!";
-      });
-      Navigator.of(context).pop();
-    };
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<FirebaseUser>(context);
+    Widget loadingWidget = SpinKitThreeBounce(
+      color: Theme.of(context).primaryColor,
+      size: 20.0,
+    );
 
     return Form(
       key: _formKey,
@@ -74,31 +82,19 @@ class _AddGoalFormState extends State<AddGoalForm> {
                 padding:
                     const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
                 child: Text(
-                  "New goal",
-                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.start,
+                  'New goal',
+                  style: Theme.of(context).textTheme.title,
                 ),
               ),
             ),
             // Goal card
             Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              decoration: cardBoxDecoration(context),
               constraints: BoxConstraints(maxHeight: 300),
-              padding: EdgeInsets.fromLTRB(35, 15, 35, 5),
+              // padding: const EdgeInsets.fromLTRB(35, 15, 35, 5),
               margin: EdgeInsets.all(20.0),
               width: double.infinity,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey[300],
-                    offset: Offset(1.0, 3.0),
-                    blurRadius: 4.0,
-                  ),
-                ],
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20.0),
-                ),
-              ),
               child: SingleChildScrollView(
                 child: Container(
                   child: Column(
@@ -106,16 +102,15 @@ class _AddGoalFormState extends State<AddGoalForm> {
                       SizedBox(
                         height: 80.0,
                         child: TextFormField(
+                          enabled: !_isLoading,
                           focusNode: _goalNameFocusNode,
                           autocorrect: false,
                           textInputAction: TextInputAction.next,
                           controller: _goalNameTextController,
                           maxLines: null,
                           autofocus: true,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            letterSpacing: 1.5,
-                          ),
+                          style: Theme.of(context).textTheme.body2,
+                          cursorColor: Theme.of(context).cursorColor,
                           onChanged: (_) {
                             if (_hasErrorOccured) {
                               _formKey.currentState.validate();
@@ -125,7 +120,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
                           textAlign: TextAlign.start,
                           decoration: InputDecoration(
                             isDense: true,
-                            labelText: "GOAL NAME",
+                            hintText: "GOAL NAME",
                           ),
                           onFieldSubmitted: (_) => FocusScope.of(context)
                               .requestFocus(_startingAmountFocusNode),
@@ -139,6 +134,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
                               child: Column(
                                 children: <Widget>[
                                   TextFormField(
+                                    enabled: !_isLoading,
                                     focusNode: _startingAmountFocusNode,
                                     controller: _startingAmountTextController,
                                     keyboardType: TextInputType.number,
@@ -167,6 +163,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
                             child: SizedBox(
                               height: 90.0,
                               child: TextFormField(
+                                enabled: !_isLoading,
                                 focusNode: _goalAmountFocusNode,
                                 controller: _goalAmountTextController,
                                 keyboardType: TextInputType.number,
@@ -198,21 +195,30 @@ class _AddGoalFormState extends State<AddGoalForm> {
                 ),
               ),
             ),
-            AnimatedProgressButton(
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              onPressed: () => _submitForm(user),
-              backgroundColor: Colors.grey[900],
-              text: _submitButtonText,
+              child: _isLoading
+                  ? StaticSquircleButton(
+                      child: loadingWidget,
+                      isActive: false,
+                    )
+                  : SquircleTextButton(
+                      text: "Add goal",
+                      onPressed: _isLoading ? null : () => _submitForm(user),
+                    ),
             ),
             SizedBox(
               height: 20.0,
             ),
             // Fake keyboard bar to move back and forth and press next
-            KeyboardBar(focusNodes: [
-              _goalNameFocusNode,
-              _startingAmountFocusNode,
-              _goalAmountFocusNode
-            ]),
+            KeyboardBar(
+              focusNodes: [
+                _goalNameFocusNode,
+                _startingAmountFocusNode,
+                _goalAmountFocusNode
+              ],
+              isActive: !_isLoading,
+            ),
           ],
         ),
       ),

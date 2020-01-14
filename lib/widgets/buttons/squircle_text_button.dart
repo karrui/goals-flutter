@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../shared/neumorphism/squircle_button_box_decoration.dart';
+import 'static_squircle_button.dart';
 
 class SquircleTextButton extends StatefulWidget {
   final double height;
@@ -25,20 +25,16 @@ class _SquircleTextButtonState extends State<SquircleTextButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Container(
+      child: StaticSquircleButton(
         height: widget.height,
         width: widget.width,
-        decoration: _isTapDown
-            ? squircleButtonBoxDecorationDepressed(context)
-            : squircleButtonBoxDecoration(context),
-        child: Center(
-          child: Text(
-            widget.text,
-            style: Theme.of(context)
-                .textTheme
-                .button
-                .copyWith(color: Theme.of(context).primaryColor),
-          ),
+        isActive: _isTapDown,
+        child: Text(
+          widget.text,
+          style: Theme.of(context)
+              .textTheme
+              .button
+              .copyWith(color: Theme.of(context).primaryColor),
         ),
       ),
       onTap: () {

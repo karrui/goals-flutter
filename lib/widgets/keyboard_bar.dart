@@ -6,7 +6,11 @@ import 'text_button.dart';
 /// Loosely follows keyboard_actions package https://github.com/diegoveloper/flutter_keyboard_actions/blob/master/lib/keyboard_actions.dart for my own custom implementation
 class KeyboardBar extends StatefulWidget {
   final List<FocusNode> focusNodes;
-  KeyboardBar({this.focusNodes});
+  final bool isActive;
+  KeyboardBar({
+    @required this.focusNodes,
+    @required this.isActive,
+  });
 
   @override
   _KeyboardBarState createState() => _KeyboardBarState();
@@ -116,30 +120,32 @@ class _KeyboardBarState extends State<KeyboardBar> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey[200],
-      width: double.infinity,
-      height: 40,
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(
-        children: <Widget>[
-          InklessIconButton(
-            size: 30,
-            icon: Icons.expand_less,
-            onPressed: _previousNodeIndex != null ? _onTapUp : null,
-          ),
-          InklessIconButton(
-            size: 30,
-            icon: Icons.expand_more,
-            onPressed: _nextNodeIndex != null ? _onTapDown : null,
-          ),
-          Spacer(),
-          TextButton(
-            text: "Next",
-            onPressed: _nextNodeIndex != null ? _onTapDown : null,
+    return widget.isActive
+        ? Container(
+            color: Colors.grey[200],
+            width: double.infinity,
+            height: 40,
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              children: <Widget>[
+                InklessIconButton(
+                  size: 30,
+                  icon: Icons.expand_less,
+                  onPressed: _previousNodeIndex != null ? _onTapUp : null,
+                ),
+                InklessIconButton(
+                  size: 30,
+                  icon: Icons.expand_more,
+                  onPressed: _nextNodeIndex != null ? _onTapDown : null,
+                ),
+                Spacer(),
+                TextButton(
+                  text: "Next",
+                  onPressed: _nextNodeIndex != null ? _onTapDown : null,
+                )
+              ],
+            ),
           )
-        ],
-      ),
-    );
+        : Container();
   }
 }

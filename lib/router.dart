@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 
 import 'screens/auth/auth_screen.dart';
 import 'screens/auth/sign_in_screen.dart';
 import 'screens/auth/sign_up_screen.dart';
 import 'screens/goal_details/goal_details_screen.dart';
 import 'screens/settings/settings_screen.dart';
-import 'shared/constants.dart';
+import 'shared/route_constants.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -22,10 +21,11 @@ class Router {
         return MaterialPageRoute(builder: (_) => SettingsScreen());
       case goalDetailsRoute:
         final GoalDetailsArguments args = settings.arguments;
-        return PageTransition(
-            child: GoalDetailsScreen(goal: args.goal),
-            type: PageTransitionType.fade,
-            duration: Duration(milliseconds: 200));
+        return MaterialPageRoute(
+          builder: (_) => GoalDetailsScreen(
+            goal: args.goal,
+          ),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

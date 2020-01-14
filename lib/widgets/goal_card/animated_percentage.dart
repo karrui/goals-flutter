@@ -4,14 +4,10 @@ import 'package:goals_flutter/utils/number_util.dart';
 /// Retrieved and modified from https://gist.github.com/Nolence/b7d43cd9ad25d614f52aba2c74a597fd
 class AnimatedPercentage extends ImplicitlyAnimatedWidget {
   final double percentage;
-  final TextStyle primaryTextStyle;
-  final TextStyle secondaryTextStyle;
 
   AnimatedPercentage({
     Key key,
     @required this.percentage,
-    this.primaryTextStyle = const TextStyle(),
-    this.secondaryTextStyle = const TextStyle(),
     Duration duration = const Duration(milliseconds: 500),
     Curve curve = Curves.linear,
   }) : super(duration: duration, curve: curve, key: key);
@@ -28,16 +24,16 @@ class _AnimatedCountState extends AnimatedWidgetBaseState<AnimatedPercentage> {
   @override
   Widget build(BuildContext context) {
     return RichText(
-      textAlign: TextAlign.end,
+      textAlign: TextAlign.start,
       text: TextSpan(
-        style: widget.secondaryTextStyle,
+        style: Theme.of(context).textTheme.overline,
         children: <TextSpan>[
-          TextSpan(text: "You are "),
+          TextSpan(text: "You have reached "),
           TextSpan(
             text: convertDoubleToPercentString(_percentage.evaluate(animation)),
-            style: widget.primaryTextStyle,
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          TextSpan(text: " of the way there!")
+          TextSpan(text: " of your goal.")
         ],
       ),
     );

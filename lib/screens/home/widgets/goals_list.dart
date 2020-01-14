@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../../../models/goal_model.dart';
 import '../../../shared/constants.dart';
+import '../../../widgets/goal_card/goal_card.dart';
 import '../../goal_details/goal_details_screen.dart';
-import 'goal.dart';
 
 class GoalsList extends StatelessWidget {
   @override
@@ -16,8 +16,11 @@ class GoalsList extends StatelessWidget {
         return GestureDetector(
           child: Hero(
             tag: goals[index].id,
-            child: Goal(
-              goal: goals[index],
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: GoalCard(
+                goal: goals[index],
+              ),
             ),
           ),
           onTap: () => Navigator.pushNamed(

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:goals_flutter/widgets/goal_card/goal_card.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/goal_model.dart';
 import '../../models/history_model.dart';
 import '../../services/database.dart';
 import '../../widgets/inkless_icon_button.dart';
-import '../home/widgets/goal.dart';
 import 'history_list.dart';
 
 class GoalDetailsScreen extends StatefulWidget {
@@ -32,16 +32,8 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
               children: <Widget>[
                 Hero(
                   tag: widget.goal.id,
-                  child: Goal(
+                  child: GoalCard(
                     goal: widget.goal,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20.0),
-                      bottomRight: Radius.circular(20.0),
-                    ),
-                    margin: EdgeInsets.all(0),
-                    goalPadding: EdgeInsets.fromLTRB(35, 100, 35, 25),
-                    showAddTransactionButton: false,
-                    showBoxShadow: true,
                   ),
                 ),
                 // Appbar

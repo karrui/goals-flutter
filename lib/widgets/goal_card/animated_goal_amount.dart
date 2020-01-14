@@ -4,14 +4,14 @@ import 'package:goals_flutter/utils/number_util.dart';
 /// Retrieved and modified from https://gist.github.com/Nolence/b7d43cd9ad25d614f52aba2c74a597fd
 class AnimatedGoalAmount extends ImplicitlyAnimatedWidget {
   final double currentAmount;
-  final double totalAmount;
+  final double goalAmount;
   final TextStyle primaryTextStyle;
   final TextStyle secondaryTextStyle;
 
   AnimatedGoalAmount({
     Key key,
     @required this.currentAmount,
-    @required this.totalAmount,
+    @required this.goalAmount,
     this.primaryTextStyle = const TextStyle(),
     this.secondaryTextStyle = const TextStyle(),
     Duration duration = const Duration(milliseconds: 500),
@@ -30,26 +30,20 @@ class _AnimatedCountState extends AnimatedWidgetBaseState<AnimatedGoalAmount> {
   @override
   Widget build(BuildContext context) {
     return RichText(
-      textAlign: TextAlign.end,
+      textAlign: TextAlign.start,
       text: TextSpan(
-        style: TextStyle(
-          color: Colors.black,
-        ),
+        style: Theme.of(context).textTheme.title,
         children: <TextSpan>[
-          // TODO: Allow user selectable locale currency
           TextSpan(
-            text: '\$',
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
+            text: '\$ ',
           ),
           TextSpan(
             text: convertDoubleToCurrencyString(
                 _currentAmount.evaluate(animation)),
-            style: widget.primaryTextStyle,
           ),
           TextSpan(
-            text: ' / \$${convertDoubleToCurrencyString(widget.totalAmount)}',
+            text: ' / \$${convertDoubleToCurrencyString(widget.goalAmount)}',
+            style: Theme.of(context).textTheme.subtitle,
           ),
         ],
       ),

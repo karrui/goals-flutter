@@ -10,25 +10,23 @@ class GoalsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var goals = Provider.of<List<GoalModel>>(context);
-    return goals != null
-        ? ListView.builder(
-            itemCount: goals.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                child: Hero(
-                  tag: goals[index].id,
-                  child: Goal(
-                    goal: goals[index],
-                  ),
-                ),
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  goalDetailsRoute,
-                  arguments: GoalDetailsArguments(goal: goals[index]),
-                ),
-              );
-            },
-          )
-        : Container();
+    return ListView.builder(
+      itemCount: goals != null ? goals.length : 0,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          child: Hero(
+            tag: goals[index].id,
+            child: Goal(
+              goal: goals[index],
+            ),
+          ),
+          onTap: () => Navigator.pushNamed(
+            context,
+            goalDetailsRoute,
+            arguments: GoalDetailsArguments(goal: goals[index]),
+          ),
+        );
+      },
+    );
   }
 }

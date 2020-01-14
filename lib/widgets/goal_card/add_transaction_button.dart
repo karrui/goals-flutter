@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:goals_flutter/shared/neumorphism/button_box_decoration.dart';
 
 class AddTransactionButton extends StatefulWidget {
   @override
@@ -15,14 +16,15 @@ class _AddTransactionButtonState extends State<AddTransactionButton> {
       child: Container(
         width: 40.0,
         height: 40.0,
-        decoration: BoxDecoration(
-          color: _isTapDown ? Color(0xFFD7DEFA) : Color(0xFFEEF1FD),
-          borderRadius: BorderRadius.circular(20.0),
-        ),
+        decoration: _isTapDown
+            ? buttonBoxDecorationDepressed(context)
+            : buttonBoxDecoration(context),
         child: Icon(
           FontAwesomeIcons.plus,
           size: 15.0,
-          color: Theme.of(context).primaryColor,
+          color: _isTapDown
+              ? Theme.of(context).primaryColor
+              : Theme.of(context).textTheme.button.color,
         ),
       ),
       onTap: () {

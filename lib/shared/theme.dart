@@ -55,6 +55,9 @@ class AppTheme {
         fontWeight: FontWeight.normal,
         letterSpacing: 0,
       ),
+      button: TextStyle(
+        color: Color(0xFFA3BCDC),
+      ),
     ),
     accentColor: Colors.green.withOpacity(0.65),
     accentIconTheme: IconThemeData(color: Colors.white),

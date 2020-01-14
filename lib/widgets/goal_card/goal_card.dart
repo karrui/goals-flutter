@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goals_flutter/widgets/goal_card/add_transaction_button.dart';
 
 import '../../models/goal_model.dart';
 import '../../shared/neumorphism/card_box_decoration.dart';
@@ -24,10 +25,7 @@ class GoalCard extends StatelessWidget {
             children: <Widget>[
               Text(goal.name.toUpperCase(),
                   style: Theme.of(context).textTheme.body2),
-              Icon(
-                Icons.more_horiz,
-                color: fCD,
-              ),
+              AddTransactionButton(),
             ],
           ),
           SizedBox(height: 16.0),

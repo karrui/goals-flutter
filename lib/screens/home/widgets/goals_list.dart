@@ -6,19 +6,12 @@ import '../../../shared/constants.dart';
 import '../../goal_details/goal_details_screen.dart';
 import 'goal.dart';
 
-class GoalList extends StatefulWidget {
-  @override
-  _GoalListState createState() => _GoalListState();
-}
-
-class _GoalListState extends State<GoalList> {
+class GoalsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final goals = Provider.of<List<GoalModel>>(context);
-
-    return goals == null
-        ? Container()
-        : ListView.builder(
+    var goals = Provider.of<List<GoalModel>>(context);
+    return goals != null
+        ? ListView.builder(
             itemCount: goals.length,
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -39,6 +32,7 @@ class _GoalListState extends State<GoalList> {
                 ),
               );
             },
-          );
+          )
+        : Container();
   }
 }

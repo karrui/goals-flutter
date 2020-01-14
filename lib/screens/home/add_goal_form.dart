@@ -1,8 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/database.dart';
+import '../../services/database.dart';
 import '../../widgets/animated_progress_button.dart';
 import '../../widgets/keyboard_bar.dart';
 
@@ -12,6 +13,8 @@ class AddGoalForm extends StatefulWidget {
 }
 
 class _AddGoalFormState extends State<AddGoalForm> {
+  final db = DatabaseService();
+
   final _formKey = GlobalKey<FormState>();
   final _goalNameTextController = TextEditingController();
   final _startingAmountTextController = MoneyMaskedTextController(
@@ -34,16 +37,16 @@ class _AddGoalFormState extends State<AddGoalForm> {
     super.dispose();
   }
 
-  _submitForm() async {
+  _submitForm(FirebaseUser user) async {
     if (!_formKey.currentState.validate()) {
       return null;
     }
 
-    final db = Provider.of<Database>(context, listen: false);
     await db.createGoal(
       name: _goalNameTextController.value.text,
       startingAmount: _startingAmountTextController.numberValue,
       goalAmount: _goalAmountTextController.numberValue,
+      user: user,
     );
 
     return () {
@@ -56,6 +59,8 @@ class _AddGoalFormState extends State<AddGoalForm> {
 
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<FirebaseUser>(context);
+
     return Form(
       key: _formKey,
       child: Container(
@@ -195,7 +200,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
             ),
             AnimatedProgressButton(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              onPressed: _submitForm,
+              onPressed: () => _submitForm(user),
               backgroundColor: Colors.grey[900],
               text: _submitButtonText,
             ),

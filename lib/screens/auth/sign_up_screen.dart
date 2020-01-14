@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
-import '../../providers/auth.dart';
+import '../../services/auth.dart';
 import 'utils/form_validator.dart';
 import 'utils/generate_auth_error_message.dart';
 
@@ -157,9 +156,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         isSignUpButtonEnabled = false;
       });
-      await Provider.of<Auth>(context, listen: false)
-          .signUpWithEmailAndPassword(
-              emailInputController.text, passwordInputController.text);
+      await AuthService().signUpWithEmailAndPassword(
+          emailInputController.text, passwordInputController.text);
       // Required to trigger navigation since this screen is stacked on the main screen that changes.
       Navigator.pop(context);
     } on PlatformException catch (error) {

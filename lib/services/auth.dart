@@ -11,12 +11,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../shared/constants.dart';
 import '../utils/notification_util.dart';
 
-class Auth with ChangeNotifier {
+class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  Future<FirebaseUser> get user {
-    return _auth.currentUser();
-  }
 
   Future<FirebaseUser> signInWithGoogle(BuildContext context) async {
     final googleSignIn = GoogleSignIn();
@@ -53,7 +49,6 @@ class Auth with ChangeNotifier {
 
     try {
       final result = await _auth.signInWithCredential(credential);
-      notifyListeners();
       return result.user;
     } on PlatformException catch (error) {
       if (error.code != 'ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL') {
@@ -75,7 +70,6 @@ class Auth with ChangeNotifier {
           FacebookAuthProvider.getCredential(accessToken: accessToken);
       try {
         final result = await _auth.signInWithCredential(credential);
-        notifyListeners();
         return result.user;
       } on PlatformException catch (error) {
         if (error.code != 'ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL') {
@@ -153,7 +147,6 @@ class Auth with ChangeNotifier {
                       final result =
                           await _auth.signInWithCredential(credential);
                       showSuccessToast("Successfully linked accounts.");
-                      notifyListeners();
                       return result.user;
                     } else {
                       if (authResult != null && authResult.email != oldEmail) {
@@ -172,7 +165,6 @@ class Auth with ChangeNotifier {
       String email, String password) async {
     final result = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
-    notifyListeners();
     return result.user;
   }
 
@@ -180,13 +172,11 @@ class Auth with ChangeNotifier {
       String email, String password) async {
     final result = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
-    notifyListeners();
     return result.user;
   }
 
   Future logout() async {
     final result = await _auth.signOut();
-    notifyListeners();
     return result;
   }
 }

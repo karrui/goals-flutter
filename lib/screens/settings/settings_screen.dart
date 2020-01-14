@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../providers/auth.dart';
+import '../../services/auth.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -27,7 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             FlatButton(
               onPressed: () {
-                Provider.of<Auth>(context, listen: false).logout();
+                AuthService().logout();
                 Navigator.pop(context);
               },
               child: Text("Logout"),

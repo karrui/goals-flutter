@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
-import '../../providers/auth.dart';
+import '../../services/auth.dart';
 import '../../utils/notification_util.dart';
 import 'utils/form_validator.dart';
 import 'utils/generate_auth_error_message.dart';
@@ -159,9 +158,8 @@ class _SignInScreenState extends State<SignInScreen> {
       setState(() {
         isSignInButtonEnabled = false;
       });
-      final result = await Provider.of<Auth>(context, listen: false)
-          .signInWithEmailAndPassword(
-              emailInputController.text, passwordInputController.text);
+      final result = await AuthService().signInWithEmailAndPassword(
+          emailInputController.text, passwordInputController.text);
       if (arguments != null) {
         if (emailInputController.text == arguments['oldEmail']) {
           await result.linkWithCredential(arguments['credential']);

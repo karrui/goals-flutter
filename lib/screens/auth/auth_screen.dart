@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
-import '../../providers/auth.dart';
+import '../../services/auth.dart';
 import '../../shared/constants.dart';
 import '../../widgets/animated_progress_button.dart';
 import '../../widgets/text_button.dart';
@@ -57,7 +56,8 @@ class AuthButtons extends StatefulWidget {
 }
 
 class _AuthButtonsState extends State<AuthButtons> {
-  var _areButtonsDisabled = false;
+  static AuthService _authService = AuthService();
+  bool _areButtonsDisabled = false;
 
   void _handleSignInWithEmail(BuildContext context) {
     Navigator.pushNamed(context, signInRoute);
@@ -71,8 +71,8 @@ class _AuthButtonsState extends State<AuthButtons> {
     setState(() {
       _areButtonsDisabled = true;
     });
-    final authProvider = Provider.of<Auth>(context, listen: false);
-    final result = await authProvider.signInWithGoogle(context);
+
+    final result = await _authService.signInWithGoogle(context);
 
     // Only set back to disabled if there were errors
     if (result == null) {
@@ -86,8 +86,8 @@ class _AuthButtonsState extends State<AuthButtons> {
     setState(() {
       _areButtonsDisabled = true;
     });
-    final authProvider = Provider.of<Auth>(context, listen: false);
-    final result = await authProvider.signInWithFacebook(context);
+
+    final result = await _authService.signInWithFacebook(context);
 
     // Only set back to disabled if there were errors
     if (result == null) {

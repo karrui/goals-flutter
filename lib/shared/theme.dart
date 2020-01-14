@@ -38,7 +38,7 @@ class AppTheme {
       title: TextStyle(
         color: Color(0xFF38496C),
         fontWeight: FontWeight.bold,
-        fontSize: 36.0,
+        fontSize: 32.0,
       ),
       body2: TextStyle(
         color: Color(0xFF495C83),

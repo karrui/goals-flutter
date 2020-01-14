@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:goals_flutter/widgets/squared_icon_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/goal_model.dart';
@@ -28,19 +29,14 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             Text(
               'Current goals',
-              style: TextStyle(
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.title,
             ),
-            Row(
-              children: <Widget>[
-                InklessIconButton(
-                  icon: FontAwesomeIcons.cog,
-                  size: 25.0,
-                  onPressed: () => Navigator.pushNamed(context, settingsRoute),
-                ),
-              ],
+            SquaredIconButton(
+              iconData: Icons.settings,
+              onPressed: () => Navigator.pushNamed(context, settingsRoute),
+              iconSize: 24.0,
+              height: 50.0,
+              width: 50.0,
             )
           ],
         ),
@@ -77,7 +73,7 @@ class HomeScreen extends StatelessWidget {
     _showAddGoalButton() {
       return AnimatedProgressButton(
         padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0),
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Theme.of(context).buttonColor,
         text: "Add new goal",
         onPressed: _showAddGoalModalSheet,
       );

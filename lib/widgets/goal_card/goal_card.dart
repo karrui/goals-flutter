@@ -3,7 +3,6 @@ import 'package:goals_flutter/widgets/goal_card/add_transaction_button.dart';
 
 import '../../models/goal_model.dart';
 import '../../shared/neumorphism/card_box_decoration.dart';
-import '../../shared/neumorphism/nm_box.dart';
 import 'animated_goal_amount.dart';
 import 'animated_percentage.dart';
 
@@ -15,7 +14,7 @@ class GoalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 28),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       decoration: cardBoxDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -47,6 +46,9 @@ class GoalCard extends StatelessWidget {
           AnimatedPercentage(
             percentage: (goal.currentAmount / goal.goalAmount),
           ),
+          SizedBox(
+            height: 8.0,
+          )
         ],
       ),
     );

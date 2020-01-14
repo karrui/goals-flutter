@@ -17,7 +17,8 @@ class GoalsList extends StatelessWidget {
           child: Hero(
             tag: goals[index].id,
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
               child: GoalCard(
                 goal: goals[index],
               ),

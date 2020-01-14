@@ -22,9 +22,7 @@ class _AddTransactionButtonState extends State<AddTransactionButton> {
         child: Icon(
           FontAwesomeIcons.plus,
           size: 15.0,
-          color: _isTapDown
-              ? Theme.of(context).primaryColor
-              : Theme.of(context).textTheme.button.color,
+          color: Theme.of(context).textTheme.button.color,
         ),
       ),
       onTap: () {

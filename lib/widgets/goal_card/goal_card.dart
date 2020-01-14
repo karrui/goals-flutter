@@ -23,8 +23,13 @@ class GoalCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(goal.name.toUpperCase(),
-                  style: Theme.of(context).textTheme.body2),
+              Flexible(
+                child: Text(
+                  goal.name.toUpperCase(),
+                  style: Theme.of(context).textTheme.body2,
+                  maxLines: null,
+                ),
+              ),
               AddTransactionButton(),
             ],
           ),

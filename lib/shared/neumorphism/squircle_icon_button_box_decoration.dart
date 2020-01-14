@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-BoxDecoration buttonBoxDecoration(BuildContext context) {
+BoxDecoration squircleIconButtonBoxDecoration(BuildContext context) {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(15),
     color: Theme.of(context).primaryColor,
@@ -19,7 +19,7 @@ BoxDecoration buttonBoxDecoration(BuildContext context) {
   );
 }
 
-BoxDecoration buttonBoxDecorationDepressed(BuildContext context) {
+BoxDecoration squircleIconButtonBoxDecorationDepressed(BuildContext context) {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(15),
     color: Theme.of(context).primaryColorDark,

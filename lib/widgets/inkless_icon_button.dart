@@ -28,7 +28,10 @@ class _InklessIconButtonState extends State<InklessIconButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Icon(widget.icon, size: widget.size, color: color),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Icon(widget.icon, size: widget.size, color: color),
+      ),
       onTap: () {
         setState(() {
           _isTapDown = false;

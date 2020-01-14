@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../models/goal_model.dart';
 import '../../shared/neumorphism/card_box_decoration.dart';
-import '../squircle_icon_button.dart';
+import '../buttons/squircle_icon_button.dart';
 import 'animated_goal_amount.dart';
 import 'animated_percentage.dart';
 

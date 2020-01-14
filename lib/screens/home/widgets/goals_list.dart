@@ -15,20 +15,16 @@ class GoalsList extends StatelessWidget {
             itemCount: goals.length,
             itemBuilder: (context, index) {
               return GestureDetector(
+                child: Hero(
+                  tag: goals[index].id,
+                  child: Goal(
+                    goal: goals[index],
+                  ),
+                ),
                 onTap: () => Navigator.pushNamed(
                   context,
                   goalDetailsRoute,
-                  arguments: GoalDetailsArguments(goals[index]),
-                ),
-                child: Hero(
-                  tag: goals[index].id,
-                  // Prevents RenderFlex overflow if the child is of type Material, see https://stackoverflow.com/questions/56793821/hero-animation-producing-renderbox-overflow/56831537
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: Goal(
-                      goal: goals[index],
-                    ),
-                  ),
+                  arguments: GoalDetailsArguments(goal: goals[index]),
                 ),
               );
             },

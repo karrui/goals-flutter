@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'screens/auth/auth_screen.dart';
 import 'screens/auth/sign_in_screen.dart';
@@ -21,8 +22,10 @@ class Router {
         return MaterialPageRoute(builder: (_) => SettingsScreen());
       case goalDetailsRoute:
         final GoalDetailsArguments args = settings.arguments;
-        return MaterialPageRoute(
-            builder: (_) => GoalDetailsScreen(goal: args.goal));
+        return PageTransition(
+            child: GoalDetailsScreen(goal: args.goal),
+            type: PageTransitionType.fade,
+            duration: Duration(milliseconds: 200));
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

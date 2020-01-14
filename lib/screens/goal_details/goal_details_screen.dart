@@ -24,15 +24,16 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
             children: <Widget>[
               Hero(
                 tag: widget.goal.id,
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: Goal(
-                    goal: widget.goal,
-                    margin: EdgeInsets.all(0),
-                    goalPadding: EdgeInsets.fromLTRB(35, 100, 35, 25),
-                    showAddTransactionButton: false,
-                    showBoxShadow: true,
+                child: Goal(
+                  goal: widget.goal,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20.0),
+                    bottomRight: Radius.circular(20.0),
                   ),
+                  margin: EdgeInsets.all(0),
+                  goalPadding: EdgeInsets.fromLTRB(35, 100, 35, 25),
+                  showAddTransactionButton: false,
+                  showBoxShadow: true,
                 ),
               ),
               // Appbar
@@ -70,5 +71,5 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
 class GoalDetailsArguments {
   final GoalModel goal;
 
-  GoalDetailsArguments(this.goal);
+  GoalDetailsArguments({this.goal});
 }

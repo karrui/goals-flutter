@@ -1,16 +1,12 @@
-import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:goals_flutter/widgets/squared_icon_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/goal_model.dart';
 import '../../services/database.dart';
 import '../../shared/constants.dart';
 import '../../widgets/animated_progress_button.dart';
-import '../../widgets/inkless_icon_button.dart';
+import '../../widgets/squircle_icon_button.dart';
 import 'add_goal_form.dart';
 import 'widgets/goals_list.dart';
 
@@ -31,7 +27,7 @@ class HomeScreen extends StatelessWidget {
               'Current goals',
               style: Theme.of(context).textTheme.title,
             ),
-            SquaredIconButton(
+            SquircleIconButton(
               iconData: Icons.settings,
               onPressed: () => Navigator.pushNamed(context, settingsRoute),
               iconSize: 24.0,

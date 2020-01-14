@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../shared/neumorphism/button_box_decoration.dart';
 
-class SquaredIconButton extends StatefulWidget {
+class SquircleIconButton extends StatefulWidget {
   final double height;
   final double width;
   final double iconSize;
   final IconData iconData;
   final Function onPressed;
 
-  SquaredIconButton({
+  SquircleIconButton({
     this.height = 40.0,
     this.width = 40.0,
     this.iconSize = 15.0,
@@ -18,10 +18,10 @@ class SquaredIconButton extends StatefulWidget {
   });
 
   @override
-  _SquaredIconButtonState createState() => _SquaredIconButtonState();
+  _SquircleIconButtonState createState() => _SquircleIconButtonState();
 }
 
-class _SquaredIconButtonState extends State<SquaredIconButton> {
+class _SquircleIconButtonState extends State<SquircleIconButton> {
   bool _isTapDown = false;
 
   @override

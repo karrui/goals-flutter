@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../models/goal_model.dart';
 import '../../shared/neumorphism/card_box_decoration.dart';
-import '../squared_icon_button.dart';
+import '../squircle_icon_button.dart';
 import 'animated_goal_amount.dart';
 import 'animated_percentage.dart';
 
@@ -30,7 +30,7 @@ class GoalCard extends StatelessWidget {
                   maxLines: null,
                 ),
               ),
-              SquaredIconButton(
+              SquircleIconButton(
                 iconData: FontAwesomeIcons.plus,
                 onPressed: () => print("add transaction pressed"),
               ),

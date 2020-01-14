@@ -27,11 +27,36 @@ class AppTheme {
   );
 
   static final _lightTheme = ThemeData(
-    primarySwatch: Colors.grey,
-    primaryColor: Colors.white,
     brightness: Brightness.light,
-    backgroundColor: const Color(0xFFE5E5E5),
-    accentColor: Colors.black,
+    primarySwatch: Colors.grey,
+    primaryColor: Color(0xFFF4FAFF),
+    primaryColorLight: Colors.white,
+    primaryColorDark: Color(0xFFA3B1C6).withOpacity(0.2),
+    backgroundColor: Color(0xFFF4FAFF),
+    textTheme: TextTheme(
+      title: TextStyle(
+        color: Color(0xFF38496C),
+        fontWeight: FontWeight.bold,
+        fontSize: 36.0,
+      ),
+      body2: TextStyle(
+        color: Color(0xFF495C83),
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 1.5,
+      ),
+      subtitle: TextStyle(
+        color: Color(0xFFA3BCDC),
+        fontSize: 20,
+      ),
+      overline: TextStyle(
+        color: Color(0xFF495C83),
+        fontSize: 14,
+        fontWeight: FontWeight.normal,
+        letterSpacing: 0,
+      ),
+    ),
+    accentColor: Colors.green.withOpacity(0.65),
     accentIconTheme: IconThemeData(color: Colors.white),
     dividerColor: Colors.white54,
   );

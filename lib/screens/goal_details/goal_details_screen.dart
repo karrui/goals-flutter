@@ -55,9 +55,6 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
     });
     await db.deleteGoal(widget.goal.id);
     Navigator.pop(context);
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override

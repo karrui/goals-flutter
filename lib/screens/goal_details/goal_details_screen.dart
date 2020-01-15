@@ -73,7 +73,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
             child: Text("Delete"),
             onPressed: () async {
               Navigator.of(ctx, rootNavigator: true).pop();
-              await db.deleteGoal(goal.id);
+              db.deleteGoal(goal.id);
               Navigator.pop(context);
             },
           ),

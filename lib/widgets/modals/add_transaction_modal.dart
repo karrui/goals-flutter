@@ -51,20 +51,17 @@ class _AddTransactionModalState extends State<AddTransactionModal> {
       return null;
     }
 
-    await db.addTransactionToGoal(
+    setState(() {
+      _isLoading = true;
+    });
+
+    db.addTransactionToGoal(
         amount: _amountTextController.numberValue,
         description: _descriptionTextController.value.text,
         goalId: widget.goal.id,
         type: HistoryType.ADD,
         user: user);
 
-    setState(() {
-      _isLoading = true;
-    });
-
-    setState(() {
-      _isLoading = false;
-    });
     Navigator.of(context).pop();
   }
 

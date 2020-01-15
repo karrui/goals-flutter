@@ -49,7 +49,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
       _isLoading = true;
     });
 
-    await db.createGoal(
+    db.createGoal(
       name: _goalNameTextController.value.text,
       startingAmount: _startingAmountTextController.numberValue,
       goalAmount: _goalAmountTextController.numberValue,

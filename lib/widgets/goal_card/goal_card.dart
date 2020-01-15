@@ -3,7 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../models/goal_model.dart';
 import '../../shared/neumorphism/card_box_decoration.dart';
+import '../../utils/modal_bottom_sheet.dart';
 import '../buttons/squircle_icon_button.dart';
+import '../modals/add_transaction_modal.dart';
 import 'animated_goal_amount.dart';
 import 'animated_percentage.dart';
 
@@ -40,7 +42,10 @@ class GoalCard extends StatelessWidget {
               showAddButton
                   ? SquircleIconButton(
                       iconData: FontAwesomeIcons.plus,
-                      onPressed: () => print("add transaction pressed"),
+                      onPressed: () => showModalBottomSheetWithChild(
+                        context,
+                        AddTransactionModal(goal: goal),
+                      ),
                     )
                   : SizedBox(
                       // Emulate button space for card height consistency.

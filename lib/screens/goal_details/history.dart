@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goals_flutter/shared/neumorphism/card_box_decoration.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/history_model.dart';
@@ -12,9 +13,10 @@ class History extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: cardBoxDecoration(context),
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 6.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

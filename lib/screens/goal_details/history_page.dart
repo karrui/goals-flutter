@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/history_model.dart';
-import '../../shared/neumorphism/card_box_decoration.dart';
 import 'history.dart';
 
 class HistoryPage extends StatelessWidget {
@@ -10,26 +9,31 @@ class HistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var histories = Provider.of<List<HistoryModel>>(context);
 
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Container(
-        margin: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 20.0),
-        decoration: cardBoxDecoration(context),
-        child: ListView.separated(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 36.0),
+            child: Text(
+              "Transactions",
+              style: Theme.of(context).textTheme.subhead,
+              textAlign: TextAlign.start,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        ListView.builder(
           shrinkWrap: true,
           itemCount: histories != null ? histories.length : 0,
           itemBuilder: (ctx, index) {
             return History(history: histories[index]);
           },
-          separatorBuilder: (ctx, index) {
-            return Divider(
-              color: Theme.of(context).primaryColorDark.withOpacity(0.2),
-              thickness: 1,
-              height: 0,
-            );
-          },
         ),
-      ),
+      ],
     );
   }
 }

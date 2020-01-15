@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/goal_model.dart';
@@ -7,7 +6,7 @@ import '../../models/history_model.dart';
 import '../../services/database.dart';
 import '../../widgets/buttons/squircle_icon_button.dart';
 import '../../widgets/goal_card/goal_card.dart';
-import 'history_list.dart';
+import 'transaction_add_page_views.dart';
 
 class GoalDetailsScreen extends StatefulWidget {
   final GoalModel goal;
@@ -67,11 +66,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
                   ),
                 ),
               ),
-              HistoryList(),
-              SquircleIconButton(
-                iconData: FontAwesomeIcons.plus,
-                onPressed: () => print("add transaction pressed"),
-              ),
+              TransactionAddPageViews(),
             ],
           ),
         ),

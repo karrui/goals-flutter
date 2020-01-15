@@ -7,6 +7,7 @@ class HistoryModel {
   final DateTime createdAt;
   final HistoryType type;
   final String createdByName;
+  final String uid;
 
   HistoryModel({
     this.id,
@@ -15,6 +16,7 @@ class HistoryModel {
     this.createdAt,
     this.type,
     this.createdByName,
+    this.uid,
   });
 
   factory HistoryModel.fromFirestore(DocumentSnapshot doc) {
@@ -30,6 +32,7 @@ class HistoryModel {
       "createdAt": createdAt,
       "type": type,
       "createdByName": createdByName,
+      "uid": uid,
     };
   }
 
@@ -41,7 +44,8 @@ class HistoryModel {
         type = snapshot['type'] == 'add'
             ? HistoryType.ADD
             : HistoryType.WITHDRAW ?? HistoryType.ADD,
-        createdByName = snapshot['createdByName'] ?? '';
+        createdByName = snapshot['createdByName'] ?? '',
+        uid = snapshot['uid'] ?? '';
 }
 
 enum HistoryType {

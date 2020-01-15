@@ -89,6 +89,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
       initialData: [],
       create: (_) => db.streamHistories(goal.id),
       child: Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: SafeArea(
           child: Column(
             children: <Widget>[

@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 
-import 'package:goals_flutter/models/goal_model.dart';
-import 'package:goals_flutter/models/history_model.dart';
+import '../models/goal_model.dart';
+import '../models/history_model.dart';
 
 class DatabaseService {
   final Firestore _db = Firestore.instance;
@@ -62,6 +63,34 @@ class DatabaseService {
         'type': 'add',
       });
     }
+
+    return batch.commit();
+  }
+
+  Future<void> addTransactionToGoal({
+    @required String goalId,
+    @required double amount,
+    @required HistoryType type,
+    @required FirebaseUser user,
+    String description,
+  }) {
+    final batch = _db.batch();
+    final goalRef = _db.collection('goals').document(goalId);
+
+    batch.updateData(goalRef, {
+      "currentAmount": FieldValue.increment(amount),
+      "lastUpdated": DateTime.now(),
+    });
+
+    final newGoalHistoryRef = goalRef.collection('history').document();
+    batch.setData(newGoalHistoryRef, {
+      'amount': amount,
+      'createdAt': DateTime.now(),
+      'description': description,
+      'createdByName': user.displayName != null ? user.displayName : user.email,
+      'uid': user.uid,
+      'type': type == HistoryType.ADD ? 'add' : 'withdraw',
+    });
 
     return batch.commit();
   }

@@ -6,7 +6,7 @@ BoxDecoration squircleIconButtonBoxDecoration(BuildContext context) {
     color: Theme.of(context).primaryColor,
     boxShadow: [
       BoxShadow(
-        color: Theme.of(context).primaryColorDark,
+        color: Theme.of(context).primaryColorDark.withOpacity(0.2),
         offset: Offset(9.0, 9.0),
         blurRadius: 14.0,
       ),
@@ -22,7 +22,7 @@ BoxDecoration squircleIconButtonBoxDecoration(BuildContext context) {
 BoxDecoration squircleIconButtonBoxDecorationDepressed(BuildContext context) {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(15),
-    color: Theme.of(context).primaryColorDark,
+    color: Theme.of(context).primaryColorDark.withOpacity(0.2),
     boxShadow: [
       BoxShadow(
         color: Theme.of(context).primaryColorLight,

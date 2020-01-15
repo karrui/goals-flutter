@@ -6,7 +6,7 @@ BoxDecoration cardBoxDecoration(BuildContext context) {
     color: Theme.of(context).primaryColor,
     boxShadow: [
       BoxShadow(
-        color: Theme.of(context).primaryColorDark,
+        color: Theme.of(context).primaryColorDark.withOpacity(0.15),
         offset: Offset(12, 10),
         blurRadius: 10.0,
       ),

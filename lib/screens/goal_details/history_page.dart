@@ -17,15 +17,15 @@ class HistoryPage extends StatelessWidget {
         decoration: cardBoxDecoration(context),
         child: ListView.separated(
           shrinkWrap: true,
-          // Required to disable scroll on shrinkWrap.
-          primary: false,
           itemCount: histories != null ? histories.length : 0,
           itemBuilder: (ctx, index) {
             return History(history: histories[index]);
           },
           separatorBuilder: (ctx, index) {
             return Divider(
-              color: Colors.black,
+              color: Theme.of(context).primaryColorDark.withOpacity(0.2),
+              thickness: 1,
+              height: 0,
             );
           },
         ),

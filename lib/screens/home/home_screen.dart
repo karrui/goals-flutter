@@ -5,8 +5,9 @@ import 'package:provider/provider.dart';
 import '../../models/goal_model.dart';
 import '../../services/database.dart';
 import '../../shared/route_constants.dart';
-import '../../widgets/buttons/squircle_text_button.dart';
+import '../../utils/modal_bottom_sheet.dart';
 import '../../widgets/buttons/squircle_icon_button.dart';
+import '../../widgets/buttons/squircle_text_button.dart';
 import 'add_goal_form.dart';
 import 'widgets/goals_list.dart';
 
@@ -47,26 +48,6 @@ class HomeScreen extends StatelessWidget {
       );
     }
 
-    void _showAddGoalModalSheet() {
-      showModalBottomSheet(
-        backgroundColor: Theme.of(context).backgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25.0),
-        ),
-        isScrollControlled: true,
-        context: context,
-        builder: (context) {
-          return SafeArea(
-            child: Wrap(
-              children: <Widget>[
-                AddGoalForm(),
-              ],
-            ),
-          );
-        },
-      );
-    }
-
     _showAddGoalButton() {
       return Column(
         children: [
@@ -77,7 +58,8 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0),
             child: SquircleTextButton(
               text: "Add new goal",
-              onPressed: _showAddGoalModalSheet,
+              onPressed: () =>
+                  showModalBottomSheetWithChild(context, AddGoalForm()),
             ),
           ),
         ],

@@ -16,7 +16,8 @@ class DatabaseService {
         .where('usersWithAccess', arrayContainsAny: [user.uid])
         .snapshots()
         .map((list) =>
-            list.documents.map((doc) => GoalModel.fromFirestore(doc)).toList());
+            list.documents.map((doc) => GoalModel.fromFirestore(doc)).toList()
+              ..sort((a, b) => b.createdAt.compareTo(a.createdAt)));
   }
 
   /// Returns a stream of a all histories of the goal with its [goalId]
@@ -28,7 +29,8 @@ class DatabaseService {
         .snapshots()
         .map((list) => list.documents
             .map((doc) => HistoryModel.fromFirestore(doc))
-            .toList());
+            .toList()
+              ..sort((a, b) => b.createdAt.compareTo(a.createdAt)));
   }
 
   Future<void> createGoal({

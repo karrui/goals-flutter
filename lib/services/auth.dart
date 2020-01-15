@@ -122,6 +122,7 @@ class AuthService {
 
     return showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (context) {
           return CupertinoAlertDialog(
             title: Text("Different sign up method found"),

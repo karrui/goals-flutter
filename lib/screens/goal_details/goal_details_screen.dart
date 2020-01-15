@@ -99,9 +99,12 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 16.0),
-                  child: GoalCard(
-                    goal: goal,
-                    showAddButton: false,
+                  child: StreamBuilder(
+                    stream: db.streamCurrentGoal(goal.id),
+                    builder: (_, snapshot) => GoalCard(
+                      goal: snapshot.hasData ? snapshot.data : goal,
+                      showAddButton: false,
+                    ),
                   ),
                 ),
               ),

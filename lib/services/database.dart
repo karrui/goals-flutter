@@ -10,6 +10,14 @@ import '../models/history_model.dart';
 class DatabaseService {
   final Firestore _db = Firestore.instance;
 
+  Stream<GoalModel> streamCurrentGoal(String goalId) {
+    return _db
+        .collection('goals')
+        .document(goalId)
+        .snapshots()
+        .map((doc) => GoalModel.fromFirestore(doc));
+  }
+
   /// Returns a stream of a all [GoalModel]s that [user] can access.
   Stream<List<GoalModel>> streamGoals(FirebaseUser user) {
     return _db

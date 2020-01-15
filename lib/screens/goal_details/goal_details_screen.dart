@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
             enabled: !_isLoading,
             iconData: Icons.delete_outline,
             iconColor: Theme.of(context).errorColor,
-            onPressed: _deleteGoal,
+            onPressed: _showDeleteDialog,
             iconSize: 24.0,
             height: 50.0,
             width: 50.0,
@@ -49,12 +50,39 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
     );
   }
 
-  _deleteGoal() async {
+  Future<void> _showDeleteDialog() async {
     setState(() {
       _isLoading = true;
     });
-    await db.deleteGoal(widget.goal.id);
-    Navigator.pop(context);
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => CupertinoAlertDialog(
+        title: Text("Delete goal"),
+        content: Text("Are you sure you want to delete this goal?"),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            child: Text("Cancel"),
+            onPressed: () {
+              Navigator.of(ctx, rootNavigator: true).pop();
+              setState(() {
+                _isLoading = false;
+              });
+              return null;
+            },
+          ),
+          CupertinoDialogAction(
+            isDestructiveAction: true,
+            child: Text("Delete"),
+            onPressed: () async {
+              Navigator.of(ctx, rootNavigator: true).pop();
+              await db.deleteGoal(widget.goal.id);
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override

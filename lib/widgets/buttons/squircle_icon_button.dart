@@ -9,12 +9,14 @@ class SquircleIconButton extends StatefulWidget {
   final Color iconColor;
   final IconData iconData;
   final Function onPressed;
+  final bool enabled;
 
   SquircleIconButton({
     this.height = 40.0,
     this.width = 40.0,
     this.iconSize = 15.0,
     this.iconColor,
+    this.enabled = true,
     @required this.iconData,
     @required this.onPressed,
   });
@@ -28,7 +30,11 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
 
   @override
   Widget build(BuildContext context) {
-    Color getIconColor() {
+    Color _getIconColor() {
+      if (!widget.enabled) {
+        return Theme.of(context).disabledColor;
+      }
+
       if (_isTapDown) {
         return Theme.of(context).buttonColor;
       }
@@ -39,34 +45,48 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
       return Theme.of(context).textTheme.button.color;
     }
 
+    BoxDecoration _getDecoration() {
+      if (!widget.enabled) {
+        return null;
+      }
+
+      return _isTapDown
+          ? squircleIconButtonBoxDecorationDepressed(context)
+          : squircleIconButtonBoxDecoration(context);
+    }
+
     return GestureDetector(
       child: Container(
         height: widget.height,
         width: widget.width,
-        decoration: _isTapDown
-            ? squircleIconButtonBoxDecorationDepressed(context)
-            : squircleIconButtonBoxDecoration(context),
+        decoration: _getDecoration(),
         child: Icon(
           widget.iconData,
           size: widget.iconSize,
-          color: getIconColor(),
+          color: _getIconColor(),
         ),
       ),
       onTap: () {
-        widget.onPressed();
-        setState(() {
-          _isTapDown = false;
-        });
+        if (widget.enabled) {
+          widget.onPressed();
+          setState(() {
+            _isTapDown = false;
+          });
+        }
       },
       onTapDown: (_) {
-        setState(() {
-          _isTapDown = true;
-        });
+        if (widget.enabled) {
+          setState(() {
+            _isTapDown = true;
+          });
+        }
       },
       onTapCancel: () {
-        setState(() {
-          _isTapDown = false;
-        });
+        if (widget.enabled) {
+          setState(() {
+            _isTapDown = false;
+          });
+        }
       },
     );
   }

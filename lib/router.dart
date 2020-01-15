@@ -20,11 +20,8 @@ class Router {
       case settingsRoute:
         return MaterialPageRoute(builder: (_) => SettingsScreen());
       case goalDetailsRoute:
-        final GoalDetailsArguments args = settings.arguments;
         return MaterialPageRoute(
-          builder: (_) => GoalDetailsScreen(
-            goal: args.goal,
-          ),
+          builder: (_) => GoalDetailsScreen(),
         );
       default:
         return MaterialPageRoute(

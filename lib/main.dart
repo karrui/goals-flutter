@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:goals_flutter/providers/current_goal.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/theme.dart';
@@ -37,6 +38,9 @@ class _MyAppState extends State<MyApp> {
         ),
         StreamProvider<FirebaseUser>(
           create: (_) => FirebaseAuth.instance.onAuthStateChanged,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CurrentGoal(),
         ),
       ],
       child: Consumer<ThemeProvider>(builder: (context, _, child) {

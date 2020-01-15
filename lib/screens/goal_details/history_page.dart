@@ -29,7 +29,7 @@ class HistoryPage extends StatelessWidget {
         Container(
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: histories != null ? histories.length : 0,
+            itemCount: histories.length,
             itemBuilder: (ctx, index) {
               return History(history: histories[index]);
             },

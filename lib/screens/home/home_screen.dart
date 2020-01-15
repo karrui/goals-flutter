@@ -67,6 +67,7 @@ class HomeScreen extends StatelessWidget {
     }
 
     return StreamProvider<List<GoalModel>>(
+      initialData: [],
       create: (_) => db.streamGoals(user),
       child: Scaffold(
         resizeToAvoidBottomPadding: false,

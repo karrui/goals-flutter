@@ -26,12 +26,14 @@ class HistoryPage extends StatelessWidget {
         SizedBox(
           height: 10.0,
         ),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: histories != null ? histories.length : 0,
-          itemBuilder: (ctx, index) {
-            return History(history: histories[index]);
-          },
+        Container(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: histories != null ? histories.length : 0,
+            itemBuilder: (ctx, index) {
+              return History(history: histories[index]);
+            },
+          ),
         ),
       ],
     );

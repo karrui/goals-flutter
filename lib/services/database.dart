@@ -63,8 +63,10 @@ class DatabaseService {
       });
     }
 
-    batch.updateData(_db.collection('users').document(user.uid),
-        {"jars.${newGoalRef.documentID}": true});
     return batch.commit();
+  }
+
+  Future<void> deleteGoal(String goalId) {
+    return _db.collection('goals').document(goalId).delete();
   }
 }

@@ -20,6 +20,8 @@ class GoalDetailsScreen extends StatefulWidget {
 class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
   final db = DatabaseService();
 
+  bool _isLoading = false;
+
   Widget _showAppBar() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -34,9 +36,10 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
             width: 50.0,
           ),
           SquircleIconButton(
+            enabled: !_isLoading,
             iconData: Icons.delete_outline,
             iconColor: Theme.of(context).errorColor,
-            onPressed: () => print("delete pressed"),
+            onPressed: _deleteGoal,
             iconSize: 24.0,
             height: 50.0,
             width: 50.0,
@@ -44,6 +47,17 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
         ],
       ),
     );
+  }
+
+  _deleteGoal() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await db.deleteGoal(widget.goal.id);
+    Navigator.pop(context);
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override

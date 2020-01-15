@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 
 import '../../widgets/buttons/squircle_icon_button.dart';
+import '../../widgets/buttons/squircle_text_button.dart';
 import 'add_transaction_page.dart';
 import 'history_page.dart';
 
@@ -87,13 +88,22 @@ class _TransactionAddPageViewsState extends State<TransactionAddPageViews> {
 
   Widget _buildBottomActionButton() {
     return AnimatedContainer(
-      width: _currentPageIndex == 0 ? 40.0 : 200.0,
-      duration: Duration(milliseconds: 150),
-      child: SquircleIconButton(
-        width: double.infinity,
-        iconData: FontAwesomeIcons.plus,
-        onPressed: _handleBottomActionClicked,
-      ),
+      width: _currentPageIndex == 0 ? 40.0 : MediaQuery.of(context).size.width,
+      duration: Duration(milliseconds: 300),
+      child: _currentPageIndex == 0
+          ? SquircleIconButton(
+              width: double.infinity,
+              iconData: FontAwesomeIcons.plus,
+              onPressed: _handleBottomActionClicked,
+            )
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: SquircleTextButton(
+                text: "Add transaction",
+                width: double.infinity,
+                onPressed: () => print("adding"),
+              ),
+            ),
     );
   }
 }

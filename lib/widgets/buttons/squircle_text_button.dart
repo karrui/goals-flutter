@@ -31,6 +31,9 @@ class _SquircleTextButtonState extends State<SquircleTextButton> {
         isActive: _isTapDown,
         child: Text(
           widget.text,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
           style: Theme.of(context)
               .textTheme
               .button

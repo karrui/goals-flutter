@@ -18,6 +18,7 @@ class _TransactionAddPageViewsState extends State<TransactionAddPageViews> {
 
   Function _handleBottomActionClicked;
   int _currentPageIndex;
+  String _currentPageTitle;
 
   @override
   void initState() {
@@ -40,8 +41,10 @@ class _TransactionAddPageViewsState extends State<TransactionAddPageViews> {
     _currentPageIndex = _currentPageNotifier.value;
     if (_currentPageNotifier.value == 0) {
       _handleBottomActionClicked = _switchToAddTransactionPage;
+      _currentPageTitle = "Transactions";
     } else {
       _handleBottomActionClicked = _switchToViewHistoryPage;
+      _currentPageTitle = "Add transaction";
     }
   }
 
@@ -60,6 +63,17 @@ class _TransactionAddPageViewsState extends State<TransactionAddPageViews> {
     return Expanded(
       child: Column(
         children: <Widget>[
+          Container(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 36.0),
+              child: Text(
+                _currentPageTitle,
+                style: Theme.of(context).textTheme.subhead,
+                textAlign: TextAlign.start,
+              ),
+            ),
+          ),
           Expanded(
             child: PageView(
               controller: _controller,

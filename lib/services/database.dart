@@ -67,6 +67,17 @@ class DatabaseService {
   }
 
   Future<void> deleteGoal(String goalId) {
+    _db
+        .collection('goals')
+        .document(goalId)
+        .collection('history')
+        .getDocuments()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.documents) {
+        ds.reference.delete();
+      }
+    });
+
     return _db.collection('goals').document(goalId).delete();
   }
 }

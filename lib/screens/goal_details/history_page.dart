@@ -24,14 +24,12 @@ class HistoryPage extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Padding(
+          child: ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: ListView.builder(
-              itemCount: histories.length,
-              itemBuilder: (ctx, index) {
-                return History(history: histories[index]);
-              },
-            ),
+            itemCount: histories.length,
+            itemBuilder: (ctx, index) {
+              return History(history: histories[index]);
+            },
           ),
         ),
       ],

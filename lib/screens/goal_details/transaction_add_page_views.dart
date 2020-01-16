@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
-import 'package:provider/provider.dart';
 
-import '../../providers/current_goal.dart';
-import '../../utils/modal_bottom_sheet.dart';
-import '../../widgets/buttons/squircle_icon_button.dart';
-import '../../widgets/modals/add_transaction_modal.dart';
 import 'add_transaction_page.dart';
 import 'history_page.dart';
 
@@ -37,20 +31,15 @@ class _TransactionAddPageViewsState extends State<TransactionAddPageViews> {
               },
             ),
           ),
-          CirclePageIndicator(
-            itemCount: 2,
-            currentPageNotifier: _currentPageNotifier,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: CirclePageIndicator(
+              itemCount: 2,
+              currentPageNotifier: _currentPageNotifier,
+            ),
           ),
           SizedBox(
-            height: 16.0,
-          ),
-          SquircleIconButton(
-            iconData: FontAwesomeIcons.plus,
-            onPressed: () => showModalBottomSheetWithChild(
-                context,
-                AddTransactionModal(
-                    goal:
-                        Provider.of<CurrentGoal>(context, listen: false).goal)),
+            height: 65.0,
           ),
         ],
       ),

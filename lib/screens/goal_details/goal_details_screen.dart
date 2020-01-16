@@ -7,6 +7,7 @@ import '../../providers/current_goal.dart';
 import '../../services/database.dart';
 import '../../widgets/buttons/squircle_icon_button.dart';
 import '../../widgets/goal_card/goal_card.dart';
+import '../../widgets/modals/add_transaction_sliding_up_panel.dart';
 import 'transaction_add_page_views.dart';
 
 class GoalDetailsScreen extends StatefulWidget {
@@ -90,26 +91,29 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
       create: (_) => db.streamHistories(goal.id),
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              _showAppBar(),
-              Hero(
-                tag: goal.id,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 16.0),
-                  child: StreamBuilder(
-                    stream: db.streamCurrentGoal(goal.id),
-                    builder: (_, snapshot) => GoalCard(
-                      goal: snapshot.hasData ? snapshot.data : goal,
-                      showAddButton: false,
+        body: AddTransactionSlidingUpPanel(
+          goal: goal,
+          body: SafeArea(
+            child: Column(
+              children: <Widget>[
+                _showAppBar(),
+                Hero(
+                  tag: goal.id,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 16.0),
+                    child: StreamBuilder(
+                      stream: db.streamCurrentGoal(goal.id),
+                      builder: (_, snapshot) => GoalCard(
+                        goal: snapshot.hasData ? snapshot.data : goal,
+                        showAddButton: false,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              TransactionAddPageViews(),
-            ],
+                TransactionAddPageViews(),
+              ],
+            ),
           ),
         ),
       ),

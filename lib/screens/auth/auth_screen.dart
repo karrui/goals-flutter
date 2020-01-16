@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../services/auth.dart';
@@ -23,10 +22,12 @@ class AuthScreen extends StatelessWidget {
                 child: Text("Goals logo here"),
               ),
             ),
-            SvgPicture.asset(
-              'assets/images/signInSavings.svg',
-              semanticsLabel: 'Sign In Savings Image',
-              height: 250,
+            Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Image(
+                image: AssetImage('assets/images/signInSavings.png'),
+                excludeFromSemantics: true,
+              ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -27,8 +27,8 @@ BoxDecoration squircleIconButtonBoxDecorationDepressed(BuildContext context) {
       BoxShadow(
         color: Theme.of(context).primaryColorLight,
         offset: Offset(3, 3),
-        blurRadius: 3,
-        spreadRadius: -3,
+        blurRadius: 4,
+        spreadRadius: 1,
       ),
     ],
   );

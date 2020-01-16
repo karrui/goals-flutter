@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../models/goal_model.dart';
 import '../../../shared/decorations/card_box_decoration.dart';
 import '../../../utils/modal_bottom_sheet.dart';
-import '../add_transaction_form.dart';
+import '../add_contribution_form.dart';
 import '../buttons/squircle_icon_button.dart';
 import 'animated_goal_amount.dart';
 import 'animated_percentage.dart';
@@ -44,7 +44,7 @@ class GoalCard extends StatelessWidget {
                       iconData: FontAwesomeIcons.plus,
                       onPressed: () => showModalBottomSheetWithChild(
                         context,
-                        AddTransactionForm(
+                        AddContributionForm(
                           goal: goal,
                           onSubmitSuccess: Navigator.of(context).pop,
                         ),

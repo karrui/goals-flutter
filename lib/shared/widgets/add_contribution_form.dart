@@ -13,20 +13,19 @@ import '../../shared/decorations/card_box_decoration.dart';
 import 'buttons/squircle_icon_button.dart';
 import 'buttons/squircle_text_button.dart';
 import 'buttons/static_squircle_button.dart';
-import 'keyboard_bar.dart';
 
 /// An almost duplicate copy for [AddTransactionSlidingUpPanel], but does not rely on panel opening and closing. Used by [HomeScreen]'s goal cards.
-class AddTransactionForm extends StatefulWidget {
+class AddContributionForm extends StatefulWidget {
   final GoalModel goal;
   final Function onSubmitSuccess;
 
-  AddTransactionForm({@required this.goal, @required this.onSubmitSuccess});
+  AddContributionForm({@required this.goal, @required this.onSubmitSuccess});
 
   @override
-  _AddTransactionFormState createState() => _AddTransactionFormState();
+  _AddContributionFormState createState() => _AddContributionFormState();
 }
 
-class _AddTransactionFormState extends State<AddTransactionForm> {
+class _AddContributionFormState extends State<AddContributionForm> {
   final db = DatabaseService();
 
   final _formKey = GlobalKey<FormState>();
@@ -226,14 +225,6 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
             ),
             SizedBox(
               height: 20.0,
-            ),
-            // Fake keyboard bar to move back and forth and press next
-            KeyboardBar(
-              focusNodes: [
-                _amountFocusNode,
-                _descriptionFocusNode,
-              ],
-              isActive: MediaQuery.of(context).viewInsets.bottom != 0,
             ),
           ],
         ),

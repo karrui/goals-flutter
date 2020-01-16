@@ -14,7 +14,6 @@ import '../../../shared/decorations/card_box_decoration.dart';
 import '../../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../../shared/widgets/buttons/static_squircle_button.dart';
-import '../../../shared/widgets/keyboard_bar.dart';
 
 class AddContributionSlidingUpPanel extends StatefulWidget {
   final GoalModel goal;
@@ -87,7 +86,7 @@ class _AddContributionSlidingUpPanelState
     return SlidingUpPanel(
       controller: _panelController,
       // Hardcode for now since package does not support wrapping
-      maxHeight: 370 + MediaQuery.of(context).viewInsets.bottom,
+      maxHeight: 330 + MediaQuery.of(context).viewInsets.bottom,
       borderRadius: BorderRadius.all(Radius.circular(25)),
       backdropEnabled: true,
       backdropColor: Theme.of(context).buttonColor,
@@ -264,17 +263,6 @@ class _AddContributionSlidingUpPanelState
                         text: "Add contribution",
                         onPressed: _isLoading ? null : () => _submitForm(user),
                       ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              // Fake keyboard bar to move back and forth and press next
-              KeyboardBar(
-                focusNodes: [
-                  _amountFocusNode,
-                  _descriptionFocusNode,
-                ],
-                isActive: MediaQuery.of(context).viewInsets.bottom != 0,
               ),
             ],
           ),

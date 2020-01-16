@@ -8,7 +8,6 @@ import '../../services/database.dart';
 import '../../shared/decorations/card_box_decoration.dart';
 import '../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../shared/widgets/buttons/static_squircle_button.dart';
-import '../../shared/widgets/keyboard_bar.dart';
 
 class AddGoalForm extends StatefulWidget {
   @override
@@ -104,7 +103,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
                         child: TextFormField(
                           enabled: !_isLoading,
                           focusNode: _goalNameFocusNode,
-                          autocorrect: false,
+                          autocorrect: true,
                           textInputAction: TextInputAction.next,
                           controller: _goalNameTextController,
                           maxLines: null,
@@ -209,15 +208,6 @@ class _AddGoalFormState extends State<AddGoalForm> {
             ),
             SizedBox(
               height: 20.0,
-            ),
-            // Fake keyboard bar to move back and forth and press next
-            KeyboardBar(
-              focusNodes: [
-                _goalNameFocusNode,
-                _startingAmountFocusNode,
-                _goalAmountFocusNode
-              ],
-              isActive: !_isLoading,
             ),
           ],
         ),

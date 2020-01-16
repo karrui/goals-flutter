@@ -7,7 +7,7 @@ import 'widgets/contributor.dart';
 class ContributorsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var contributions = Provider.of<List<ContributorModel>>(context);
+    var contributors = Provider.of<List<ContributorModel>>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -17,7 +17,7 @@ class ContributorsPage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 36.0),
             child: Text(
-              "Contributions",
+              "Contributors",
               style: Theme.of(context).textTheme.subhead,
               textAlign: TextAlign.start,
             ),
@@ -26,9 +26,9 @@ class ContributorsPage extends StatelessWidget {
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            itemCount: contributions.length,
+            itemCount: contributors.length,
             itemBuilder: (ctx, index) {
-              return Contributor(contributor: contributions[index]);
+              return Contributor(contributor: contributors[index]);
             },
           ),
         ),

@@ -86,7 +86,8 @@ class DatabaseService {
     final goalRef = _db.collection('goals').document(goalId);
 
     batch.updateData(goalRef, {
-      "currentAmount": FieldValue.increment(amount),
+      "currentAmount":
+          FieldValue.increment(type == HistoryType.ADD ? amount : -amount),
       "lastUpdated": DateTime.now(),
     });
 

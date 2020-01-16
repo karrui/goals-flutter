@@ -43,6 +43,7 @@ class _AddTransactionSlidingUpPanelState
   final FocusNode _descriptionFocusNode = FocusNode();
   final FocusNode _amountFocusNode = FocusNode();
 
+  HistoryType _currentTransactionType;
   bool _hasErrorOccured = false;
   bool _isLoading = false;
 
@@ -69,7 +70,7 @@ class _AddTransactionSlidingUpPanelState
         amount: _amountTextController.numberValue,
         description: _descriptionTextController.value.text,
         goalId: widget.goal.id,
-        type: HistoryType.ADD,
+        type: _currentTransactionType,
         user: user);
 
     _panelController.close();
@@ -92,9 +93,18 @@ class _AddTransactionSlidingUpPanelState
       backdropColor: Theme.of(context).buttonColor,
       color: Theme.of(context).backgroundColor,
       boxShadow: null,
+      onPanelOpened: () {
+        if (_currentTransactionType == null) {
+          setState(() {
+            _currentTransactionType = HistoryType.ADD;
+          });
+        }
+      },
       onPanelClosed: () {
         setState(() {
           _isLoading = false;
+          _hasErrorOccured = false;
+          _currentTransactionType = null;
         });
         _amountTextController.updateValue(0);
         _descriptionTextController.clear();
@@ -121,92 +131,124 @@ class _AddTransactionSlidingUpPanelState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SquircleIconButton(
-                      iconData: FontAwesomeIcons.plus,
-                      onPressed: () => _panelController.open(),
-                    ),
+                        width: 80,
+                        isActive: _currentTransactionType == HistoryType.ADD,
+                        iconData: FontAwesomeIcons.plus,
+                        iconColor: Theme.of(context).indicatorColor,
+                        onPressed: () {
+                          setState(() {
+                            _currentTransactionType = HistoryType.ADD;
+                          });
+                          _panelController.open();
+                        }),
                     SizedBox(
                       width: 10,
                     ),
                     SquircleIconButton(
+                      width: 80,
+                      isActive: _currentTransactionType == HistoryType.WITHDRAW,
                       iconData: FontAwesomeIcons.minus,
-                      onPressed: () => _panelController.open(),
+                      iconColor: Theme.of(context).errorColor,
+                      onPressed: () {
+                        setState(() {
+                          _currentTransactionType = HistoryType.WITHDRAW;
+                        });
+                        _panelController.open();
+                      },
                     ),
                   ],
                 ),
               ),
               // Goal card
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                decoration: cardBoxDecoration(context),
-                constraints: BoxConstraints(maxHeight: 300),
-                // padding: const EdgeInsets.fromLTRB(35, 15, 35, 5),
-                margin: EdgeInsets.all(20.0),
-                width: double.infinity,
-                child: SingleChildScrollView(
-                  child: Container(
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 84.0,
-                          child: Column(
-                            children: <Widget>[
-                              TextFormField(
-                                enabled: !_isLoading,
-                                inputFormatters: [
-                                  WhitelistingTextInputFormatter.digitsOnly
-                                ],
-                                focusNode: _amountFocusNode,
-                                controller: _amountTextController,
-                                keyboardType: TextInputType.number,
-                                textInputAction: TextInputAction.next,
-                                textAlign: TextAlign.start,
-                                style: Theme.of(context).textTheme.title,
-                                cursorColor: Theme.of(context).cursorColor,
-                                validator: (_) {
-                                  var numVal =
-                                      _amountTextController.numberValue;
-                                  if (numVal == 0.0) {
-                                    return 'Please enter an amount.';
-                                  }
-                                  return (numVal > 10000)
-                                      ? 'Amount should not exceed \$10,000.'
-                                      : null;
-                                },
-                                onChanged: (_) {
-                                  if (_hasErrorOccured) {
-                                    _formKey.currentState.validate();
-                                  }
-                                },
-                                decoration: InputDecoration(
-                                  hintText: "Amount",
+              Stack(
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 20),
+                    decoration: cardBoxDecoration(context),
+                    constraints: BoxConstraints(maxHeight: 300),
+                    margin: EdgeInsets.all(20.0),
+                    width: double.infinity,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 84.0,
+                            child: Column(
+                              children: <Widget>[
+                                TextFormField(
+                                  enabled: !_isLoading,
+                                  inputFormatters: [
+                                    WhitelistingTextInputFormatter.digitsOnly
+                                  ],
+                                  focusNode: _amountFocusNode,
+                                  controller: _amountTextController,
+                                  keyboardType: TextInputType.number,
+                                  textInputAction: TextInputAction.next,
+                                  textAlign: TextAlign.start,
+                                  style: Theme.of(context).textTheme.title,
+                                  cursorColor: Theme.of(context).cursorColor,
+                                  validator: (_) {
+                                    var numVal =
+                                        _amountTextController.numberValue;
+                                    if (numVal == 0.0) {
+                                      return 'Please enter an amount.';
+                                    }
+                                    return (numVal > 10000)
+                                        ? 'Amount should not exceed \$10,000.'
+                                        : null;
+                                  },
+                                  onChanged: (_) {
+                                    if (_hasErrorOccured) {
+                                      _formKey.currentState.validate();
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: "Amount",
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        TextFormField(
-                          enabled: !_isLoading,
-                          focusNode: _descriptionFocusNode,
-                          autocorrect: true,
-                          textInputAction: TextInputAction.continueAction,
-                          controller: _descriptionTextController,
-                          maxLines: 1,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle
-                              .copyWith(fontSize: 16.0),
-                          cursorColor:
-                              Theme.of(context).textTheme.subtitle.color,
-                          textAlign: TextAlign.start,
-                          decoration: InputDecoration(
-                            hintText: "Enter notes (optional)",
+                          TextFormField(
+                            enabled: !_isLoading,
+                            focusNode: _descriptionFocusNode,
+                            autocorrect: true,
+                            textInputAction: TextInputAction.continueAction,
+                            controller: _descriptionTextController,
+                            maxLines: 1,
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle
+                                .copyWith(fontSize: 16.0),
+                            cursorColor:
+                                Theme.of(context).textTheme.subtitle.color,
+                            textAlign: TextAlign.start,
+                            decoration: InputDecoration(
+                              hintText: "Enter notes (optional)",
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                  Positioned(
+                    top: 35,
+                    right: 40,
+                    child: Text(
+                      _currentTransactionType == null
+                          ? ''
+                          : _currentTransactionType == HistoryType.ADD
+                              ? 'Deposit'
+                              : 'Withdrawal',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: (_currentTransactionType == HistoryType.ADD)
+                              ? Theme.of(context).indicatorColor
+                              : Theme.of(context).errorColor),
+                    ),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),

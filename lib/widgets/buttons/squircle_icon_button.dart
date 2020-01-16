@@ -10,6 +10,7 @@ class SquircleIconButton extends StatefulWidget {
   final IconData iconData;
   final Function onPressed;
   final bool enabled;
+  final bool isActive;
 
   SquircleIconButton({
     this.height = 40.0,
@@ -17,6 +18,7 @@ class SquircleIconButton extends StatefulWidget {
     this.iconSize = 15.0,
     this.iconColor,
     this.enabled = true,
+    this.isActive = false,
     @required this.iconData,
     @required this.onPressed,
   });
@@ -50,7 +52,7 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
         return null;
       }
 
-      return _isTapDown
+      return _isTapDown || widget.isActive
           ? squircleIconButtonBoxDecorationDepressed(context)
           : squircleIconButtonBoxDecoration(context);
     }

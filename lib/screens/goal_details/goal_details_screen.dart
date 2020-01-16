@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import '../../models/contribution_model.dart';
 import '../../providers/current_goal.dart';
 import '../../services/database.dart';
-import '../../widgets/buttons/squircle_icon_button.dart';
-import '../../widgets/goal_card/goal_card.dart';
+import '../../shared/widgets/buttons/squircle_icon_button.dart';
+import '../../shared/widgets/goal_card/goal_card.dart';
 import 'add_contribution_sliding_up_panel.dart';
 import 'contribution_page_views.dart';
 

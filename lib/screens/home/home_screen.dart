@@ -6,8 +6,8 @@ import '../../models/goal_model.dart';
 import '../../services/database.dart';
 import '../../shared/route_constants.dart';
 import '../../utils/modal_bottom_sheet.dart';
-import '../../widgets/buttons/squircle_icon_button.dart';
-import '../../widgets/buttons/squircle_text_button.dart';
+import '../../shared/widgets/buttons/squircle_icon_button.dart';
+import '../../shared/widgets/buttons/squircle_text_button.dart';
 import 'add_goal_form.dart';
 import 'widgets/goals_list.dart';
 

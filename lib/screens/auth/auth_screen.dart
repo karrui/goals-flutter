@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../services/auth.dart';
 import '../../shared/route_constants.dart';
-import '../../widgets/animated_progress_button.dart';
-import '../../widgets/text_button.dart';
+import '../../shared/widgets/animated_progress_button.dart';
+import '../../shared/widgets/text_button.dart';
 
 class AuthScreen extends StatelessWidget {
   @override

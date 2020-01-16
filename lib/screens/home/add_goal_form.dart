@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:goals_flutter/shared/neumorphism/card_box_decoration.dart';
-import 'package:goals_flutter/widgets/buttons/squircle_text_button.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:goals_flutter/widgets/buttons/static_squircle_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/database.dart';
-import '../../widgets/keyboard_bar.dart';
+import '../../shared/neumorphism/card_box_decoration.dart';
+import '../../shared/widgets/buttons/squircle_text_button.dart';
+import '../../shared/widgets/buttons/static_squircle_button.dart';
+import '../../shared/widgets/keyboard_bar.dart';
 
 class AddGoalForm extends StatefulWidget {
   @override

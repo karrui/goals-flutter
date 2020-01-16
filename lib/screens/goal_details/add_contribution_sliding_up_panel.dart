@@ -11,10 +11,10 @@ import '../../models/goal_model.dart';
 import '../../models/contribution_model.dart';
 import '../../services/database.dart';
 import '../../shared/neumorphism/card_box_decoration.dart';
-import '../../widgets/buttons/squircle_icon_button.dart';
-import '../../widgets/buttons/squircle_text_button.dart';
-import '../../widgets/buttons/static_squircle_button.dart';
-import '../../widgets/keyboard_bar.dart';
+import '../../shared/widgets/buttons/squircle_icon_button.dart';
+import '../../shared/widgets/buttons/squircle_text_button.dart';
+import '../../shared/widgets/buttons/static_squircle_button.dart';
+import '../../shared/widgets/keyboard_bar.dart';
 
 class AddContributionSlidingUpPanel extends StatefulWidget {
   final GoalModel goal;

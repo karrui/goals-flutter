@@ -7,8 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../../models/goal_model.dart';
 import '../../../models/contribution_model.dart';
+import '../../../models/goal_model.dart';
 import '../../../services/database.dart';
 import '../../../shared/decorations/card_box_decoration.dart';
 import '../../../shared/widgets/buttons/squircle_icon_button.dart';
@@ -42,7 +42,7 @@ class _AddContributionSlidingUpPanelState
   final FocusNode _descriptionFocusNode = FocusNode();
   final FocusNode _amountFocusNode = FocusNode();
 
-  ContributionType _currentTransactionType;
+  ContributionType _currentContributionType;
   bool _hasErrorOccured = false;
   bool _isLoading = false;
 
@@ -65,11 +65,11 @@ class _AddContributionSlidingUpPanelState
       _isLoading = true;
     });
 
-    db.addTransactionToGoal(
+    db.addContributionToGoal(
         amount: _amountTextController.numberValue,
         description: _descriptionTextController.value.text,
         goalId: widget.goal.id,
-        type: _currentTransactionType,
+        type: _currentContributionType,
         user: user);
 
     _panelController.close();
@@ -93,9 +93,9 @@ class _AddContributionSlidingUpPanelState
       color: Theme.of(context).backgroundColor,
       boxShadow: null,
       onPanelOpened: () {
-        if (_currentTransactionType == null) {
+        if (_currentContributionType == null) {
           setState(() {
-            _currentTransactionType = ContributionType.ADD;
+            _currentContributionType = ContributionType.ADD;
           });
         }
       },
@@ -103,7 +103,7 @@ class _AddContributionSlidingUpPanelState
         setState(() {
           _isLoading = false;
           _hasErrorOccured = false;
-          _currentTransactionType = null;
+          _currentContributionType = null;
         });
         _amountTextController.updateValue(0);
         _descriptionTextController.clear();
@@ -132,12 +132,12 @@ class _AddContributionSlidingUpPanelState
                     SquircleIconButton(
                         width: 80,
                         isActive:
-                            _currentTransactionType == ContributionType.ADD,
+                            _currentContributionType == ContributionType.ADD,
                         iconData: FontAwesomeIcons.plus,
                         iconColor: Theme.of(context).indicatorColor,
                         onPressed: () {
                           setState(() {
-                            _currentTransactionType = ContributionType.ADD;
+                            _currentContributionType = ContributionType.ADD;
                           });
                           _panelController.open();
                         }),
@@ -147,12 +147,12 @@ class _AddContributionSlidingUpPanelState
                     SquircleIconButton(
                       width: 80,
                       isActive:
-                          _currentTransactionType == ContributionType.WITHDRAW,
+                          _currentContributionType == ContributionType.WITHDRAW,
                       iconData: FontAwesomeIcons.minus,
                       iconColor: Theme.of(context).errorColor,
                       onPressed: () {
                         setState(() {
-                          _currentTransactionType = ContributionType.WITHDRAW;
+                          _currentContributionType = ContributionType.WITHDRAW;
                         });
                         _panelController.open();
                       },
@@ -237,15 +237,15 @@ class _AddContributionSlidingUpPanelState
                     top: 35,
                     right: 40,
                     child: Text(
-                      _currentTransactionType == null
+                      _currentContributionType == null
                           ? ''
-                          : _currentTransactionType == ContributionType.ADD
+                          : _currentContributionType == ContributionType.ADD
                               ? 'Deposit'
                               : 'Withdrawal',
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color:
-                              (_currentTransactionType == ContributionType.ADD)
+                              (_currentContributionType == ContributionType.ADD)
                                   ? Theme.of(context).indicatorColor
                                   : Theme.of(context).errorColor),
                     ),

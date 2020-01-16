@@ -6,15 +6,15 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/goal_model.dart';
 import '../../models/contribution_model.dart';
+import '../../models/goal_model.dart';
 import '../../services/database.dart';
 import '../../shared/decorations/card_box_decoration.dart';
 import 'buttons/squircle_icon_button.dart';
 import 'buttons/squircle_text_button.dart';
 import 'buttons/static_squircle_button.dart';
 
-/// An almost duplicate copy for [AddTransactionSlidingUpPanel], but does not rely on panel opening and closing. Used by [HomeScreen]'s goal cards.
+/// An almost duplicate copy for [AddContributionSlidingUpPanel], but does not rely on panel opening and closing. Used by [HomeScreen]'s goal cards.
 class AddContributionForm extends StatefulWidget {
   final GoalModel goal;
   final Function onSubmitSuccess;
@@ -39,7 +39,7 @@ class _AddContributionFormState extends State<AddContributionForm> {
   final FocusNode _descriptionFocusNode = FocusNode();
   final FocusNode _amountFocusNode = FocusNode();
 
-  ContributionType _currentTransactionType = ContributionType.ADD;
+  ContributionType _currentContributionType = ContributionType.ADD;
   bool _hasErrorOccured = false;
   bool _isLoading = false;
 
@@ -62,11 +62,11 @@ class _AddContributionFormState extends State<AddContributionForm> {
       _isLoading = true;
     });
 
-    db.addTransactionToGoal(
+    db.addContributionToGoal(
         amount: _amountTextController.numberValue,
         description: _descriptionTextController.value.text,
         goalId: widget.goal.id,
-        type: _currentTransactionType,
+        type: _currentContributionType,
         user: user);
 
     widget.onSubmitSuccess();
@@ -93,12 +93,13 @@ class _AddContributionFormState extends State<AddContributionForm> {
                 children: <Widget>[
                   SquircleIconButton(
                       width: 80,
-                      isActive: _currentTransactionType == ContributionType.ADD,
+                      isActive:
+                          _currentContributionType == ContributionType.ADD,
                       iconData: FontAwesomeIcons.plus,
                       iconColor: Theme.of(context).indicatorColor,
                       onPressed: () {
                         setState(() {
-                          _currentTransactionType = ContributionType.ADD;
+                          _currentContributionType = ContributionType.ADD;
                         });
                       }),
                   SizedBox(
@@ -107,12 +108,12 @@ class _AddContributionFormState extends State<AddContributionForm> {
                   SquircleIconButton(
                     width: 80,
                     isActive:
-                        _currentTransactionType == ContributionType.WITHDRAW,
+                        _currentContributionType == ContributionType.WITHDRAW,
                     iconData: FontAwesomeIcons.minus,
                     iconColor: Theme.of(context).errorColor,
                     onPressed: () {
                       setState(() {
-                        _currentTransactionType = ContributionType.WITHDRAW;
+                        _currentContributionType = ContributionType.WITHDRAW;
                       });
                     },
                   ),
@@ -197,16 +198,17 @@ class _AddContributionFormState extends State<AddContributionForm> {
                   top: 35,
                   right: 40,
                   child: Text(
-                    _currentTransactionType == null
+                    _currentContributionType == null
                         ? ''
-                        : _currentTransactionType == ContributionType.ADD
+                        : _currentContributionType == ContributionType.ADD
                             ? 'Deposit'
                             : 'Withdrawal',
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: (_currentTransactionType == ContributionType.ADD)
-                            ? Theme.of(context).indicatorColor
-                            : Theme.of(context).errorColor),
+                        color:
+                            (_currentContributionType == ContributionType.ADD)
+                                ? Theme.of(context).indicatorColor
+                                : Theme.of(context).errorColor),
                   ),
                 ),
               ],

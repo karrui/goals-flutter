@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../models/goal_model.dart';
 import '../models/contribution_model.dart';
+import '../models/goal_model.dart';
 
 class DatabaseService {
   final Firestore _db = Firestore.instance;
@@ -76,7 +76,7 @@ class DatabaseService {
     return batch.commit();
   }
 
-  Future<void> addTransactionToGoal({
+  Future<void> addContributionToGoal({
     @required String goalId,
     @required double amount,
     @required ContributionType type,

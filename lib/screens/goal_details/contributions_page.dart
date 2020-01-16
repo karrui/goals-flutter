@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/contribution_model.dart';
-import 'contribution.dart';
+import './widgets/contribution.dart';
 
 class ContributionsPage extends StatelessWidget {
   @override

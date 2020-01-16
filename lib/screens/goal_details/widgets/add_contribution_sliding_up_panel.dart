@@ -7,14 +7,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../models/goal_model.dart';
-import '../../models/contribution_model.dart';
-import '../../services/database.dart';
-import '../../shared/decorations/card_box_decoration.dart';
-import '../../shared/widgets/buttons/squircle_icon_button.dart';
-import '../../shared/widgets/buttons/squircle_text_button.dart';
-import '../../shared/widgets/buttons/static_squircle_button.dart';
-import '../../shared/widgets/keyboard_bar.dart';
+import '../../../models/goal_model.dart';
+import '../../../models/contribution_model.dart';
+import '../../../services/database.dart';
+import '../../../shared/decorations/card_box_decoration.dart';
+import '../../../shared/widgets/buttons/squircle_icon_button.dart';
+import '../../../shared/widgets/buttons/squircle_text_button.dart';
+import '../../../shared/widgets/buttons/static_squircle_button.dart';
+import '../../../shared/widgets/keyboard_bar.dart';
 
 class AddContributionSlidingUpPanel extends StatefulWidget {
   final GoalModel goal;

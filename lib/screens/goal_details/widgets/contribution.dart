@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:goals_flutter/shared/decorations/card_box_decoration.dart';
 import 'package:intl/intl.dart';
 
-import '../../models/contribution_model.dart';
-import '../../utils/number_util.dart';
+import '../../../models/contribution_model.dart';
+import '../../../utils/number_util.dart';
 
 class Contribution extends StatelessWidget {
   final ContributionModel contribution;

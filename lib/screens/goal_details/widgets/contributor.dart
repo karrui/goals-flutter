@@ -14,6 +14,16 @@ class Contributor extends StatelessWidget {
     _buildContributionAmount() {
       var totalContributionString =
           convertDoubleToCurrencyString(contributor.totalContribution.abs());
+
+      if (contributor.totalContribution == 0) {
+        return Text(
+          '\$$totalContributionString',
+          style: TextStyle(
+            fontSize: 16.0,
+            color: Theme.of(context).primaryColorDark,
+          ),
+        );
+      }
       return (contributor.totalContribution < 0)
           ? Text(
               '- \$$totalContributionString',

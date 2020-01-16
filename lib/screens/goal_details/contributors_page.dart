@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +8,7 @@ import 'widgets/contributor.dart';
 class ContributorsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<FirebaseUser>(context);
     var contributors = Provider.of<List<ContributorModel>>(context);
 
     return Column(
@@ -24,13 +26,27 @@ class ContributorsPage extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            itemCount: contributors.length,
-            itemBuilder: (ctx, index) {
-              return Contributor(contributor: contributors[index]);
-            },
-          ),
+          child: contributors.isNotEmpty
+              ? ListView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  itemCount: contributors.length,
+                  itemBuilder: (ctx, index) {
+                    return Contributor(contributor: contributors[index]);
+                  },
+                )
+              : Wrap(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Contributor(
+                        contributor: ContributorModel(
+                            displayName: user.displayName,
+                            totalContribution: 0,
+                            uid: user.uid),
+                      ),
+                    ),
+                  ],
+                ),
         ),
       ],
     );

@@ -13,8 +13,8 @@ class ContributorModel {
 
   static List<ContributorModel> fromContributionList(
       List<ContributionModel> contributionList) {
-    Map<String, ContributorModel> objectResult = contributionList.fold({},
-        (Map<String, ContributorModel> acc, currentContribution) {
+    Map<String, ContributorModel> uidToContributorMap = contributionList
+        .fold({}, (Map<String, ContributorModel> acc, currentContribution) {
       var contributionAmount = currentContribution.type == ContributionType.ADD
           ? currentContribution.amount
           : -currentContribution.amount;
@@ -28,7 +28,6 @@ class ContributorModel {
       }
       return acc;
     });
-
-    return objectResult.entries.map((entry) => entry.value).toList();
+    return uidToContributorMap.entries.map((entry) => entry.value).toList();
   }
 }

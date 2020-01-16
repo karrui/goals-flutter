@@ -10,7 +10,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../models/goal_model.dart';
 import '../../models/contribution_model.dart';
 import '../../services/database.dart';
-import '../../shared/neumorphism/card_box_decoration.dart';
+import '../../shared/decorations/card_box_decoration.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../shared/widgets/buttons/static_squircle_button.dart';

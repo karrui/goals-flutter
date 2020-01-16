@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../models/goal_model.dart';
-import '../../../shared/neumorphism/card_box_decoration.dart';
+import '../../../shared/decorations/card_box_decoration.dart';
 import '../../../utils/modal_bottom_sheet.dart';
 import '../add_transaction_form.dart';
 import '../buttons/squircle_icon_button.dart';

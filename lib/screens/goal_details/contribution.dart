@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goals_flutter/shared/neumorphism/card_box_decoration.dart';
+import 'package:goals_flutter/shared/decorations/card_box_decoration.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/contribution_model.dart';

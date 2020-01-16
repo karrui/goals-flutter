@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../shared/neumorphism/squircle_icon_button_box_decoration.dart';
+import '../../../shared/decorations/squircle_icon_button_box_decoration.dart';
 
 class SquircleIconButton extends StatefulWidget {
   final double height;

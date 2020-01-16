@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import './widgets/add_contribution_sliding_up_panel.dart';
 import '../../models/contribution_model.dart';
+import '../../models/contributor_model.dart';
 import '../../providers/current_goal.dart';
 import '../../services/database.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
@@ -86,9 +87,17 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final goal = Provider.of<CurrentGoal>(context).goal;
-    return StreamProvider<List<ContributionModel>>(
-      initialData: [],
-      create: (_) => db.streamContributions(goal.id),
+    return MultiProvider(
+      providers: [
+        StreamProvider<List<ContributionModel>>(
+          initialData: [],
+          create: (_) => db.streamContributions(goal.id),
+        ),
+        ProxyProvider<List<ContributionModel>, List<ContributorModel>>(
+          update: (ctx, contributionList, _) =>
+              ContributorModel.fromContributionList(contributionList),
+        )
+      ],
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
         body: AddContributionSlidingUpPanel(

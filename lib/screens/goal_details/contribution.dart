@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:goals_flutter/shared/neumorphism/card_box_decoration.dart';
 import 'package:intl/intl.dart';
 
-import '../../models/history_model.dart';
+import '../../models/contribution_model.dart';
 import '../../utils/number_util.dart';
 
-class History extends StatelessWidget {
-  final HistoryModel history;
+class Contribution extends StatelessWidget {
+  final ContributionModel contribution;
 
-  History({this.history});
+  Contribution({this.contribution});
 
   @override
   Widget build(BuildContext context) {
@@ -26,19 +26,21 @@ class History extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Text(
-                      history.createdByName,
+                      contribution.createdByName,
                       style: Theme.of(context).textTheme.overline,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                       child: Text(
-                        history.description,
+                        contribution.description,
                         style: Theme.of(context).textTheme.title.copyWith(
                             fontSize: 16.0, fontWeight: FontWeight.normal),
                       ),
                     ),
                     Text(
-                      DateFormat.yMMMd().add_jm().format(history.createdAt),
+                      DateFormat.yMMMd()
+                          .add_jm()
+                          .format(contribution.createdAt),
                       style: TextStyle(
                           fontSize: 11.0,
                           color: Theme.of(context)
@@ -54,7 +56,7 @@ class History extends StatelessWidget {
                   _generateDisplayAmount(),
                   style: TextStyle(
                     fontSize: 16.0,
-                    color: history.type == HistoryType.ADD
+                    color: contribution.type == ContributionType.ADD
                         ? Theme.of(context).indicatorColor
                         : Theme.of(context).errorColor,
                   ),
@@ -68,8 +70,8 @@ class History extends StatelessWidget {
   }
 
   String _generateDisplayAmount() {
-    String currencyString = convertDoubleToCurrencyString(history.amount);
-    if (history.type == HistoryType.ADD) {
+    String currencyString = convertDoubleToCurrencyString(contribution.amount);
+    if (contribution.type == ContributionType.ADD) {
       return '+\$ $currencyString';
     }
     return '-\$ $currencyString';

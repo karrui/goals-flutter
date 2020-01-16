@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/history_model.dart';
-import 'history.dart';
+import '../../models/contribution_model.dart';
+import 'contribution.dart';
 
-class HistoryPage extends StatelessWidget {
+class ContributionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var histories = Provider.of<List<HistoryModel>>(context);
+    var contributions = Provider.of<List<ContributionModel>>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -17,7 +17,7 @@ class HistoryPage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 36.0),
             child: Text(
-              "Transactions",
+              "Contributions",
               style: Theme.of(context).textTheme.subhead,
               textAlign: TextAlign.start,
             ),
@@ -26,9 +26,9 @@ class HistoryPage extends StatelessWidget {
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            itemCount: histories.length,
+            itemCount: contributions.length,
             itemBuilder: (ctx, index) {
-              return History(history: histories[index]);
+              return Contribution(contribution: contributions[index]);
             },
           ),
         ),

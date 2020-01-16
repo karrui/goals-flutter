@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/history_model.dart';
+import '../../models/contribution_model.dart';
 import '../../providers/current_goal.dart';
 import '../../services/database.dart';
 import '../../widgets/buttons/squircle_icon_button.dart';
 import '../../widgets/goal_card/goal_card.dart';
-import 'add_transaction_sliding_up_panel.dart';
-import 'transaction_add_page_views.dart';
+import 'add_contribution_sliding_up_panel.dart';
+import 'contribution_page_views.dart';
 
 class GoalDetailsScreen extends StatefulWidget {
   @override
@@ -86,12 +86,12 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final goal = Provider.of<CurrentGoal>(context).goal;
-    return StreamProvider<List<HistoryModel>>(
+    return StreamProvider<List<ContributionModel>>(
       initialData: [],
-      create: (_) => db.streamHistories(goal.id),
+      create: (_) => db.streamContributions(goal.id),
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: AddTransactionSlidingUpPanel(
+        body: AddContributionSlidingUpPanel(
           goal: goal,
           body: SafeArea(
             child: Column(
@@ -111,7 +111,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
                     ),
                   ),
                 ),
-                TransactionAddPageViews(),
+                ContributionPageViews(),
               ],
             ),
           ),

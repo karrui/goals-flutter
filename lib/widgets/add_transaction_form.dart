@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../models/goal_model.dart';
-import '../models/history_model.dart';
+import '../models/contribution_model.dart';
 import '../services/database.dart';
 import '../shared/neumorphism/card_box_decoration.dart';
 import 'buttons/squircle_icon_button.dart';
@@ -40,7 +40,7 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
   final FocusNode _descriptionFocusNode = FocusNode();
   final FocusNode _amountFocusNode = FocusNode();
 
-  HistoryType _currentTransactionType = HistoryType.ADD;
+  ContributionType _currentTransactionType = ContributionType.ADD;
   bool _hasErrorOccured = false;
   bool _isLoading = false;
 
@@ -94,12 +94,12 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
                 children: <Widget>[
                   SquircleIconButton(
                       width: 80,
-                      isActive: _currentTransactionType == HistoryType.ADD,
+                      isActive: _currentTransactionType == ContributionType.ADD,
                       iconData: FontAwesomeIcons.plus,
                       iconColor: Theme.of(context).indicatorColor,
                       onPressed: () {
                         setState(() {
-                          _currentTransactionType = HistoryType.ADD;
+                          _currentTransactionType = ContributionType.ADD;
                         });
                       }),
                   SizedBox(
@@ -107,12 +107,13 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
                   ),
                   SquircleIconButton(
                     width: 80,
-                    isActive: _currentTransactionType == HistoryType.WITHDRAW,
+                    isActive:
+                        _currentTransactionType == ContributionType.WITHDRAW,
                     iconData: FontAwesomeIcons.minus,
                     iconColor: Theme.of(context).errorColor,
                     onPressed: () {
                       setState(() {
-                        _currentTransactionType = HistoryType.WITHDRAW;
+                        _currentTransactionType = ContributionType.WITHDRAW;
                       });
                     },
                   ),
@@ -199,12 +200,12 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
                   child: Text(
                     _currentTransactionType == null
                         ? ''
-                        : _currentTransactionType == HistoryType.ADD
+                        : _currentTransactionType == ContributionType.ADD
                             ? 'Deposit'
                             : 'Withdrawal',
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: (_currentTransactionType == HistoryType.ADD)
+                        color: (_currentTransactionType == ContributionType.ADD)
                             ? Theme.of(context).indicatorColor
                             : Theme.of(context).errorColor),
                   ),

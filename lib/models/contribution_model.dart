@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class HistoryModel {
+class ContributionModel {
   final String id;
   final double amount;
   final String description;
   final DateTime createdAt;
-  final HistoryType type;
+  final ContributionType type;
   final String createdByName;
   final String uid;
 
-  HistoryModel({
+  ContributionModel({
     this.id,
     this.amount,
     this.description,
@@ -19,10 +19,10 @@ class HistoryModel {
     this.uid,
   });
 
-  factory HistoryModel.fromFirestore(DocumentSnapshot doc) {
+  factory ContributionModel.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data;
 
-    return HistoryModel._fromMap(data, doc.documentID);
+    return ContributionModel._fromMap(data, doc.documentID);
   }
 
   toJson() {
@@ -36,19 +36,19 @@ class HistoryModel {
     };
   }
 
-  HistoryModel._fromMap(Map snapshot, String id)
+  ContributionModel._fromMap(Map snapshot, String id)
       : id = id ?? '',
         amount = snapshot['amount'] + .0 ?? 0.0,
         description = snapshot['description'] ?? '',
         createdAt = snapshot['createdAt'].toDate() ?? DateTime.now(),
         type = snapshot['type'] == 'add'
-            ? HistoryType.ADD
-            : HistoryType.WITHDRAW ?? HistoryType.ADD,
+            ? ContributionType.ADD
+            : ContributionType.WITHDRAW ?? ContributionType.ADD,
         createdByName = snapshot['createdByName'] ?? '',
         uid = snapshot['uid'] ?? '';
 }
 
-enum HistoryType {
+enum ContributionType {
   ADD,
   WITHDRAW,
 }

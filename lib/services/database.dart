@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../models/goal_model.dart';
-import '../models/history_model.dart';
+import '../models/contribution_model.dart';
 
 class DatabaseService {
   final Firestore _db = Firestore.instance;
@@ -29,15 +29,15 @@ class DatabaseService {
               ..sort((a, b) => b.createdAt.compareTo(a.createdAt)));
   }
 
-  /// Returns a stream of a all histories of the goal with its [goalId]
-  Stream<List<HistoryModel>> streamHistories(String goalId) {
+  /// Returns a stream of a all contributions of the goal with its [goalId]
+  Stream<List<ContributionModel>> streamContributions(String goalId) {
     return _db
         .collection('goals')
         .document(goalId)
-        .collection('history')
+        .collection('contributions')
         .snapshots()
         .map((list) => list.documents
-            .map((doc) => HistoryModel.fromFirestore(doc))
+            .map((doc) => ContributionModel.fromFirestore(doc))
             .toList()
               ..sort((a, b) => b.createdAt.compareTo(a.createdAt)));
   }
@@ -60,8 +60,9 @@ class DatabaseService {
       'lastUpdated': DateTime.now(),
     });
     if (startingAmount > 0) {
-      final newGoalHistoryRef = newGoalRef.collection('history').document();
-      batch.setData(newGoalHistoryRef, {
+      final newGoalContribRef =
+          newGoalRef.collection('contributions').document();
+      batch.setData(newGoalContribRef, {
         'amount': startingAmount,
         'createdAt': DateTime.now(),
         'description': 'Starting amount',
@@ -78,7 +79,7 @@ class DatabaseService {
   Future<void> addTransactionToGoal({
     @required String goalId,
     @required double amount,
-    @required HistoryType type,
+    @required ContributionType type,
     @required FirebaseUser user,
     String description,
   }) {
@@ -87,18 +88,18 @@ class DatabaseService {
 
     batch.updateData(goalRef, {
       "currentAmount":
-          FieldValue.increment(type == HistoryType.ADD ? amount : -amount),
+          FieldValue.increment(type == ContributionType.ADD ? amount : -amount),
       "lastUpdated": DateTime.now(),
     });
 
-    final newGoalHistoryRef = goalRef.collection('history').document();
-    batch.setData(newGoalHistoryRef, {
+    final newGoalContribRef = goalRef.collection('contributions').document();
+    batch.setData(newGoalContribRef, {
       'amount': amount,
       'createdAt': DateTime.now(),
       'description': description,
       'createdByName': user.displayName != null ? user.displayName : user.email,
       'uid': user.uid,
-      'type': type == HistoryType.ADD ? 'add' : 'withdraw',
+      'type': type == ContributionType.ADD ? 'add' : 'withdraw',
     });
 
     return batch.commit();
@@ -108,7 +109,7 @@ class DatabaseService {
     _db
         .collection('goals')
         .document(goalId)
-        .collection('history')
+        .collection('contributions')
         .getDocuments()
         .then((snapshot) {
       for (DocumentSnapshot ds in snapshot.documents) {

@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../models/goal_model.dart';
-import '../../models/history_model.dart';
+import '../../models/contribution_model.dart';
 import '../../services/database.dart';
 import '../../shared/neumorphism/card_box_decoration.dart';
 import '../../widgets/buttons/squircle_icon_button.dart';
@@ -16,19 +16,19 @@ import '../../widgets/buttons/squircle_text_button.dart';
 import '../../widgets/buttons/static_squircle_button.dart';
 import '../../widgets/keyboard_bar.dart';
 
-class AddTransactionSlidingUpPanel extends StatefulWidget {
+class AddContributionSlidingUpPanel extends StatefulWidget {
   final GoalModel goal;
   final Widget body;
 
-  AddTransactionSlidingUpPanel({@required this.goal, @required this.body});
+  AddContributionSlidingUpPanel({@required this.goal, @required this.body});
 
   @override
-  _AddTransactionSlidingUpPanelState createState() =>
-      _AddTransactionSlidingUpPanelState();
+  _AddContributionSlidingUpPanelState createState() =>
+      _AddContributionSlidingUpPanelState();
 }
 
-class _AddTransactionSlidingUpPanelState
-    extends State<AddTransactionSlidingUpPanel> {
+class _AddContributionSlidingUpPanelState
+    extends State<AddContributionSlidingUpPanel> {
   final db = DatabaseService();
 
   final _panelController = PanelController();
@@ -43,7 +43,7 @@ class _AddTransactionSlidingUpPanelState
   final FocusNode _descriptionFocusNode = FocusNode();
   final FocusNode _amountFocusNode = FocusNode();
 
-  HistoryType _currentTransactionType;
+  ContributionType _currentTransactionType;
   bool _hasErrorOccured = false;
   bool _isLoading = false;
 
@@ -96,7 +96,7 @@ class _AddTransactionSlidingUpPanelState
       onPanelOpened: () {
         if (_currentTransactionType == null) {
           setState(() {
-            _currentTransactionType = HistoryType.ADD;
+            _currentTransactionType = ContributionType.ADD;
           });
         }
       },
@@ -132,12 +132,13 @@ class _AddTransactionSlidingUpPanelState
                   children: <Widget>[
                     SquircleIconButton(
                         width: 80,
-                        isActive: _currentTransactionType == HistoryType.ADD,
+                        isActive:
+                            _currentTransactionType == ContributionType.ADD,
                         iconData: FontAwesomeIcons.plus,
                         iconColor: Theme.of(context).indicatorColor,
                         onPressed: () {
                           setState(() {
-                            _currentTransactionType = HistoryType.ADD;
+                            _currentTransactionType = ContributionType.ADD;
                           });
                           _panelController.open();
                         }),
@@ -146,12 +147,13 @@ class _AddTransactionSlidingUpPanelState
                     ),
                     SquircleIconButton(
                       width: 80,
-                      isActive: _currentTransactionType == HistoryType.WITHDRAW,
+                      isActive:
+                          _currentTransactionType == ContributionType.WITHDRAW,
                       iconData: FontAwesomeIcons.minus,
                       iconColor: Theme.of(context).errorColor,
                       onPressed: () {
                         setState(() {
-                          _currentTransactionType = HistoryType.WITHDRAW;
+                          _currentTransactionType = ContributionType.WITHDRAW;
                         });
                         _panelController.open();
                       },
@@ -238,14 +240,15 @@ class _AddTransactionSlidingUpPanelState
                     child: Text(
                       _currentTransactionType == null
                           ? ''
-                          : _currentTransactionType == HistoryType.ADD
+                          : _currentTransactionType == ContributionType.ADD
                               ? 'Deposit'
                               : 'Withdrawal',
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: (_currentTransactionType == HistoryType.ADD)
-                              ? Theme.of(context).indicatorColor
-                              : Theme.of(context).errorColor),
+                          color:
+                              (_currentTransactionType == ContributionType.ADD)
+                                  ? Theme.of(context).indicatorColor
+                                  : Theme.of(context).errorColor),
                     ),
                   ),
                 ],

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 
-import 'add_transaction_page.dart';
-import 'history_page.dart';
+import 'contributors_page.dart';
+import 'contributions_page.dart';
 
-class TransactionAddPageViews extends StatefulWidget {
+class ContributionPageViews extends StatefulWidget {
   @override
-  _TransactionAddPageViewsState createState() =>
-      _TransactionAddPageViewsState();
+  _ContributionPageViewsState createState() => _ContributionPageViewsState();
 }
 
-class _TransactionAddPageViewsState extends State<TransactionAddPageViews> {
+class _ContributionPageViewsState extends State<ContributionPageViews> {
   final PageController _controller = PageController();
   final _currentPageNotifier = ValueNotifier<int>(0);
 
@@ -23,8 +22,8 @@ class _TransactionAddPageViewsState extends State<TransactionAddPageViews> {
             child: PageView(
               controller: _controller,
               children: <Widget>[
-                HistoryPage(),
-                AddTransactionPage(),
+                ContributionsPage(),
+                ContributorsPage(),
               ],
               onPageChanged: (index) {
                 _currentPageNotifier.value = index;

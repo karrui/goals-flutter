@@ -11,10 +11,10 @@ import '../../models/goal_model.dart';
 import '../../models/history_model.dart';
 import '../../services/database.dart';
 import '../../shared/neumorphism/card_box_decoration.dart';
+import '../../widgets/buttons/squircle_icon_button.dart';
 import '../../widgets/buttons/squircle_text_button.dart';
 import '../../widgets/buttons/static_squircle_button.dart';
 import '../../widgets/keyboard_bar.dart';
-import '../buttons/squircle_icon_button.dart';
 
 class AddTransactionSlidingUpPanel extends StatefulWidget {
   final GoalModel goal;
@@ -258,7 +258,7 @@ class _AddTransactionSlidingUpPanelState
                         isActive: false,
                       )
                     : SquircleTextButton(
-                        text: "Add transaction",
+                        text: "Add contribution",
                         onPressed: _isLoading ? null : () => _submitForm(user),
                       ),
               ),

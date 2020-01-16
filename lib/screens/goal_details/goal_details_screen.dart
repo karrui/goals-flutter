@@ -7,7 +7,7 @@ import '../../providers/current_goal.dart';
 import '../../services/database.dart';
 import '../../widgets/buttons/squircle_icon_button.dart';
 import '../../widgets/goal_card/goal_card.dart';
-import '../../widgets/modals/add_transaction_sliding_up_panel.dart';
+import 'add_transaction_sliding_up_panel.dart';
 import 'transaction_add_page_views.dart';
 
 class GoalDetailsScreen extends StatefulWidget {

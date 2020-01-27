@@ -27,6 +27,7 @@ class AppTheme {
   );
 
   static final _lightTheme = ThemeData(
+    fontFamily: 'Gilroy',
     scaffoldBackgroundColor: Color(0xFFF4FAFF),
     brightness: Brightness.light,
     errorColor: Color(0xFFFF416C),
@@ -41,7 +42,7 @@ class AppTheme {
     textTheme: TextTheme(
       title: TextStyle(
         color: Color(0xFF38496C),
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w800,
         fontSize: 32.0,
       ),
       body2: TextStyle(
@@ -50,14 +51,16 @@ class AppTheme {
         fontWeight: FontWeight.w700,
         letterSpacing: 1.5,
       ),
+      subhead: TextStyle(fontWeight: FontWeight.w600),
       subtitle: TextStyle(
         color: Color(0xFFA3BCDC),
+        fontWeight: FontWeight.w400,
         fontSize: 20,
       ),
       overline: TextStyle(
         color: Color(0xFF495C83),
         fontSize: 14,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
         letterSpacing: 0,
       ),
       button: TextStyle(

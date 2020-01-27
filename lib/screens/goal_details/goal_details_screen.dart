@@ -7,6 +7,7 @@ import '../../models/contribution_model.dart';
 import '../../models/contributor_model.dart';
 import '../../providers/current_goal.dart';
 import '../../services/database.dart';
+import '../../shared/route_constants.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/goal_card/goal_card.dart';
 import 'contribution_page_views.dart';
@@ -18,8 +19,6 @@ class GoalDetailsScreen extends StatefulWidget {
 
 class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
   final db = DatabaseService();
-
-  bool _isLoading = false;
 
   Widget _showAppBar() {
     return Padding(
@@ -35,9 +34,8 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
             width: 50.0,
           ),
           SquircleIconButton(
-            enabled: !_isLoading,
             iconData: Icons.more_horiz,
-            onPressed: _showDeleteDialog,
+            onPressed: _showActionSheet,
             iconSize: 24.0,
             height: 50.0,
             width: 50.0,
@@ -47,40 +45,57 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
     );
   }
 
-  Future<void> _showDeleteDialog() async {
+  Future<void> _showActionSheet() async {
     final goal = Provider.of<CurrentGoal>(context, listen: false).goal;
-    setState(() {
-      _isLoading = true;
-    });
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) => CupertinoAlertDialog(
-        title: Text("Delete goal"),
-        content: Text("Are you sure you want to delete this goal?"),
-        actions: <Widget>[
-          CupertinoDialogAction(
-            child: Text("Cancel"),
-            onPressed: () {
-              Navigator.of(ctx, rootNavigator: true).pop();
-              setState(() {
-                _isLoading = false;
-              });
-              return null;
-            },
-          ),
-          CupertinoDialogAction(
-            isDestructiveAction: true,
-            child: Text("Delete"),
-            onPressed: () async {
-              Navigator.of(ctx, rootNavigator: true).pop();
-              db.deleteGoal(goal.id);
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
-    );
+
+    return showCupertinoModalPopup(
+        context: context,
+        builder: (_) {
+          return CupertinoActionSheet(
+            actions: <Widget>[
+              CupertinoActionSheetAction(
+                child: const Text('Edit goal'),
+                onPressed: () {},
+              ),
+              CupertinoActionSheetAction(
+                isDestructiveAction: true,
+                child: const Text('Delete goal'),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (ctx) => CupertinoAlertDialog(
+                            title: Text("Delete goal"),
+                            content: Text(
+                                "Are you sure you want to delete this goal?"),
+                            actions: <Widget>[
+                              CupertinoDialogAction(
+                                child: Text("Cancel"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  return null;
+                                },
+                              ),
+                              CupertinoDialogAction(
+                                isDestructiveAction: true,
+                                child: Text("Delete"),
+                                onPressed: () {
+                                  db.deleteGoal(goal.id);
+                                  Navigator.popUntil(context,
+                                      ModalRoute.withName(splashRoute));
+                                },
+                              ),
+                            ],
+                          ));
+                },
+              ),
+              CupertinoActionSheetAction(
+                child: const Text('Cancel'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        });
   }
 
   @override

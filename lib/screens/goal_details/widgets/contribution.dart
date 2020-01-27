@@ -20,10 +20,14 @@ class Contribution extends StatelessWidget {
   });
 
   _buildCheckbox() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 20.0),
-      child: NMCheckbox(
-        isChecked: isSelected,
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 150),
+      width: showCheckBox ? 40 : 0,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 20.0),
+        child: NMCheckbox(
+          isChecked: isSelected,
+        ),
       ),
     );
   }
@@ -48,7 +52,7 @@ class Contribution extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    showCheckBox ? _buildCheckbox() : Container(),
+                    _buildCheckbox(),
                     Flexible(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,

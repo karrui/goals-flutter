@@ -105,14 +105,14 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
             child: Column(
               children: <Widget>[
                 _showAppBar(),
-                Hero(
-                  tag: goal.id,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 16.0),
-                    child: StreamBuilder(
-                      stream: db.streamCurrentGoal(goal.id),
-                      builder: (_, snapshot) => GoalCard(
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 16.0),
+                  child: StreamBuilder(
+                    stream: db.streamCurrentGoal(goal.id),
+                    builder: (_, snapshot) => Hero(
+                      tag: goal.id,
+                      child: GoalCard(
                         goal: snapshot.hasData ? snapshot.data : goal,
                         showAddButton: false,
                       ),

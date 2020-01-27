@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
 
     Widget _showAppBar() {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

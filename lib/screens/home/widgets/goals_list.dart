@@ -15,13 +15,13 @@ class GoalsList extends StatelessWidget {
               itemCount: goals.length,
               itemBuilder: (ctx, index) {
                 return GestureDetector(
-                    child: Hero(
-                      tag: goals[index].id,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0,
-                          vertical: 16.0,
-                        ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                        vertical: 10.0,
+                      ),
+                      child: Hero(
+                        tag: goals[index].id,
                         child: GoalCard(
                           goal: goals[index],
                         ),

@@ -9,12 +9,14 @@ import '../../../utils/number_util.dart';
 class Contribution extends StatelessWidget {
   final ContributionModel contribution;
   final Function onCheckItem;
+  final Function onLongPress;
   final bool showCheckBox;
   final bool isSelected;
 
   Contribution({
     @required this.contribution,
     @required this.onCheckItem,
+    @required this.onLongPress,
     this.showCheckBox = false,
     this.isSelected = false,
   });
@@ -35,8 +37,8 @@ class Contribution extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: showCheckBox ? () => onCheckItem(contribution.id) : null,
-      onLongPress: () => onCheckItem(contribution.id),
+      onTap: showCheckBox ? () => onCheckItem(contribution) : null,
+      onLongPress: () => onLongPress(contribution),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
         child: ClayContainer(

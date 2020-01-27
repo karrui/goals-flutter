@@ -108,6 +108,16 @@ class _ContributionsPageState extends State<ContributionsPage> {
       ];
     }
 
+    _handleCheckItem(ContributionModel contribution) {
+      setState(() {
+        if (_selectedItems.containsKey(contribution.id)) {
+          _selectedItems.remove(contribution.id);
+        } else {
+          _selectedItems[contribution.id] = contribution;
+        }
+      });
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -146,18 +156,22 @@ class _ContributionsPageState extends State<ContributionsPage> {
               return Contribution(
                 contribution: contribution,
                 showCheckBox: _isDeleteMode,
-                onCheckItem: (id) {
+                onLongPress: (contribution) {
                   setState(() {
-                    if (!_isDeleteMode) {
+                    if (_isDeleteMode) {
+                      setState(() {
+                        _isDeleteMode = false;
+                        _selectedItems = Map();
+                      });
+                    } else {
                       _isDeleteMode = true;
                     }
-                    if (_selectedItems.containsKey(id)) {
-                      _selectedItems.remove(id);
-                    } else {
-                      _selectedItems[id] = contribution;
-                    }
                   });
+                  if (_isDeleteMode) {
+                    _handleCheckItem(contribution);
+                  }
                 },
+                onCheckItem: (contribution) => _handleCheckItem(contribution),
                 isSelected: _selectedItems.containsKey(contribution.id),
               );
             },

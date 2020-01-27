@@ -119,4 +119,30 @@ class DatabaseService {
 
     return _db.collection('goals').document(goalId).delete();
   }
+
+  Future<void> deleteContributions(
+      String goalId, Map<String, ContributionModel> contributions) {
+    final batch = _db.batch();
+    final goalRef = _db.collection('goals').document(goalId);
+    final CollectionReference contributionRef =
+        goalRef.collection('contributions');
+
+    var amountDelta = 0.0;
+
+    for (var entry in contributions.entries) {
+      batch.delete(contributionRef.document(entry.key));
+
+      // Reverse the amount since contribution is being deleted.
+      amountDelta += entry.value.type == ContributionType.ADD
+          ? -entry.value.amount
+          : entry.value.amount;
+    }
+
+    batch.updateData(goalRef, {
+      "currentAmount": FieldValue.increment(amountDelta),
+      "lastUpdated": DateTime.now(),
+    });
+
+    return batch.commit();
+  }
 }

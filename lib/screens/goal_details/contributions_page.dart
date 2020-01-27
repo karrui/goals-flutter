@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:goals_flutter/shared/widgets/buttons/squircle_icon_button.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/contribution_model.dart';
 import './widgets/contribution.dart';
+import '../../models/contribution_model.dart';
+import '../../providers/current_goal.dart';
+import '../../services/database.dart';
+import '../../shared/widgets/buttons/squircle_icon_button.dart';
 
 class ContributionsPage extends StatefulWidget {
   @override
@@ -11,19 +14,22 @@ class ContributionsPage extends StatefulWidget {
 }
 
 class _ContributionsPageState extends State<ContributionsPage> {
+  final db = DatabaseService();
+
   bool _isDeleteMode;
-  Set<String> _selectedItems;
+  Map<String, ContributionModel> _selectedItems;
 
   @override
   void initState() {
     super.initState();
     _isDeleteMode = false;
-    _selectedItems = Set();
+    _selectedItems = Map();
   }
 
   @override
   Widget build(BuildContext context) {
     var contributions = Provider.of<List<ContributionModel>>(context);
+    final goal = Provider.of<CurrentGoal>(context, listen: false).goal;
 
     _buildActionButtons() {
       if (_isDeleteMode) {
@@ -35,7 +41,39 @@ class _ContributionsPageState extends State<ContributionsPage> {
             enabled: _selectedItems.isNotEmpty,
             iconData: Icons.delete,
             iconColor: Theme.of(context).errorColor,
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (ctx) => CupertinoAlertDialog(
+                  title: Text("Delete contributions"),
+                  content: Text(
+                      "Are you sure you want to delete the selected contributions?"),
+                  actions: <Widget>[
+                    CupertinoDialogAction(
+                      child: Text("Cancel"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        return null;
+                      },
+                    ),
+                    CupertinoDialogAction(
+                      isDestructiveAction: true,
+                      child: Text("Delete"),
+                      onPressed: () {
+                        db.deleteContributions(goal.id, _selectedItems);
+                        setState(() {
+                          _isDeleteMode = false;
+                          _selectedItems = Map();
+                        });
+                        // TODO: Add success/ error notification
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
           SizedBox(
             width: 10.0,
@@ -48,7 +86,7 @@ class _ContributionsPageState extends State<ContributionsPage> {
             onPressed: () {
               setState(() {
                 _isDeleteMode = false;
-                _selectedItems = Set();
+                _selectedItems = Map();
               });
             },
           ),
@@ -103,22 +141,23 @@ class _ContributionsPageState extends State<ContributionsPage> {
           child: ListView.builder(
             itemCount: contributions.length,
             itemBuilder: (ctx, index) {
+              var contribution = contributions[index];
               return Contribution(
-                contribution: contributions[index],
+                contribution: contribution,
                 showCheckBox: _isDeleteMode,
                 onCheckItem: (id) {
                   setState(() {
                     if (!_isDeleteMode) {
                       _isDeleteMode = true;
                     }
-                    if (_selectedItems.contains(id)) {
+                    if (_selectedItems.containsKey(id)) {
                       _selectedItems.remove(id);
                     } else {
-                      _selectedItems.add(id);
+                      _selectedItems[id] = contribution;
                     }
                   });
                 },
-                isSelected: _selectedItems.contains(contributions[index].id),
+                isSelected: _selectedItems.containsKey(contribution.id),
               );
             },
           ),

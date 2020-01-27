@@ -1,3 +1,4 @@
+import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +11,6 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../../models/contribution_model.dart';
 import '../../../models/goal_model.dart';
 import '../../../services/database.dart';
-import '../../../shared/decorations/card_box_decoration.dart';
 import '../../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../../shared/widgets/buttons/static_squircle_button.dart';
@@ -45,6 +45,7 @@ class _AddContributionSlidingUpPanelState
   ContributionType _currentContributionType;
   bool _hasErrorOccured = false;
   bool _isLoading = false;
+  bool _isResetField = false;
 
   @override
   void dispose() {
@@ -93,6 +94,9 @@ class _AddContributionSlidingUpPanelState
       color: Theme.of(context).backgroundColor,
       boxShadow: null,
       onPanelOpened: () {
+        setState(() {
+          _isResetField = false;
+        });
         if (_currentContributionType == null) {
           setState(() {
             _currentContributionType = ContributionType.ADD;
@@ -104,9 +108,11 @@ class _AddContributionSlidingUpPanelState
           _isLoading = false;
           _hasErrorOccured = false;
           _currentContributionType = null;
+          _isResetField = true;
         });
         _amountTextController.updateValue(0);
         _descriptionTextController.clear();
+        _formKey.currentState.validate();
       },
       // These values provide a smoother slide in and slide out animation with the keyboard.
       onPanelSlide: (slideLevel) {
@@ -165,71 +171,80 @@ class _AddContributionSlidingUpPanelState
                 children: <Widget>[
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 20),
-                    decoration: cardBoxDecoration(context),
+                        vertical: 20.0, horizontal: 24.0),
                     constraints: BoxConstraints(maxHeight: 300),
-                    margin: EdgeInsets.all(20.0),
                     width: double.infinity,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 84.0,
-                            child: Column(
-                              children: <Widget>[
-                                TextFormField(
-                                  enabled: !_isLoading,
-                                  inputFormatters: [
-                                    WhitelistingTextInputFormatter.digitsOnly
+                    child: ClayContainer(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: 25,
+                      depth: 10,
+                      child: SingleChildScrollView(
+                        child: Container(
+                          margin: const EdgeInsets.all(20.0),
+                          child: Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 85.0,
+                                child: Column(
+                                  children: <Widget>[
+                                    TextFormField(
+                                      enabled: !_isLoading,
+                                      inputFormatters: [
+                                        WhitelistingTextInputFormatter
+                                            .digitsOnly
+                                      ],
+                                      focusNode: _amountFocusNode,
+                                      controller: _amountTextController,
+                                      keyboardType: TextInputType.number,
+                                      textInputAction: TextInputAction.next,
+                                      textAlign: TextAlign.start,
+                                      style: Theme.of(context).textTheme.title,
+                                      cursorColor:
+                                          Theme.of(context).cursorColor,
+                                      validator: (_) {
+                                        if (_isResetField) return null;
+                                        var numVal =
+                                            _amountTextController.numberValue;
+                                        if (numVal == 0.0) {
+                                          return 'Please enter an amount.';
+                                        }
+                                        return (numVal > 10000)
+                                            ? 'Amount should not exceed \$10,000.'
+                                            : null;
+                                      },
+                                      onChanged: (_) {
+                                        if (_hasErrorOccured) {
+                                          _formKey.currentState.validate();
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: "Amount",
+                                      ),
+                                    ),
                                   ],
-                                  focusNode: _amountFocusNode,
-                                  controller: _amountTextController,
-                                  keyboardType: TextInputType.number,
-                                  textInputAction: TextInputAction.next,
-                                  textAlign: TextAlign.start,
-                                  style: Theme.of(context).textTheme.title,
-                                  cursorColor: Theme.of(context).cursorColor,
-                                  validator: (_) {
-                                    var numVal =
-                                        _amountTextController.numberValue;
-                                    if (numVal == 0.0) {
-                                      return 'Please enter an amount.';
-                                    }
-                                    return (numVal > 10000)
-                                        ? 'Amount should not exceed \$10,000.'
-                                        : null;
-                                  },
-                                  onChanged: (_) {
-                                    if (_hasErrorOccured) {
-                                      _formKey.currentState.validate();
-                                    }
-                                  },
-                                  decoration: InputDecoration(
-                                    hintText: "Amount",
-                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              TextFormField(
+                                enabled: !_isLoading,
+                                focusNode: _descriptionFocusNode,
+                                autocorrect: true,
+                                textInputAction: TextInputAction.continueAction,
+                                controller: _descriptionTextController,
+                                maxLines: 1,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle
+                                    .copyWith(fontSize: 16.0),
+                                cursorColor:
+                                    Theme.of(context).textTheme.subtitle.color,
+                                textAlign: TextAlign.start,
+                                decoration: InputDecoration(
+                                  hintText: "Enter notes (optional)",
+                                ),
+                              ),
+                            ],
                           ),
-                          TextFormField(
-                            enabled: !_isLoading,
-                            focusNode: _descriptionFocusNode,
-                            autocorrect: true,
-                            textInputAction: TextInputAction.continueAction,
-                            controller: _descriptionTextController,
-                            maxLines: 1,
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle
-                                .copyWith(fontSize: 16.0),
-                            cursorColor:
-                                Theme.of(context).textTheme.subtitle.color,
-                            textAlign: TextAlign.start,
-                            decoration: InputDecoration(
-                              hintText: "Enter notes (optional)",
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),

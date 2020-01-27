@@ -4,18 +4,6 @@ BoxDecoration squircleButtonBoxDecoration(BuildContext context) {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(15),
     color: Theme.of(context).textTheme.body2.color,
-    boxShadow: [
-      BoxShadow(
-        color: Theme.of(context).textTheme.body2.color.withOpacity(0.4),
-        offset: Offset(9.0, 9.0),
-        blurRadius: 10.0,
-      ),
-      BoxShadow(
-        color: Theme.of(context).primaryColorLight,
-        offset: Offset(-9.0, -9.0),
-        blurRadius: 12.0,
-      ),
-    ],
   );
 }
 

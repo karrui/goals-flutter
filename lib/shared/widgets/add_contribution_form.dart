@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../../models/contribution_model.dart';
 import '../../models/goal_model.dart';
 import '../../services/database.dart';
-import '../../shared/decorations/card_box_decoration.dart';
 import 'buttons/squircle_icon_button.dart';
 import 'buttons/squircle_text_button.dart';
 import 'buttons/static_squircle_button.dart';
@@ -126,7 +125,6 @@ class _AddContributionFormState extends State<AddContributionForm> {
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                  decoration: cardBoxDecoration(context),
                   constraints: BoxConstraints(maxHeight: 300),
                   margin: EdgeInsets.all(20.0),
                   width: double.infinity,

@@ -1,3 +1,4 @@
+import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/database.dart';
-import '../../shared/decorations/card_box_decoration.dart';
 import '../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../shared/widgets/buttons/static_squircle_button.dart';
 
@@ -88,108 +88,112 @@ class _AddGoalFormState extends State<AddGoalForm> {
             ),
             // Goal card
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-              decoration: cardBoxDecoration(context),
+              padding: const EdgeInsets.fromLTRB(24.0, 10.0, 24.0, 20.0),
               constraints: BoxConstraints(maxHeight: 300),
-              // padding: const EdgeInsets.fromLTRB(35, 15, 35, 5),
-              margin: EdgeInsets.all(20.0),
               width: double.infinity,
-              child: SingleChildScrollView(
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 80.0,
-                        child: TextFormField(
-                          enabled: !_isLoading,
-                          focusNode: _goalNameFocusNode,
-                          autocorrect: true,
-                          textInputAction: TextInputAction.next,
-                          controller: _goalNameTextController,
-                          maxLines: null,
-                          autofocus: true,
-                          style: Theme.of(context).textTheme.body2,
-                          cursorColor: Theme.of(context).cursorColor,
-                          onChanged: (_) {
-                            if (_hasErrorOccured) {
-                              _formKey.currentState.validate();
-                            }
-                          },
-                          validator: (val) => val.isEmpty ? "Required" : null,
-                          textAlign: TextAlign.start,
-                          decoration: InputDecoration(
-                            isDense: true,
-                            hintText: "GOAL NAME",
+              child: ClayContainer(
+                color: Theme.of(context).primaryColor,
+                borderRadius: 25,
+                depth: 10,
+                child: SingleChildScrollView(
+                  child: Container(
+                    margin: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 80.0,
+                          child: TextFormField(
+                            enabled: !_isLoading,
+                            focusNode: _goalNameFocusNode,
+                            autocorrect: true,
+                            textInputAction: TextInputAction.next,
+                            controller: _goalNameTextController,
+                            maxLines: null,
+                            autofocus: true,
+                            style: Theme.of(context).textTheme.body2,
+                            cursorColor: Theme.of(context).cursorColor,
+                            onChanged: (_) {
+                              if (_hasErrorOccured) {
+                                _formKey.currentState.validate();
+                              }
+                            },
+                            validator: (val) => val.isEmpty ? "Required" : null,
+                            textAlign: TextAlign.start,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              hintText: "GOAL NAME",
+                            ),
+                            onFieldSubmitted: (_) => FocusScope.of(context)
+                                .requestFocus(_startingAmountFocusNode),
                           ),
-                          onFieldSubmitted: (_) => FocusScope.of(context)
-                              .requestFocus(_startingAmountFocusNode),
                         ),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: SizedBox(
-                              height: 90.0,
-                              child: Column(
-                                children: <Widget>[
-                                  TextFormField(
-                                    enabled: !_isLoading,
-                                    focusNode: _startingAmountFocusNode,
-                                    controller: _startingAmountTextController,
-                                    keyboardType: TextInputType.number,
-                                    textInputAction: TextInputAction.next,
-                                    textAlign: TextAlign.start,
-                                    onChanged: (_) {
-                                      if (_hasErrorOccured) {
-                                        _formKey.currentState.validate();
-                                      }
-                                    },
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      labelText: "INITIAL AMOUNT",
-                                      labelStyle: TextStyle(fontSize: 14),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: SizedBox(
+                                height: 90.0,
+                                child: Column(
+                                  children: <Widget>[
+                                    TextFormField(
+                                      enabled: !_isLoading,
+                                      focusNode: _startingAmountFocusNode,
+                                      controller: _startingAmountTextController,
+                                      keyboardType: TextInputType.number,
+                                      textInputAction: TextInputAction.next,
+                                      textAlign: TextAlign.start,
+                                      onChanged: (_) {
+                                        if (_hasErrorOccured) {
+                                          _formKey.currentState.validate();
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        isDense: true,
+                                        labelText: "INITIAL AMOUNT",
+                                        labelStyle: TextStyle(fontSize: 14),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text("/"),
-                          ),
-                          Expanded(
-                            child: SizedBox(
-                              height: 90.0,
-                              child: TextFormField(
-                                enabled: !_isLoading,
-                                focusNode: _goalAmountFocusNode,
-                                controller: _goalAmountTextController,
-                                keyboardType: TextInputType.number,
-                                textInputAction: TextInputAction.next,
-                                validator: (_) => _goalAmountTextController
-                                            .numberValue <=
-                                        _startingAmountTextController
-                                            .numberValue
-                                    ? "Goal must be higher than initial amount"
-                                    : null,
-                                onChanged: (_) {
-                                  if (_hasErrorOccured) {
-                                    _formKey.currentState.validate();
-                                  }
-                                },
-                                textAlign: TextAlign.start,
-                                decoration: InputDecoration(
-                                    isDense: true,
-                                    labelText: "GOAL AMOUNT",
-                                    labelStyle: TextStyle(fontSize: 14),
-                                    errorMaxLines: 2),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text("/"),
+                            ),
+                            Expanded(
+                              child: SizedBox(
+                                height: 90.0,
+                                child: TextFormField(
+                                  enabled: !_isLoading,
+                                  focusNode: _goalAmountFocusNode,
+                                  controller: _goalAmountTextController,
+                                  keyboardType: TextInputType.number,
+                                  textInputAction: TextInputAction.next,
+                                  validator: (_) => _goalAmountTextController
+                                              .numberValue <=
+                                          _startingAmountTextController
+                                              .numberValue
+                                      ? "Goal must be higher than initial amount"
+                                      : null,
+                                  onChanged: (_) {
+                                    if (_hasErrorOccured) {
+                                      _formKey.currentState.validate();
+                                    }
+                                  },
+                                  textAlign: TextAlign.start,
+                                  decoration: InputDecoration(
+                                      isDense: true,
+                                      labelText: "GOAL AMOUNT",
+                                      labelStyle: TextStyle(fontSize: 14),
+                                      errorMaxLines: 2),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -1,8 +1,8 @@
+import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../models/goal_model.dart';
-import '../../../shared/decorations/card_box_decoration.dart';
 import '../../../utils/modal_bottom_sheet.dart';
 import '../add_contribution_form.dart';
 import '../buttons/squircle_icon_button.dart';
@@ -20,61 +20,65 @@ class GoalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-      decoration: cardBoxDecoration(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Flexible(
-                child: Text(
-                  goal.name.toUpperCase(),
-                  style: Theme.of(context).textTheme.body2,
-                  maxLines: null,
+    return ClayContainer(
+      color: Theme.of(context).primaryColor,
+      borderRadius: 25,
+      depth: 10,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Flexible(
+                  child: Text(
+                    goal.name.toUpperCase(),
+                    style: Theme.of(context).textTheme.body2,
+                    maxLines: null,
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              showAddButton
-                  ? SquircleIconButton(
-                      iconData: FontAwesomeIcons.plus,
-                      onPressed: () => showModalBottomSheetWithChild(
-                        context,
-                        AddContributionForm(
-                          goal: goal,
-                          onSubmitSuccess: Navigator.of(context).pop,
+                SizedBox(
+                  width: 10.0,
+                ),
+                showAddButton
+                    ? SquircleIconButton(
+                        iconData: FontAwesomeIcons.plus,
+                        onPressed: () => showModalBottomSheetWithChild(
+                          context,
+                          AddContributionForm(
+                            goal: goal,
+                            onSubmitSuccess: Navigator.of(context).pop,
+                          ),
                         ),
+                      )
+                    : SizedBox(
+                        // Emulate button space for card height consistency.
+                        height: 40.0,
+                        width: 40.0,
                       ),
-                    )
-                  : SizedBox(
-                      // Emulate button space for card height consistency.
-                      height: 40.0,
-                      width: 40.0,
-                    ),
-            ],
-          ),
-          SizedBox(height: 16.0),
-          Text(
-            "Total Amount Saved",
-            style: Theme.of(context).textTheme.overline,
-          ),
-          SizedBox(height: 4.0),
-          AnimatedGoalAmount(
-            currentAmount: goal.currentAmount,
-            goalAmount: goal.goalAmount,
-          ),
-          SizedBox(height: 8.0),
-          AnimatedPercentage(
-            percentage: (goal.currentAmount / goal.goalAmount),
-          ),
-          SizedBox(
-            height: 8.0,
-          )
-        ],
+              ],
+            ),
+            SizedBox(height: 16.0),
+            Text(
+              "Total Amount Saved",
+              style: Theme.of(context).textTheme.overline,
+            ),
+            SizedBox(height: 4.0),
+            AnimatedGoalAmount(
+              currentAmount: goal.currentAmount,
+              goalAmount: goal.goalAmount,
+            ),
+            SizedBox(height: 8.0),
+            AnimatedPercentage(
+              percentage: (goal.currentAmount / goal.goalAmount),
+            ),
+            SizedBox(
+              height: 8.0,
+            )
+          ],
+        ),
       ),
     );
   }

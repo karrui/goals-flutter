@@ -36,8 +36,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
           ),
           SquircleIconButton(
             enabled: !_isLoading,
-            iconData: Icons.delete_outline,
-            iconColor: Theme.of(context).errorColor,
+            iconData: Icons.more_horiz,
             onPressed: _showDeleteDialog,
             iconSize: 24.0,
             height: 50.0,

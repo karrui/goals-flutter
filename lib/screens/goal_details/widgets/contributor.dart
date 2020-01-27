@@ -1,7 +1,7 @@
+import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/contributor_model.dart';
-import '../../../shared/decorations/squircle_icon_button_box_decoration.dart';
 import '../../../utils/number_util.dart';
 
 class Contributor extends StatelessWidget {
@@ -42,32 +42,36 @@ class Contributor extends StatelessWidget {
     }
 
     return Container(
-      decoration: squircleIconButtonBoxDecorationDepressed(context).copyWith(
-          color: Theme.of(context)
-              .primaryColorDark
-              .withOpacity(0.15)
-              .withBlue(210)),
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 6.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Text(
-              contributor.displayName,
-              style: Theme.of(context)
-                  .textTheme
-                  .title
-                  .copyWith(fontSize: 16.0, fontWeight: FontWeight.normal),
-            ),
+      child: ClayContainer(
+        emboss: true,
+        color: Theme.of(context).primaryColor,
+        borderRadius: 10,
+        spread: 1,
+        depth: 10,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 6.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: Text(
+                  contributor.displayName,
+                  style: Theme.of(context)
+                      .textTheme
+                      .title
+                      .copyWith(fontSize: 16.0, fontWeight: FontWeight.normal),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: _buildContributionAmount(),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: _buildContributionAmount(),
-          ),
-        ],
+        ),
       ),
     );
   }

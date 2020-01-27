@@ -1,6 +1,5 @@
+import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
-
-import '../../../shared/decorations/squircle_icon_button_box_decoration.dart';
 
 class SquircleIconButton extends StatefulWidget {
   final double height;
@@ -47,21 +46,23 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
       return Theme.of(context).textTheme.button.color;
     }
 
-    BoxDecoration _getDecoration() {
+    bool _isEmbossed() {
       if (!widget.enabled) {
-        return null;
+        return false;
       }
 
-      return _isTapDown || widget.isActive
-          ? squircleIconButtonBoxDecorationDepressed(context)
-          : squircleIconButtonBoxDecoration(context);
+      return _isTapDown || widget.isActive;
     }
 
     return GestureDetector(
-      child: Container(
+      child: ClayContainer(
         height: widget.height,
         width: widget.width,
-        decoration: _getDecoration(),
+        borderRadius: 15,
+        depth: 12,
+        spread: 5,
+        color: Theme.of(context).primaryColor,
+        emboss: _isEmbossed(),
         child: Icon(
           widget.iconData,
           size: widget.iconSize,

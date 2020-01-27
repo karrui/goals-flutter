@@ -6,6 +6,7 @@ class SquircleIconButton extends StatefulWidget {
   final double width;
   final double iconSize;
   final Color iconColor;
+  final double borderRadius;
   final IconData iconData;
   final Function onPressed;
   final bool enabled;
@@ -16,6 +17,7 @@ class SquircleIconButton extends StatefulWidget {
     this.width = 40.0,
     this.iconSize = 15.0,
     this.iconColor,
+    this.borderRadius = 15.0,
     this.enabled = true,
     this.isActive = false,
     @required this.iconData,
@@ -58,8 +60,8 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
       child: ClayContainer(
         height: widget.height,
         width: widget.width,
-        borderRadius: 15,
-        depth: 12,
+        borderRadius: widget.borderRadius,
+        depth: widget.enabled ? 12 : 0,
         spread: 5,
         color: Theme.of(context).primaryColor,
         emboss: _isEmbossed(),

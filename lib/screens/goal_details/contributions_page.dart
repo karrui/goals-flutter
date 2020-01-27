@@ -98,6 +98,7 @@ class _ContributionsPageState extends State<ContributionsPage> {
           width: 35,
           borderRadius: 10,
           iconData: Icons.edit,
+          enabled: contributions.isNotEmpty,
           onPressed: () {
             setState(() {
               _isDeleteMode = true;

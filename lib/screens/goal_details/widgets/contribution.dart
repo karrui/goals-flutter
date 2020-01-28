@@ -8,7 +8,7 @@ import '../../../shared/widgets/avatar.dart';
 import '../../../shared/widgets/checkbox/checkbox.dart';
 import '../../../utils/number_util.dart';
 
-class Contribution extends StatelessWidget {
+class Contribution extends StatefulWidget {
   final ContributionModel contribution;
   final UserModel createdByUser;
   final Function onCheckItem;
@@ -25,13 +25,20 @@ class Contribution extends StatelessWidget {
     this.isSelected = false,
   });
 
+  @override
+  _ContributionState createState() => _ContributionState();
+}
+
+class _ContributionState extends State<Contribution> {
+  bool _isEmbossed = false;
+
   _buildCheckbox() {
     return Container(
       width: 40,
       height: 40,
       child: Center(
         child: NMCheckbox(
-          isChecked: isSelected,
+          isChecked: widget.isSelected,
         ),
       ),
     );
@@ -40,11 +47,39 @@ class Contribution extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: showCheckBox ? () => onCheckItem(contribution) : null,
-      onLongPress: () => onLongPress(contribution),
+      onTap: widget.showCheckBox
+          ? () => widget.onCheckItem(widget.contribution)
+          : null,
+      onTapDown: (_) {
+        setState(() {
+          _isEmbossed = true;
+        });
+      },
+      onTapUp: (_) {
+        setState(() {
+          _isEmbossed = false;
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          _isEmbossed = false;
+        });
+      },
+      onLongPressEnd: (_) {
+        setState(() {
+          _isEmbossed = false;
+        });
+      },
+      onLongPress: () {
+        setState(() {
+          _isEmbossed = false;
+        });
+        widget.onLongPress(widget.contribution);
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
         child: ClayContainer(
+          emboss: _isEmbossed,
           color: Theme.of(context).primaryColor,
           borderRadius: 10,
           spread: 5,
@@ -58,12 +93,12 @@ class Contribution extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    showCheckBox
+                    widget.showCheckBox
                         ? _buildCheckbox()
                         : Avatar(
                             height: 40,
                             width: 40,
-                            imageUrl: createdByUser.photoUrl,
+                            imageUrl: widget.createdByUser.photoUrl,
                           ),
                     SizedBox(
                       width: 10,
@@ -73,15 +108,15 @@ class Contribution extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Text(
-                            createdByUser.displayName,
+                            widget.createdByUser.displayName,
                             style: Theme.of(context).textTheme.overline,
                           ),
-                          contribution.description.isNotEmpty
+                          widget.contribution.description.isNotEmpty
                               ? Padding(
                                   padding: const EdgeInsets.only(
                                       top: 4.0, bottom: 4.0),
                                   child: Text(
-                                    contribution.description,
+                                    widget.contribution.description,
                                     style: Theme.of(context)
                                         .textTheme
                                         .title
@@ -96,7 +131,7 @@ class Contribution extends StatelessWidget {
                           Text(
                             DateFormat.yMMMd()
                                 .add_jm()
-                                .format(contribution.createdAt),
+                                .format(widget.contribution.createdAt),
                             style: TextStyle(
                                 fontSize: 11.0,
                                 color: Theme.of(context)
@@ -112,9 +147,10 @@ class Contribution extends StatelessWidget {
                         _generateDisplayAmount(),
                         style: TextStyle(
                           fontSize: 16.0,
-                          color: contribution.type == ContributionType.ADD
-                              ? Theme.of(context).indicatorColor
-                              : Theme.of(context).errorColor,
+                          color:
+                              widget.contribution.type == ContributionType.ADD
+                                  ? Theme.of(context).indicatorColor
+                                  : Theme.of(context).errorColor,
                         ),
                       ),
                     ),
@@ -129,8 +165,9 @@ class Contribution extends StatelessWidget {
   }
 
   String _generateDisplayAmount() {
-    String currencyString = convertDoubleToCurrencyString(contribution.amount);
-    if (contribution.type == ContributionType.ADD) {
+    String currencyString =
+        convertDoubleToCurrencyString(widget.contribution.amount);
+    if (widget.contribution.type == ContributionType.ADD) {
       return '+\$ $currencyString';
     }
     return '-\$ $currencyString';

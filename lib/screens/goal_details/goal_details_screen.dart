@@ -62,6 +62,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
                 isDestructiveAction: true,
                 child: const Text('Delete goal'),
                 onPressed: () {
+                  Navigator.pop(context);
                   showDialog(
                       context: context,
                       barrierDismissible: false,

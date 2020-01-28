@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/theme.dart';
 import '../../services/auth.dart';
+import '../../shared/widgets/avatar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/toggle_switch.dart';
 import 'image_capture.dart';
@@ -66,33 +66,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       height: 65,
                       width: 65,
                       alignment: Alignment.topLeft,
-                      child: ClayContainer(
-                        height: 60,
-                        width: 60,
-                        borderRadius: 30,
-                        color: Theme.of(context).primaryColor,
-                        depth: 15,
-                        child: Container(
-                          height: 60,
-                          width: 60,
-                          alignment: Alignment.center,
-                          child: CachedNetworkImage(
-                            imageUrl: user.photoUrl,
-                            imageBuilder: (context, imageProvider) => Container(
-                              height: 54,
-                              width: 54,
-                              decoration: new BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: new DecorationImage(
-                                    fit: BoxFit.contain, image: imageProvider),
-                              ),
-                            ),
-                            placeholder: (context, url) =>
-                                CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                        ),
+                      child: Avatar(
+                        imageUrl: user.photoUrl,
                       ),
                     ),
                     Positioned(

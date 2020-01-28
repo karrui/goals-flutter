@@ -13,6 +13,7 @@ class SquircleIconButton extends StatefulWidget {
   final Function onPressed;
   final bool enabled;
   final bool isActive;
+  final MainAxisAlignment alignment;
 
   SquircleIconButton({
     this.height = 40.0,
@@ -23,6 +24,7 @@ class SquircleIconButton extends StatefulWidget {
     this.borderRadius = 15.0,
     this.enabled = true,
     this.isActive = false,
+    this.alignment = MainAxisAlignment.center,
     this.iconData,
     @required this.onPressed,
   });
@@ -68,23 +70,30 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
         spread: 5,
         color: Theme.of(context).primaryColor,
         emboss: _isEmbossed(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            widget.iconData != null
-                ? Icon(
-                    widget.iconData,
-                    size: widget.iconSize,
-                    color: _getIconColor(),
-                  )
-                : Container(),
-            ClayText(
-              widget.text,
-              color: Theme.of(context).primaryColorDark,
-              parentColor: Theme.of(context).primaryColor,
-              emboss: true,
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Row(
+            mainAxisAlignment: widget.alignment,
+            children: <Widget>[
+              widget.iconData != null
+                  ? Icon(
+                      widget.iconData,
+                      size: widget.iconSize,
+                      color: _getIconColor(),
+                    )
+                  : Container(),
+              Padding(
+                padding:
+                    EdgeInsets.only(left: widget.text.isNotEmpty ? 8.0 : 0.0),
+                child: ClayText(
+                  widget.text,
+                  color: Theme.of(context).primaryColorDark,
+                  parentColor: Theme.of(context).primaryColor,
+                  emboss: true,
+                ),
+              )
+            ],
+          ),
         ),
       ),
       onTap: () {

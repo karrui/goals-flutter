@@ -13,6 +13,10 @@ class UserModel {
     this.email,
   });
 
+  String toString() {
+    return 'uid: $uid, displayName: $displayName, photoUrl: $photoUrl, email: $email';
+  }
+
   factory UserModel.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data;
 

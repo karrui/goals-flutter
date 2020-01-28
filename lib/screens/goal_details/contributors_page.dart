@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../../models/contributor_model.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
+import '../../utils/modal_bottom_sheet.dart';
+import 'widgets/add_contributor_form.dart';
 import 'widgets/contributor.dart';
 
 class ContributorsPage extends StatelessWidget {
@@ -19,6 +21,7 @@ class ContributorsPage extends StatelessWidget {
             text: "Add contributor",
             onPressed: () {
               print("Add contributor button clicked");
+              showModalBottomSheetWithChild(context, AddContributorForm());
             },
           ),
           SizedBox(

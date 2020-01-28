@@ -112,9 +112,11 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
           initialData: {},
           create: (_) => db.streamUidToPhotoUrlMap(goal),
         ),
-        ProxyProvider<List<ContributionModel>, List<ContributorModel>>(
-          update: (ctx, contributionList, _) =>
-              ContributorModel.fromContributionList(contributionList),
+        ProxyProvider2<List<ContributionModel>, Map<String, UserModel>,
+            List<ContributorModel>>(
+          update: (ctx, contributionList, userModelMap, _) =>
+              ContributorModel.fromContributionList(
+                  contributionList, userModelMap),
         )
       ],
       child: Scaffold(

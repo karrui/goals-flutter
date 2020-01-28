@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:simple_gravatar/simple_gravatar.dart';
 
 import '../shared/route_constants.dart';
 import '../utils/notification_util.dart';
@@ -173,7 +175,14 @@ class AuthService {
       String email, String password) async {
     final result = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
-    return result.user;
+    var currentUser = result.user;
+    var userUpdateInfo = UserUpdateInfo();
+    userUpdateInfo.displayName = email;
+    userUpdateInfo.photoUrl =
+        Gravatar(email).imageUrl(defaultImage: GravatarImage.retro);
+    await currentUser.updateProfile(userUpdateInfo);
+    await FirebaseUserReloader.reloadCurrentUser();
+    return currentUser;
   }
 
   Future logout() async {

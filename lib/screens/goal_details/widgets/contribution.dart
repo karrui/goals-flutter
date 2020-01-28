@@ -1,13 +1,16 @@
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
-import 'package:goals_flutter/shared/widgets/checkbox/checkbox.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/contribution_model.dart';
+import '../../../models/user_model.dart';
+import '../../../shared/widgets/avatar.dart';
+import '../../../shared/widgets/checkbox/checkbox.dart';
 import '../../../utils/number_util.dart';
 
 class Contribution extends StatelessWidget {
   final ContributionModel contribution;
+  final UserModel createdByUser;
   final Function onCheckItem;
   final Function onLongPress;
   final bool showCheckBox;
@@ -15,6 +18,7 @@ class Contribution extends StatelessWidget {
 
   Contribution({
     @required this.contribution,
+    @required this.createdByUser,
     @required this.onCheckItem,
     @required this.onLongPress,
     this.showCheckBox = false,
@@ -22,11 +26,10 @@ class Contribution extends StatelessWidget {
   });
 
   _buildCheckbox() {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 150),
-      width: showCheckBox ? 40 : 0,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 20.0),
+    return Container(
+      width: 40,
+      height: 40,
+      child: Center(
         child: NMCheckbox(
           isChecked: isSelected,
         ),
@@ -48,25 +51,35 @@ class Contribution extends StatelessWidget {
           depth: 10,
           child: Container(
             margin:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
             child: Column(
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    _buildCheckbox(),
+                    showCheckBox
+                        ? _buildCheckbox()
+                        : Avatar(
+                            height: 40,
+                            width: 40,
+                            imageUrl: createdByUser.photoUrl,
+                          ),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Flexible(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Text(
-                            contribution.createdByName,
+                            createdByUser.displayName,
                             style: Theme.of(context).textTheme.overline,
                           ),
                           contribution.description.isNotEmpty
                               ? Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 4.0, bottom: 8.0),
+                                      top: 4.0, bottom: 4.0),
                                   child: Text(
                                     contribution.description,
                                     style: Theme.of(context)

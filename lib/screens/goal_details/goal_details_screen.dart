@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import './widgets/add_contribution_sliding_up_panel.dart';
 import '../../models/contribution_model.dart';
 import '../../models/contributor_model.dart';
+import '../../models/user_model.dart';
 import '../../providers/current_goal.dart';
 import '../../services/database.dart';
 import '../../shared/route_constants.dart';
@@ -106,6 +107,10 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
         StreamProvider<List<ContributionModel>>(
           initialData: [],
           create: (_) => db.streamContributions(goal.id),
+        ),
+        StreamProvider<Map<String, UserModel>>(
+          initialData: {},
+          create: (_) => db.streamUidToPhotoUrlMap(goal),
         ),
         ProxyProvider<List<ContributionModel>, List<ContributorModel>>(
           update: (ctx, contributionList, _) =>

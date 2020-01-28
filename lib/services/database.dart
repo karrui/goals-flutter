@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../models/contribution_model.dart';
 import '../models/goal_model.dart';
+import '../models/user_model.dart';
 
 class DatabaseService {
   final Firestore _db = Firestore.instance;
@@ -42,6 +43,24 @@ class DatabaseService {
               ..sort((a, b) => b.createdAt.compareTo(a.createdAt)));
   }
 
+  Stream<Map<String, UserModel>> streamUidToPhotoUrlMap(GoalModel goal) {
+    var usersWithAccess = goal.usersWithAccess;
+    return _db
+        .collection('users')
+        .where('uid', whereIn: usersWithAccess)
+        .snapshots()
+        .map(
+          (list) => list.documents.fold(
+            {},
+            (Map<String, UserModel> acc, currentUserData) {
+              acc[currentUserData.data['uid']] =
+                  UserModel.fromFirestore(currentUserData);
+              return acc;
+            },
+          ),
+        );
+  }
+
   Future<void> updateUserProfileUrl(String userId, String photoUrl) {
     final userRef = _db.collection('users').document(userId);
     return userRef.updateData({'photoUrl': photoUrl});
@@ -71,8 +90,6 @@ class DatabaseService {
         'amount': startingAmount,
         'createdAt': DateTime.now(),
         'description': 'Starting amount',
-        'createdByName':
-            user.displayName != null ? user.displayName : user.email,
         'uid': user.uid,
         'type': 'add',
       });

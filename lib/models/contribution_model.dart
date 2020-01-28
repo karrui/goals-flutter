@@ -6,7 +6,6 @@ class ContributionModel {
   final String description;
   final DateTime createdAt;
   final ContributionType type;
-  final String createdByName;
   final String uid;
 
   ContributionModel({
@@ -15,7 +14,6 @@ class ContributionModel {
     this.description,
     this.createdAt,
     this.type,
-    this.createdByName,
     this.uid,
   });
 
@@ -31,7 +29,6 @@ class ContributionModel {
       "description": description,
       "createdAt": createdAt,
       "type": type,
-      "createdByName": createdByName,
       "uid": uid,
     };
   }
@@ -44,7 +41,6 @@ class ContributionModel {
         type = snapshot['type'] == 'add'
             ? ContributionType.ADD
             : ContributionType.WITHDRAW ?? ContributionType.ADD,
-        createdByName = snapshot['createdByName'] ?? '',
         uid = snapshot['uid'] ?? '';
 }
 

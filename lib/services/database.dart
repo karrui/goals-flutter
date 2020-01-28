@@ -119,7 +119,6 @@ class DatabaseService {
       'amount': amount,
       'createdAt': DateTime.now(),
       'description': description,
-      'createdByName': user.displayName != null ? user.displayName : user.email,
       'uid': user.uid,
       'type': type == ContributionType.ADD ? 'add' : 'withdraw',
     });

@@ -1,3 +1,4 @@
+import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -149,33 +150,60 @@ class _ContributionsPageState extends State<ContributionsPage> {
           ),
         ),
         Expanded(
-          child: ListView.builder(
-            itemCount: contributions.length,
-            itemBuilder: (ctx, index) {
-              var contribution = contributions[index];
-              return Contribution(
-                contribution: contribution,
-                showCheckBox: _isDeleteMode,
-                onLongPress: (contribution) {
-                  setState(() {
-                    if (_isDeleteMode) {
-                      setState(() {
-                        _isDeleteMode = false;
-                        _selectedItems = Map();
-                      });
-                    } else {
-                      _isDeleteMode = true;
-                    }
-                  });
-                  if (_isDeleteMode) {
-                    _handleCheckItem(contribution);
-                  }
-                },
-                onCheckItem: (contribution) => _handleCheckItem(contribution),
-                isSelected: _selectedItems.containsKey(contribution.id),
-              );
-            },
-          ),
+          child: contributions.isNotEmpty
+              ? ListView.builder(
+                  itemCount: contributions.length,
+                  itemBuilder: (ctx, index) {
+                    var contribution = contributions[index];
+                    return Contribution(
+                      contribution: contribution,
+                      showCheckBox: _isDeleteMode,
+                      onLongPress: (contribution) {
+                        setState(() {
+                          if (_isDeleteMode) {
+                            setState(() {
+                              _isDeleteMode = false;
+                              _selectedItems = Map();
+                            });
+                          } else {
+                            _isDeleteMode = true;
+                          }
+                        });
+                        if (_isDeleteMode) {
+                          _handleCheckItem(contribution);
+                        }
+                      },
+                      onCheckItem: (contribution) =>
+                          _handleCheckItem(contribution),
+                      isSelected: _selectedItems.containsKey(contribution.id),
+                    );
+                  },
+                )
+              : Wrap(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 24.0),
+                      child: ClayContainer(
+                        emboss: true,
+                        borderRadius: 10,
+                        depth: 10,
+                        spread: 1,
+                        color: Theme.of(context).primaryColor,
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            "No contributions yet.",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.title.copyWith(
+                                fontSize: 16.0, fontWeight: FontWeight.normal),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
         ),
       ],
     );

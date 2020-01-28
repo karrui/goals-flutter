@@ -42,7 +42,7 @@ class Contributor extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
       child: ClayContainer(
         emboss: true,
         color: Theme.of(context).primaryColor,
@@ -50,20 +50,17 @@ class Contributor extends StatelessWidget {
         spread: 1,
         depth: 10,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 6.0),
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: Text(
-                  contributor.displayName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .title
-                      .copyWith(fontSize: 16.0, fontWeight: FontWeight.normal),
-                ),
+              Text(
+                contributor.displayName,
+                style: Theme.of(context)
+                    .textTheme
+                    .title
+                    .copyWith(fontSize: 16.0, fontWeight: FontWeight.normal),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),

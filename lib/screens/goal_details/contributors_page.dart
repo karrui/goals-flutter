@@ -16,19 +16,27 @@ class ContributorsPage extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 36.0),
-            child: Text(
-              "Contributors",
-              style: Theme.of(context).textTheme.subhead,
-              textAlign: TextAlign.start,
+          child: Container(
+            padding: const EdgeInsets.only(
+                left: 36.0, right: 20.0, top: 5.0, bottom: 5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "Contributors",
+                  style: Theme.of(context).textTheme.subhead,
+                  textAlign: TextAlign.start,
+                ),
+                SizedBox(
+                  height: 25.0,
+                ),
+              ],
             ),
           ),
         ),
         Expanded(
           child: contributors.isNotEmpty
               ? ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
                   itemCount: contributors.length,
                   itemBuilder: (ctx, index) {
                     return Contributor(contributor: contributors[index]);
@@ -36,14 +44,11 @@ class ContributorsPage extends StatelessWidget {
                 )
               : Wrap(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Contributor(
-                        contributor: ContributorModel(
-                            displayName: user.displayName,
-                            totalContribution: 0,
-                            uid: user.uid),
-                      ),
+                    Contributor(
+                      contributor: ContributorModel(
+                          displayName: user.displayName,
+                          totalContribution: 0,
+                          uid: user.uid),
                     ),
                   ],
                 ),

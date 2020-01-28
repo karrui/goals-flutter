@@ -54,7 +54,7 @@ class AppTheme {
       subhead: TextStyle(fontWeight: FontWeight.w600),
       subtitle: TextStyle(
         color: Color(0xFFA3BCDC),
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w600,
         fontSize: 20,
       ),
       overline: TextStyle(

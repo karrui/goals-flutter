@@ -1,10 +1,12 @@
 import 'package:clay_containers/widgets/clay_containers.dart';
+import 'package:clay_containers/widgets/clay_text.dart';
 import 'package:flutter/material.dart';
 
 class SquircleIconButton extends StatefulWidget {
   final double height;
   final double width;
   final double iconSize;
+  final String text;
   final Color iconColor;
   final double borderRadius;
   final IconData iconData;
@@ -16,11 +18,12 @@ class SquircleIconButton extends StatefulWidget {
     this.height = 40.0,
     this.width = 40.0,
     this.iconSize = 15.0,
+    this.text = "",
     this.iconColor,
     this.borderRadius = 15.0,
     this.enabled = true,
     this.isActive = false,
-    @required this.iconData,
+    this.iconData,
     @required this.onPressed,
   });
 
@@ -65,10 +68,23 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
         spread: 5,
         color: Theme.of(context).primaryColor,
         emboss: _isEmbossed(),
-        child: Icon(
-          widget.iconData,
-          size: widget.iconSize,
-          color: _getIconColor(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            widget.iconData != null
+                ? Icon(
+                    widget.iconData,
+                    size: widget.iconSize,
+                    color: _getIconColor(),
+                  )
+                : Container(),
+            ClayText(
+              widget.text,
+              color: Theme.of(context).primaryColorDark,
+              parentColor: Theme.of(context).primaryColor,
+              emboss: true,
+            )
+          ],
         ),
       ),
       onTap: () {

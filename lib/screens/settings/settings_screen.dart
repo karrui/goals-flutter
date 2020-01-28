@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clay_containers/widgets/clay_containers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/theme.dart';
 import '../../services/auth.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
+import '../../shared/widgets/toggle_switch.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -33,8 +37,151 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  _showAccountDetails(FirebaseUser user) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Text(
+          "Account",
+          style: Theme.of(context).textTheme.subtitle,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        ClayContainer(
+          borderRadius: 15,
+          color: Theme.of(context).primaryColor,
+          depth: 10,
+          spread: 1,
+          emboss: true,
+          child: Container(
+            padding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            child: Row(
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      height: 65,
+                      width: 65,
+                      alignment: Alignment.topLeft,
+                      child: ClayContainer(
+                        height: 60,
+                        width: 60,
+                        borderRadius: 30,
+                        color: Theme.of(context).primaryColor,
+                        depth: 15,
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          alignment: Alignment.center,
+                          child: Container(
+                            height: 54,
+                            width: 54,
+                            decoration: new BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                                  fit: BoxFit.contain,
+                                  image: CachedNetworkImageProvider(
+                                      user.photoUrl)),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 3,
+                      right: 3,
+                      child: GestureDetector(
+                        onTap: () => print("edit picture"),
+                        child: Icon(
+                          Icons.camera_alt,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        user.displayName,
+                        style: Theme.of(context).textTheme.subhead,
+                      ),
+                      Text(
+                        user.email,
+                        style: Theme.of(context).textTheme.overline,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                SquircleIconButton(
+                  iconData: Icons.navigate_next,
+                  height: 25,
+                  width: 35,
+                  onPressed: () {},
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  _showAppearanceDetails(ThemeProvider themeProvider) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Text(
+          "Appearance",
+          style: Theme.of(context).textTheme.subtitle,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        ClayContainer(
+          borderRadius: 15,
+          color: Theme.of(context).primaryColor,
+          depth: 10,
+          spread: 1,
+          emboss: true,
+          child: ListTile(
+            title: Text('Enable Dark Mode'),
+            trailing: GestureDetector(
+              onTap: () {
+                themeProvider.isDarkTheme = !themeProvider.isDarkTheme;
+              },
+              child: ToggleSwitch(
+                isToggled: themeProvider.isDarkTheme,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<FirebaseUser>(context, listen: false);
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -44,25 +191,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: <Widget>[
             _showAppBar(),
             Expanded(
-              child: ListView(
-                children: <Widget>[
-                  ListTile(
-                    title: Text('Enable Dark Theme'),
-                    trailing: Checkbox(
-                        value: themeProvider.isDarkTheme,
-                        onChanged: (bool value) {
-                          themeProvider.isDarkTheme = value;
-                        }),
-                    onTap: () {},
-                  ),
-                  FlatButton(
-                    onPressed: () {
-                      AuthService().logout();
-                      Navigator.pop(context);
-                    },
-                    child: Text("Logout"),
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 20.0),
+                child: ListView(
+                  children: <Widget>[
+                    _showAccountDetails(user),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    _showAppearanceDetails(themeProvider),
+                    SizedBox(
+                      height: 40.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                      child: SquircleIconButton(
+                        text: "Logout",
+                        onPressed: () {
+                          AuthService().logout();
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

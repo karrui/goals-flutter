@@ -39,6 +39,7 @@ class ContributorModel {
       acc[currentContribution.uid].totalContribution += contributionAmount;
       return acc;
     });
-    return uidToContributorMap.entries.map((entry) => entry.value).toList();
+    return uidToContributorMap.entries.map((entry) => entry.value).toList()
+      ..sort((a, b) => b.totalContribution.compareTo(a.totalContribution));
   }
 }

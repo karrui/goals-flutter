@@ -76,16 +76,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           height: 60,
                           width: 60,
                           alignment: Alignment.center,
-                          child: Container(
-                            height: 54,
-                            width: 54,
-                            decoration: new BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: new DecorationImage(
-                                  fit: BoxFit.contain,
-                                  image: CachedNetworkImageProvider(
-                                      user.photoUrl)),
+                          child: CachedNetworkImage(
+                            imageUrl: user.photoUrl,
+                            imageBuilder: (context, imageProvider) => Container(
+                              height: 54,
+                              width: 54,
+                              decoration: new BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: new DecorationImage(
+                                    fit: BoxFit.contain, image: imageProvider),
+                              ),
                             ),
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           ),
                         ),
                       ),
@@ -172,7 +177,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var user = Provider.of<FirebaseUser>(context, listen: false);
+    var user = Provider.of<FirebaseUser>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -187,7 +192,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     vertical: 10.0, horizontal: 20.0),
                 child: ListView(
                   children: <Widget>[
-                    _showAccountDetails(user),
+                    user != null ? _showAccountDetails(user) : Container(),
                     SizedBox(
                       height: 10.0,
                     ),

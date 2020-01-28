@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:goals_flutter/providers/current_goal.dart';
 import 'package:provider/provider.dart';
 
+import 'providers/current_goal.dart';
 import 'providers/theme.dart';
 import 'router.dart';
 import 'screens/splash_screen.dart';
@@ -37,8 +38,7 @@ class _MyAppState extends State<MyApp> {
           create: (_) => themeProvider,
         ),
         StreamProvider<FirebaseUser>(
-          create: (_) => FirebaseAuth.instance.onAuthStateChanged,
-        ),
+            create: (_) => FirebaseUserReloader.onAuthStateChangedOrReloaded),
         ChangeNotifierProvider(
           create: (_) => CurrentGoal(),
         ),

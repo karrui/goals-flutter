@@ -42,6 +42,11 @@ class DatabaseService {
               ..sort((a, b) => b.createdAt.compareTo(a.createdAt)));
   }
 
+  Future<void> updateUserProfileUrl(String userId, String photoUrl) {
+    final userRef = _db.collection('users').document(userId);
+    return userRef.updateData({'photoUrl': photoUrl});
+  }
+
   Future<void> createGoal({
     @required String name,
     @required FirebaseUser user,

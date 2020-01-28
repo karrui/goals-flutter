@@ -5,12 +5,14 @@ class ContributorModel {
   final String uid;
   final String photoUrl;
   final String displayName;
+  final String email;
   double totalContribution;
 
   ContributorModel({
     this.uid,
     this.photoUrl,
     this.displayName,
+    this.email,
     this.totalContribution,
   });
 
@@ -21,10 +23,12 @@ class ContributorModel {
     for (var key in userModelMap.keys) {
       var user = userModelMap[key];
       contributorMap[key] = ContributorModel(
-          uid: key,
-          photoUrl: user.photoUrl,
-          totalContribution: 0,
-          displayName: user.displayName);
+        uid: key,
+        photoUrl: user.photoUrl,
+        email: user.email,
+        displayName: user.displayName,
+        totalContribution: 0,
+      );
     }
     Map<String, ContributorModel> uidToContributorMap = contributionList
         .fold(contributorMap,

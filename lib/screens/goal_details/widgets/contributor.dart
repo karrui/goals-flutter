@@ -68,10 +68,20 @@ class Contributor extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  Text(
-                    contributor.displayName,
-                    style: Theme.of(context).textTheme.title.copyWith(
-                        fontSize: 16.0, fontWeight: FontWeight.normal),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        contributor.displayName,
+                        style: Theme.of(context).textTheme.title.copyWith(
+                            fontSize: 16.0, fontWeight: FontWeight.normal),
+                      ),
+                      Text(
+                        contributor.email,
+                        style: Theme.of(context).textTheme.overline.copyWith(
+                            color: Theme.of(context).primaryColorDark),
+                      ),
+                    ],
                   ),
                 ],
               ),

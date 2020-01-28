@@ -69,6 +69,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to the photo library in order for you to choose a new profile picture.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera access is required to take a picture.</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

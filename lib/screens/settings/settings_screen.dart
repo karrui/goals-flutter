@@ -8,6 +8,7 @@ import '../../providers/theme.dart';
 import '../../services/auth.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/toggle_switch.dart';
+import 'image_capture.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -98,17 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         size: 25,
                       ),
                     ),
-                    Positioned(
-                      bottom: 3,
-                      right: 3,
-                      child: GestureDetector(
-                        onTap: () => print("edit picture"),
-                        child: Icon(
-                          Icons.camera_alt,
-                          size: 20,
-                        ),
-                      ),
-                    ),
+                    ImageCapture(),
                   ],
                 ),
                 SizedBox(

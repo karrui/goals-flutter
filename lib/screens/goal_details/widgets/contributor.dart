@@ -45,7 +45,7 @@ class Contributor extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
       child: ClayContainer(
         emboss: true,
         color: Theme.of(context).primaryColor,

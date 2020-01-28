@@ -2,9 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/contributor_model.dart';
+import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import 'widgets/contributor.dart';
 
 class ContributorsPage extends StatelessWidget {
+  _buildAddContributor(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: Column(
+        children: <Widget>[
+          SquircleIconButton(
+            alignment: MainAxisAlignment.start,
+            width: double.infinity,
+            iconSize: 25,
+            iconData: Icons.add,
+            text: "Add contributor",
+            onPressed: () {
+              print("Add contributor button clicked");
+            },
+          ),
+          SizedBox(
+            height: 12.0,
+          ),
+          SquircleIconButton(
+            alignment: MainAxisAlignment.start,
+            width: double.infinity,
+            iconSize: 25,
+            iconData: Icons.link,
+            text: "Invite via link",
+            onPressed: () {
+              print("Invite via link button clicked");
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var contributors = Provider.of<List<ContributorModel>>(context);
@@ -36,10 +70,23 @@ class ContributorsPage extends StatelessWidget {
             child: ListView.builder(
           itemCount: contributors.length,
           itemBuilder: (ctx, index) {
-            var contributor = contributors[index];
-            return Contributor(
-              contributor: contributor,
+            var contributorWidget = Contributor(
+              contributor: contributors[index],
             );
+
+            if (index != contributors.length - 1) {
+              return contributorWidget;
+            } else {
+              return Column(
+                children: <Widget>[
+                  contributorWidget,
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  _buildAddContributor(context)
+                ],
+              );
+            }
           },
         )),
       ],

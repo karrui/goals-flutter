@@ -1,7 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import './widgets/add_contribution_sliding_up_panel.dart';
 import '../../models/contribution_model.dart';
@@ -12,7 +12,9 @@ import '../../services/database.dart';
 import '../../shared/route_constants.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/goal_card/goal_card.dart';
+import '../../utils/modal_bottom_sheet.dart';
 import 'contribution_page_views.dart';
+import 'widgets/edit_goal_form.dart';
 
 class GoalDetailsScreen extends StatefulWidget {
   @override
@@ -50,10 +52,9 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
   Future<void> _showActionSheet() async {
     final goal = Provider.of<CurrentGoal>(context, listen: false).goal;
     final user = Provider.of<FirebaseUser>(context, listen: false);
+    final isUserOwner = user.uid == goal.owner;
 
     _buildLeaveSheetAction() {
-      var isUserOwner = user.uid == goal.owner;
-
       return CupertinoActionSheetAction(
         isDestructiveAction: true,
         child: Text(isUserOwner ? 'Delete goal' : 'Leave goal'),
@@ -96,10 +97,18 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
         builder: (_) {
           return CupertinoActionSheet(
             actions: <Widget>[
-              CupertinoActionSheetAction(
-                child: const Text('Edit goal'),
-                onPressed: () {},
-              ),
+              if (isUserOwner)
+                CupertinoActionSheetAction(
+                  child: const Text('Edit goal'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    showModalBottomSheetWithChild(
+                        context,
+                        EditGoalForm(
+                          goal: goal,
+                        ));
+                  },
+                ),
               _buildLeaveSheetAction(),
             ],
             cancelButton: CupertinoActionSheetAction(

@@ -104,6 +104,19 @@ class DatabaseService {
     return batch.commit();
   }
 
+  Future<void> editGoal({
+    @required String goalId,
+    @required String newGoalName,
+    @required double newGoalAmount,
+  }) {
+    final goalRef = _db.collection('goals').document(goalId);
+
+    return goalRef.updateData({
+      "name": newGoalName,
+      "goalAmount": newGoalAmount,
+    });
+  }
+
   Future<void> shareGoal({
     @required String email,
     @required String goalId,

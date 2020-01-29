@@ -11,6 +11,8 @@ class SquircleIconButton extends StatefulWidget {
   final double iconSize;
   final String text;
   final Color iconColor;
+  final Color backgroundColor;
+  final Color textColor;
   final double borderRadius;
   final IconData iconData;
   final Function onPressed;
@@ -24,6 +26,8 @@ class SquircleIconButton extends StatefulWidget {
     this.iconSize = 15.0,
     this.text = "",
     this.iconColor,
+    this.backgroundColor,
+    this.textColor,
     this.borderRadius = 15.0,
     this.enabled = true,
     this.isActive = false,
@@ -47,13 +51,14 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
         return Theme.of(context).disabledColor;
       }
 
+      if (widget.iconColor != null) {
+        return widget.iconColor;
+      }
+
       if (_isTapDown) {
         return Theme.of(context).buttonColor;
       }
 
-      if (widget.iconColor != null) {
-        return widget.iconColor;
-      }
       return Theme.of(context).textTheme.button.color;
     }
 
@@ -72,37 +77,44 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
         borderRadius: widget.borderRadius,
         depth: widget.enabled ? 12 : 0,
         spread: themeProvider.isDarkTheme ? 4 : 5,
-        color: Theme.of(context).backgroundColor,
+        color: !widget.enabled
+            ? Theme.of(context).disabledColor
+            : widget.backgroundColor ?? Theme.of(context).backgroundColor,
+        parentColor: Theme.of(context).backgroundColor,
         emboss: _isEmbossed(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Row(
             mainAxisAlignment: widget.alignment,
             children: <Widget>[
-              widget.iconData != null
-                  ? Icon(
-                      widget.iconData,
-                      size: widget.iconSize,
-                      color: _getIconColor(),
-                    )
-                  : Container(),
+              if (widget.iconData != null)
+                Icon(
+                  widget.iconData,
+                  size: widget.iconSize,
+                  color: _getIconColor(),
+                ),
               if (widget.text.isNotEmpty)
                 Padding(
                   padding: EdgeInsets.only(
-                      left: widget.iconData != null ? 8.0 : 0.0),
-                  child: ClayText(
+                      left: widget.iconData != null &&
+                              widget.alignment != MainAxisAlignment.spaceBetween
+                          ? 8.0
+                          : 0.0),
+                  child: Text(
                     widget.text,
-                    color: Theme.of(context).primaryColorDark,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subhead
-                        .copyWith(fontWeight: FontWeight.w600),
-                    parentColor: Theme.of(context).backgroundColor,
-                    emboss: true,
-                    spread: 1,
-                    depth: 6,
+                    style: Theme.of(context).textTheme.subhead.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: !widget.enabled
+                            ? Theme.of(context).disabledColor
+                            : widget.textColor ??
+                                Theme.of(context).primaryColorDark),
                   ),
-                )
+                ),
+              if (widget.alignment == MainAxisAlignment.spaceBetween)
+                SizedBox(
+                  height: widget.iconSize,
+                  width: widget.iconSize,
+                ),
             ],
           ),
         ),

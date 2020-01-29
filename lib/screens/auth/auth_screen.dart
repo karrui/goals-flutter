@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../services/auth.dart';
 import '../../shared/route_constants.dart';
-import '../../shared/widgets/animated_progress_button.dart';
+import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/text_button.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -100,39 +100,66 @@ class _AuthButtonsState extends State<AuthButtons> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        AnimatedProgressButton(
-          text: "Sign in with Google",
-          backgroundColor: Colors.blue,
-          iconData: FontAwesomeIcons.google,
-          enabled: !_areButtonsDisabled,
-          onPressed: () => _handleSignInWithGoogle(context),
-        ),
-        AnimatedProgressButton(
-          text: 'Sign in with Facebook',
-          iconData: FontAwesomeIcons.facebookSquare,
-          backgroundColor: Color(0xFF3b5998),
-          enabled: !_areButtonsDisabled,
-          onPressed: () => _handleSignInWithFacebook(context),
-        ),
-        AnimatedProgressButton(
-          text: 'Sign in with email',
-          iconData: FontAwesomeIcons.solidEnvelope,
-          backgroundColor: Colors.grey[900],
-          enabled: !_areButtonsDisabled,
-          onPressed: () => _handleSignInWithEmail(context),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: TextButton(
-            text: "Sign up with email",
-            onPressed: _areButtonsDisabled
-                ? null
-                : () => _handleSignUpWithEmail(context),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      child: Column(
+        children: <Widget>[
+          SquircleIconButton(
+            alignment: MainAxisAlignment.spaceBetween,
+            iconSize: 20,
+            width: double.infinity,
+            backgroundColor: Colors.blue,
+            textColor: Colors.white,
+            iconColor: Colors.white,
+            text: "Sign in with Google",
+            iconData: FontAwesomeIcons.google,
+            enabled: !_areButtonsDisabled,
+            onPressed: () => _handleSignInWithGoogle(context),
           ),
-        ),
-      ],
+          SizedBox(
+            height: 10.0,
+          ),
+          SquircleIconButton(
+            alignment: MainAxisAlignment.spaceBetween,
+            iconSize: 20,
+            width: double.infinity,
+            text: "Sign in with Facebook",
+            backgroundColor: Color(0xFF3b5998),
+            textColor: Colors.white,
+            iconColor: Colors.white,
+            iconData: FontAwesomeIcons.facebookSquare,
+            enabled: !_areButtonsDisabled,
+            onPressed: () => _handleSignInWithFacebook(context),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          SquircleIconButton(
+            alignment: MainAxisAlignment.spaceBetween,
+            iconSize: 20,
+            width: double.infinity,
+            text: "Sign in with email",
+            textColor: Colors.white,
+            iconColor: Colors.white,
+            backgroundColor: Theme.of(context).primaryColorDark,
+            iconData: FontAwesomeIcons.solidEnvelope,
+            enabled: !_areButtonsDisabled,
+            onPressed: () => _handleSignInWithEmail(context),
+          ),
+          SizedBox(
+            height: 15.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: TextButton(
+              text: "Sign up with email",
+              onPressed: _areButtonsDisabled
+                  ? null
+                  : () => _handleSignUpWithEmail(context),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

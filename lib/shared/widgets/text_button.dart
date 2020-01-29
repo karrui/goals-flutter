@@ -18,13 +18,13 @@ class _TextButtonState extends State<TextButton> {
 
   Color get color {
     if (_isTapDown) {
-      return Theme.of(context).accentColor;
+      return Theme.of(context).buttonColor;
     }
     if (widget.onPressed == null) {
-      return Colors.grey;
+      return Theme.of(context).disabledColor;
     }
 
-    return Theme.of(context).textTheme.title.color;
+    return Theme.of(context).textTheme.subtitle.color;
   }
 
   @override
@@ -32,7 +32,10 @@ class _TextButtonState extends State<TextButton> {
     return GestureDetector(
       child: Text(
         widget.text,
-        style: TextStyle(color: color),
+        style: Theme.of(context)
+            .textTheme
+            .subhead
+            .copyWith(color: color, fontSize: 14),
       ),
       onTap: () {
         setState(() {

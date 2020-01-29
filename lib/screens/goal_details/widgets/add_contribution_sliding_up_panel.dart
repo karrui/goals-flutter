@@ -12,7 +12,6 @@ import '../../../models/contribution_model.dart';
 import '../../../models/goal_model.dart';
 import '../../../services/database.dart';
 import '../../../shared/widgets/buttons/squircle_icon_button.dart';
-import '../../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../../shared/widgets/buttons/static_squircle_button.dart';
 
 class AddContributionSlidingUpPanel extends StatefulWidget {
@@ -274,9 +273,14 @@ class _AddContributionSlidingUpPanelState
                         child: loadingWidget,
                         isActive: false,
                       )
-                    : SquircleTextButton(
-                        text: "Add contribution",
-                        onPressed: _isLoading ? null : () => _submitForm(user),
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: SquircleIconButton(
+                          width: double.infinity,
+                          text: "Add contribution",
+                          onPressed:
+                              _isLoading ? null : () => _submitForm(user),
+                        ),
                       ),
               ),
             ],

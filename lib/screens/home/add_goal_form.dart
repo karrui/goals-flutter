@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/database.dart';
-import '../../shared/widgets/buttons/squircle_text_button.dart';
+import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/buttons/static_squircle_button.dart';
 
 class AddGoalForm extends StatefulWidget {
@@ -205,9 +205,13 @@ class _AddGoalFormState extends State<AddGoalForm> {
                       child: loadingWidget,
                       isActive: false,
                     )
-                  : SquircleTextButton(
-                      text: "Add goal",
-                      onPressed: _isLoading ? null : () => _submitForm(user),
+                  : Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: SquircleIconButton(
+                        width: double.infinity,
+                        text: "Add goal",
+                        onPressed: _isLoading ? null : () => _submitForm(user),
+                      ),
                     ),
             ),
             SizedBox(

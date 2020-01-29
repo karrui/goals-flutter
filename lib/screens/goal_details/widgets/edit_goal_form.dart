@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../models/goal_model.dart';
 import '../../../services/database.dart';
-import '../../../shared/widgets/buttons/squircle_text_button.dart';
+import '../../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../../shared/widgets/buttons/static_squircle_button.dart';
 import '../../../utils/number_util.dart';
 
@@ -207,9 +207,13 @@ class _EditGoalFormState extends State<EditGoalForm> {
                       child: loadingWidget,
                       isActive: false,
                     )
-                  : SquircleTextButton(
-                      text: "Edit goal",
-                      onPressed: _isLoading ? null : () => _submitForm(user),
+                  : Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: SquircleIconButton(
+                        width: double.infinity,
+                        text: "Edit goal",
+                        onPressed: _isLoading ? null : () => _submitForm(user),
+                      ),
                     ),
             ),
             SizedBox(

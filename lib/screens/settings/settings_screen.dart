@@ -181,15 +181,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     SizedBox(
                       height: 40.0,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                      child: SquircleIconButton(
-                        text: "Logout",
-                        onPressed: () {
-                          AuthService().logout();
-                          Navigator.pop(context);
-                        },
-                      ),
+                    SquircleIconButton(
+                      text: "Logout",
+                      onPressed: () {
+                        AuthService().logout();
+                        Navigator.pop(context);
+                      },
                     ),
                   ],
                 ),

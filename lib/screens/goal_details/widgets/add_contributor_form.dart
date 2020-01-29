@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../providers/current_goal.dart';
 import '../../../services/database.dart';
 import '../../../shared/route_constants.dart';
-import '../../../shared/widgets/buttons/squircle_text_button.dart';
+import '../../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../auth/utils/form_validator.dart';
 
 class AddContributorForm extends StatefulWidget {
@@ -60,7 +60,8 @@ class _AddContributorFormState extends State<AddContributorForm> {
                   validator: emailValidator,
                 ),
               ),
-              SquircleTextButton(
+              SquircleIconButton(
+                width: double.infinity,
                 enabled: !_isLoading,
                 text: "Send Invite",
                 onPressed: () async {

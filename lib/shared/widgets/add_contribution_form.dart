@@ -79,7 +79,7 @@ class _AddContributionFormState extends State<AddContributionForm> {
     var themeProvider = Provider.of<ThemeProvider>(context);
 
     Widget loadingWidget = SpinKitThreeBounce(
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).backgroundColor,
       size: 20.0,
     );
 
@@ -133,7 +133,7 @@ class _AddContributionFormState extends State<AddContributionForm> {
                   constraints: BoxConstraints(maxHeight: 300),
                   width: double.infinity,
                   child: ClayContainer(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).backgroundColor,
                     borderRadius: 25,
                     depth: 10,
                     child: SingleChildScrollView(

@@ -82,7 +82,7 @@ class _EditGoalFormState extends State<EditGoalForm> {
     var themeProvider = Provider.of<ThemeProvider>(context);
 
     Widget loadingWidget = SpinKitThreeBounce(
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).backgroundColor,
       size: 20.0,
     );
 
@@ -96,8 +96,8 @@ class _EditGoalFormState extends State<EditGoalForm> {
             Container(
               width: double.infinity,
               child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 20.0, left: 25.0, right: 25.0),
+                padding: const EdgeInsets.only(
+                    top: 20.0, left: 25.0, right: 25.0, bottom: 10.0),
                 child: Text(
                   'Edit goal details',
                   style: Theme.of(context).textTheme.subtitle,
@@ -110,7 +110,7 @@ class _EditGoalFormState extends State<EditGoalForm> {
               constraints: BoxConstraints(maxHeight: 300),
               width: double.infinity,
               child: ClayContainer(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).backgroundColor,
                 borderRadius: 25,
                 depth: 10,
                 child: SingleChildScrollView(
@@ -138,6 +138,7 @@ class _EditGoalFormState extends State<EditGoalForm> {
                             validator: (val) => val.isEmpty ? "Required" : null,
                             textAlign: TextAlign.start,
                             decoration: InputDecoration(
+                              labelText: "Goal name",
                               isDense: true,
                               hintText: "SUPER COOL NAME",
                             ),

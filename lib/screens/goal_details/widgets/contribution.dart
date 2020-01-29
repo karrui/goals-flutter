@@ -84,7 +84,7 @@ class _ContributionState extends State<Contribution> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
         child: ClayContainer(
           emboss: _isEmbossed,
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).backgroundColor,
           borderRadius: 10,
           spread: themeProvider.isDarkTheme ? 4 : 5,
           depth: themeProvider.isDarkTheme ? 8 : 10,

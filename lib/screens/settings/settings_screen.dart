@@ -52,7 +52,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         ClayContainer(
           borderRadius: 15,
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).backgroundColor,
           depth: 10,
           spread: 1,
           emboss: true,
@@ -73,10 +73,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     Positioned(
                       bottom: 0,
-                      right: 0,
+                      right: 0.5,
                       child: Icon(
                         Icons.camera_alt,
-                        color: Colors.white,
+                        color: Theme.of(context).backgroundColor,
                         size: 25,
                       ),
                     ),
@@ -136,7 +136,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         ClayContainer(
           borderRadius: 15,
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).backgroundColor,
           depth: 10,
           spread: 1,
           emboss: true,

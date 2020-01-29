@@ -27,9 +27,9 @@ class StaticSquircleButton extends StatelessWidget {
       emboss: isActive,
       child: Center(child: child),
       color: themeProvider.isDarkTheme
-          ? Theme.of(context).primaryColor
+          ? Theme.of(context).backgroundColor
           : Theme.of(context).buttonColor,
-      parentColor: Theme.of(context).primaryColor,
+      parentColor: Theme.of(context).backgroundColor,
       borderRadius: 15,
       depth: 10,
       spread: 6,

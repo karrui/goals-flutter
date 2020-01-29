@@ -50,7 +50,7 @@ class _AccountSettingsFormState extends State<AccountSettingsForm> {
         ),
         ClayContainer(
           borderRadius: 15,
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).backgroundColor,
           depth: 10,
           spread: 1,
           emboss: true,

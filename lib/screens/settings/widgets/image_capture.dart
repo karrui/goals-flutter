@@ -79,6 +79,7 @@ class _ImageCaptureState extends State<ImageCapture> {
         child: Icon(
           Icons.camera_alt,
           size: 20,
+          color: Theme.of(context).buttonColor,
         ),
       ),
     );

@@ -191,8 +191,8 @@ class _ContributionsPageState extends State<ContributionsPage> {
                         emboss: true,
                         borderRadius: 10,
                         depth: 10,
-                        spread: 10,
-                        color: Theme.of(context).primaryColor,
+                        spread: 1,
+                        color: Theme.of(context).backgroundColor,
                         child: Container(
                           width: double.infinity,
                           padding: const EdgeInsets.all(10.0),

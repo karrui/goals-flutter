@@ -21,7 +21,7 @@ class AppTheme {
     scaffoldBackgroundColor: Color(0xFF171C26),
     brightness: Brightness.dark,
     errorColor: Color(0xFFFF416C),
-    indicatorColor: Color(0xFF63FF79),
+    indicatorColor: Color(0xFF37D779),
     primarySwatch: Colors.grey,
     primaryColor: Color(0xFF171C26),
     primaryColorLight: Color(0xFFF2F2F2),
@@ -63,15 +63,27 @@ class AppTheme {
   );
 
   static final _lightTheme = ThemeData(
+    inputDecorationTheme: InputDecorationTheme(
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFFA3B1C6)),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF38496C)),
+      ),
+      hintStyle: TextStyle(
+        color: Color(0xFFA3B1C6),
+      ),
+      isCollapsed: true,
+    ),
     fontFamily: 'Gilroy',
     scaffoldBackgroundColor: Color(0xFFF4FAFF),
     brightness: Brightness.light,
     errorColor: Color(0xFFFF416C),
     indicatorColor: Color(0xFF37D779),
     primarySwatch: Colors.grey,
-    primaryColor: Color(0xFFF4FAFF),
+    primaryColor: Color(0xFF38496C),
     primaryColorLight: Colors.white,
-    primaryColorDark: Color(0xFFA3B1C6),
+    primaryColorDark: Color(0xFF495C83),
     buttonColor: Color(0xFF38496C),
     cursorColor: Color(0xFF495C83),
     backgroundColor: Color(0xFFF4FAFF),
@@ -89,7 +101,7 @@ class AppTheme {
       ),
       subhead: TextStyle(fontWeight: FontWeight.w600),
       subtitle: TextStyle(
-        color: Color(0xFFA3BCDC),
+        color: Color(0xFF495C83),
         fontWeight: FontWeight.w600,
         fontSize: 20,
       ),

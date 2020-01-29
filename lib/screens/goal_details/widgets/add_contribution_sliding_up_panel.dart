@@ -82,7 +82,7 @@ class _AddContributionSlidingUpPanelState
     var user = Provider.of<FirebaseUser>(context);
     var themeProvider = Provider.of<ThemeProvider>(context);
     Widget loadingWidget = SpinKitThreeBounce(
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).backgroundColor,
       size: 20.0,
     );
 
@@ -92,7 +92,7 @@ class _AddContributionSlidingUpPanelState
       maxHeight: 330 + MediaQuery.of(context).viewInsets.bottom,
       borderRadius: BorderRadius.all(Radius.circular(25)),
       backdropEnabled: true,
-      backdropColor: Theme.of(context).buttonColor,
+      backdropColor: Colors.black,
       color: Theme.of(context).backgroundColor,
       boxShadow: null,
       onPanelOpened: () {
@@ -177,7 +177,7 @@ class _AddContributionSlidingUpPanelState
                     constraints: BoxConstraints(maxHeight: 300),
                     width: double.infinity,
                     child: ClayContainer(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).backgroundColor,
                       borderRadius: 25,
                       depth: 10,
                       child: SingleChildScrollView(

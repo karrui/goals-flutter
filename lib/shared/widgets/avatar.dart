@@ -21,8 +21,9 @@ class Avatar extends StatelessWidget {
           height: height,
           width: width,
           borderRadius: 30,
-          color: Theme.of(context).primaryColor,
-          depth: 15,
+          color: Theme.of(context).backgroundColor,
+          depth: 8,
+          spread: 5,
           child: Container(
             height: height,
             width: width,

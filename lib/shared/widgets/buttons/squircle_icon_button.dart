@@ -72,7 +72,7 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
         borderRadius: widget.borderRadius,
         depth: widget.enabled ? 12 : 0,
         spread: themeProvider.isDarkTheme ? 4 : 5,
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).backgroundColor,
         emboss: _isEmbossed(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -97,7 +97,7 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
                         .textTheme
                         .subhead
                         .copyWith(fontWeight: FontWeight.w600),
-                    parentColor: Theme.of(context).primaryColor,
+                    parentColor: Theme.of(context).backgroundColor,
                     emboss: true,
                     spread: 1,
                     depth: 6,

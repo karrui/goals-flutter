@@ -27,7 +27,8 @@ class NMCheckbox extends StatelessWidget {
     return Stack(
       children: <Widget>[
         ClayContainer(
-          color: isChecked ? Color(0xFF686DE0) : Theme.of(context).primaryColor,
+          color:
+              isChecked ? Color(0xFF686DE0) : Theme.of(context).backgroundColor,
           curveType: isChecked ? CurveType.concave : CurveType.none,
           emboss: true,
           height: 20,

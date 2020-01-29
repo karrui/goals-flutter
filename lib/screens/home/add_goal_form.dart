@@ -67,7 +67,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
     var user = Provider.of<FirebaseUser>(context);
     var themeProvider = Provider.of<ThemeProvider>(context);
     Widget loadingWidget = SpinKitThreeBounce(
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).backgroundColor,
       size: 20.0,
     );
 
@@ -81,8 +81,8 @@ class _AddGoalFormState extends State<AddGoalForm> {
             Container(
               width: double.infinity,
               child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 20.0, left: 25.0, right: 25.0),
+                padding: const EdgeInsets.only(
+                    top: 20.0, left: 25.0, right: 25.0, bottom: 10.0),
                 child: Text(
                   'Create new goal',
                   style: Theme.of(context).textTheme.subtitle,
@@ -95,7 +95,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
               constraints: BoxConstraints(maxHeight: 300),
               width: double.infinity,
               child: ClayContainer(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).backgroundColor,
                 borderRadius: 25,
                 depth: 10,
                 child: SingleChildScrollView(
@@ -123,8 +123,9 @@ class _AddGoalFormState extends State<AddGoalForm> {
                             validator: (val) => val.isEmpty ? "Required" : null,
                             textAlign: TextAlign.start,
                             decoration: InputDecoration(
+                              labelText: "Goal name",
                               isDense: true,
-                              hintText: "GOAL NAME",
+                              hintText: "SUPER COOL NAME",
                             ),
                             onFieldSubmitted: (_) => FocusScope.of(context)
                                 .requestFocus(_startingAmountFocusNode),
@@ -150,9 +151,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
                                         }
                                       },
                                       decoration: InputDecoration(
-                                        isDense: true,
-                                        labelText: "INITIAL AMOUNT",
-                                        labelStyle: TextStyle(fontSize: 14),
+                                        labelText: "Initial amount",
                                       ),
                                     ),
                                   ],
@@ -186,10 +185,8 @@ class _AddGoalFormState extends State<AddGoalForm> {
                                   },
                                   textAlign: TextAlign.start,
                                   decoration: InputDecoration(
-                                      isDense: true,
-                                      labelText: "GOAL AMOUNT",
-                                      labelStyle: TextStyle(fontSize: 14),
-                                      errorMaxLines: 2),
+                                      labelText: "Goal amount",
+                                      errorMaxLines: 1),
                                 ),
                               ),
                             ),

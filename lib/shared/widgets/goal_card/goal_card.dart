@@ -24,7 +24,7 @@ class GoalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
     return ClayContainer(
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).backgroundColor,
       borderRadius: 25,
       spread: themeProvider.isDarkTheme ? 4 : 5,
       depth: themeProvider.isDarkTheme ? 8 : 10,

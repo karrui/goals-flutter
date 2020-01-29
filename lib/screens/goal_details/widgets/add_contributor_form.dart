@@ -49,6 +49,7 @@ class _AddContributorFormState extends State<AddContributorForm> {
                 height: 100.0,
                 child: TextFormField(
                   autofocus: true,
+                  autocorrect: false,
                   maxLines: 1,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(

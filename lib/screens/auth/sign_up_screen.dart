@@ -46,6 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       key: _emailFormKey,
       child: TextFormField(
         autofocus: true,
+        autocorrect: false,
         focusNode: emailFocusNode,
         onFieldSubmitted: (_) {
           setState(() {

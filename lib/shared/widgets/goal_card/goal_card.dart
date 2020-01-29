@@ -1,8 +1,10 @@
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/goal_model.dart';
+import '../../../providers/theme.dart';
 import '../../../utils/modal_bottom_sheet.dart';
 import '../add_contribution_form.dart';
 import '../buttons/squircle_icon_button.dart';
@@ -20,12 +22,14 @@ class GoalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return ClayContainer(
       color: Theme.of(context).primaryColor,
       borderRadius: 25,
-      depth: 10,
+      spread: themeProvider.isDarkTheme ? 4 : 5,
+      depth: themeProvider.isDarkTheme ? 8 : 10,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

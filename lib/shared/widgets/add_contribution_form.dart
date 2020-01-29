@@ -9,8 +9,10 @@ import 'package:provider/provider.dart';
 
 import '../../models/contribution_model.dart';
 import '../../models/goal_model.dart';
+import '../../providers/theme.dart';
 import '../../services/database.dart';
 import 'buttons/squircle_icon_button.dart';
+import 'buttons/squircle_text_button.dart';
 import 'buttons/static_squircle_button.dart';
 
 /// An almost duplicate copy for [AddContributionSlidingUpPanel], but does not rely on panel opening and closing. Used by [HomeScreen]'s goal cards.
@@ -74,10 +76,13 @@ class _AddContributionFormState extends State<AddContributionForm> {
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<FirebaseUser>(context);
+    var themeProvider = Provider.of<ThemeProvider>(context);
+
     Widget loadingWidget = SpinKitThreeBounce(
       color: Theme.of(context).primaryColor,
       size: 20.0,
     );
+
     return Form(
       key: _formKey,
       child: Container(
@@ -137,7 +142,7 @@ class _AddContributionFormState extends State<AddContributionForm> {
                         child: Column(
                           children: <Widget>[
                             SizedBox(
-                              height: 84.0,
+                              height: 86.0,
                               child: Column(
                                 children: <Widget>[
                                   TextFormField(
@@ -227,11 +232,18 @@ class _AddContributionFormState extends State<AddContributionForm> {
                     )
                   : Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: SquircleIconButton(
-                        width: double.infinity,
-                        text: "Add contribution",
-                        onPressed: _isLoading ? null : () => _submitForm(user),
-                      ),
+                      child: themeProvider.isDarkTheme
+                          ? SquircleIconButton(
+                              width: double.infinity,
+                              text: "Add contribution",
+                              onPressed:
+                                  _isLoading ? null : () => _submitForm(user),
+                            )
+                          : SquircleTextButton(
+                              text: "Add contribution",
+                              onPressed:
+                                  _isLoading ? null : () => _submitForm(user),
+                            ),
                     ),
             ),
             SizedBox(

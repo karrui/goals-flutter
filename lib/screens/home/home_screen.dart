@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/goal_model.dart';
+import '../../providers/theme.dart';
 import '../../services/database.dart';
 import '../../shared/route_constants.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
+import '../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../utils/modal_bottom_sheet.dart';
 import 'add_goal_form.dart';
 import 'widgets/goals_list.dart';
@@ -48,6 +50,7 @@ class HomeScreen extends StatelessWidget {
     }
 
     _showAddGoalButton() {
+      var themeProvider = Provider.of<ThemeProvider>(context);
       return Column(
         children: [
           SizedBox(
@@ -55,12 +58,18 @@ class HomeScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0),
-            child: SquircleIconButton(
-              width: double.infinity,
-              text: "Add new goal",
-              onPressed: () =>
-                  showModalBottomSheetWithChild(context, AddGoalForm()),
-            ),
+            child: themeProvider.isDarkTheme
+                ? SquircleIconButton(
+                    width: double.infinity,
+                    text: "Add new goal",
+                    onPressed: () =>
+                        showModalBottomSheetWithChild(context, AddGoalForm()),
+                  )
+                : SquircleTextButton(
+                    text: "Add new goal",
+                    onPressed: () =>
+                        showModalBottomSheetWithChild(context, AddGoalForm()),
+                  ),
           ),
         ],
       );

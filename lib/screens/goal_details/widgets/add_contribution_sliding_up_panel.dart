@@ -10,8 +10,10 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../models/contribution_model.dart';
 import '../../../models/goal_model.dart';
+import '../../../providers/theme.dart';
 import '../../../services/database.dart';
 import '../../../shared/widgets/buttons/squircle_icon_button.dart';
+import '../../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../../shared/widgets/buttons/static_squircle_button.dart';
 
 class AddContributionSlidingUpPanel extends StatefulWidget {
@@ -78,6 +80,7 @@ class _AddContributionSlidingUpPanelState
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<FirebaseUser>(context);
+    var themeProvider = Provider.of<ThemeProvider>(context);
     Widget loadingWidget = SpinKitThreeBounce(
       color: Theme.of(context).primaryColor,
       size: 20.0,
@@ -275,12 +278,18 @@ class _AddContributionSlidingUpPanelState
                       )
                     : Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: SquircleIconButton(
-                          width: double.infinity,
-                          text: "Add contribution",
-                          onPressed:
-                              _isLoading ? null : () => _submitForm(user),
-                        ),
+                        child: themeProvider.isDarkTheme
+                            ? SquircleIconButton(
+                                width: double.infinity,
+                                text: "Add contribution",
+                                onPressed:
+                                    _isLoading ? null : () => _submitForm(user),
+                              )
+                            : SquircleTextButton(
+                                text: "Add contribution",
+                                onPressed:
+                                    _isLoading ? null : () => _submitForm(user),
+                              ),
                       ),
               ),
             ],

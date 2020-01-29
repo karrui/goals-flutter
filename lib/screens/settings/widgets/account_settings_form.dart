@@ -2,10 +2,13 @@ import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../providers/theme.dart';
 import '../../../services/database.dart';
 import '../../../shared/widgets/avatar.dart';
 import '../../../shared/widgets/buttons/squircle_icon_button.dart';
+import '../../../shared/widgets/buttons/squircle_text_button.dart';
 import 'image_capture.dart';
 
 class AccountSettingsForm extends StatefulWidget {
@@ -33,6 +36,8 @@ class _AccountSettingsFormState extends State<AccountSettingsForm> {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -123,31 +128,38 @@ class _AccountSettingsFormState extends State<AccountSettingsForm> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
-          child: SquircleIconButton(
-            enabled: !_isLoading,
-            text: "Save changes",
-            onPressed: () async {
-              setState(() {
-                _isLoading = true;
-              });
-              if (_formKey.currentState.validate()) {
-                var newName = displayNameInputController.value.text.trim();
-                var userUpdateInfo = UserUpdateInfo();
-                userUpdateInfo.displayName = newName;
-                await widget.user.updateProfile(userUpdateInfo);
-                await DatabaseService()
-                    .updateUserDisplayName(widget.user.uid, newName);
-                await FirebaseUserReloader.reloadCurrentUser();
-                Navigator.pop(context);
-              } else {
-                setState(() {
-                  _isLoading = false;
-                });
-              }
-            },
-          ),
+          child: themeProvider.isDarkTheme
+              ? SquircleIconButton(
+                  enabled: !_isLoading,
+                  text: "Save changes",
+                  onPressed: _handleOnPressed,
+                )
+              : SquircleTextButton(
+                  enabled: !_isLoading,
+                  text: "Save changes",
+                  onPressed: _handleOnPressed,
+                ),
         ),
       ],
     );
+  }
+
+  _handleOnPressed() async {
+    setState(() {
+      _isLoading = true;
+    });
+    if (_formKey.currentState.validate()) {
+      var newName = displayNameInputController.value.text.trim();
+      var userUpdateInfo = UserUpdateInfo();
+      userUpdateInfo.displayName = newName;
+      await widget.user.updateProfile(userUpdateInfo);
+      await DatabaseService().updateUserDisplayName(widget.user.uid, newName);
+      await FirebaseUserReloader.reloadCurrentUser();
+      Navigator.pop(context);
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 }

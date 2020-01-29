@@ -44,7 +44,7 @@ class ContributorsPage extends StatelessWidget {
           width: double.infinity,
           child: Container(
             padding: const EdgeInsets.only(
-                left: 36.0, right: 20.0, top: 5.0, bottom: 5.0),
+                left: 36.0, right: 20.0, top: 8.0, bottom: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

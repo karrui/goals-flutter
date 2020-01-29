@@ -128,7 +128,7 @@ class _ContributionsPageState extends State<ContributionsPage> {
           width: double.infinity,
           child: Container(
             padding: const EdgeInsets.only(
-                left: 36.0, right: 20.0, top: 5.0, bottom: 5.0),
+                left: 36.0, right: 20.0, top: 8.0, bottom: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -191,7 +191,7 @@ class _ContributionsPageState extends State<ContributionsPage> {
                         emboss: true,
                         borderRadius: 10,
                         depth: 10,
-                        spread: 1,
+                        spread: 10,
                         color: Theme.of(context).primaryColor,
                         child: Container(
                           width: double.infinity,

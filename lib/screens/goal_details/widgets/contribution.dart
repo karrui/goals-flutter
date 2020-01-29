@@ -1,9 +1,11 @@
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/contribution_model.dart';
 import '../../../models/user_model.dart';
+import '../../../providers/theme.dart';
 import '../../../shared/constants.dart';
 import '../../../shared/widgets/avatar.dart';
 import '../../../shared/widgets/checkbox/checkbox.dart';
@@ -47,6 +49,7 @@ class _ContributionState extends State<Contribution> {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return GestureDetector(
       onTap: widget.showCheckBox
           ? () => widget.onCheckItem(widget.contribution)
@@ -83,8 +86,8 @@ class _ContributionState extends State<Contribution> {
           emboss: _isEmbossed,
           color: Theme.of(context).primaryColor,
           borderRadius: 10,
-          spread: 5,
-          depth: 10,
+          spread: themeProvider.isDarkTheme ? 4 : 5,
+          depth: themeProvider.isDarkTheme ? 8 : 10,
           child: Container(
             margin:
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),

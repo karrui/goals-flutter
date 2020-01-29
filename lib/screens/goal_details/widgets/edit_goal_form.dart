@@ -6,8 +6,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/goal_model.dart';
+import '../../../providers/theme.dart';
 import '../../../services/database.dart';
 import '../../../shared/widgets/buttons/squircle_icon_button.dart';
+import '../../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../../shared/widgets/buttons/static_squircle_button.dart';
 import '../../../utils/number_util.dart';
 
@@ -77,6 +79,8 @@ class _EditGoalFormState extends State<EditGoalForm> {
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<FirebaseUser>(context);
+    var themeProvider = Provider.of<ThemeProvider>(context);
+
     Widget loadingWidget = SpinKitThreeBounce(
       color: Theme.of(context).primaryColor,
       size: 20.0,
@@ -209,11 +213,17 @@ class _EditGoalFormState extends State<EditGoalForm> {
                     )
                   : Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: SquircleIconButton(
-                        width: double.infinity,
-                        text: "Edit goal",
-                        onPressed: _isLoading ? null : () => _submitForm(user),
-                      ),
+                      child: themeProvider.isDarkTheme
+                          ? SquircleIconButton(
+                              width: double.infinity,
+                              text: "Edit goal",
+                              onPressed:
+                                  _isLoading ? null : () => _submitForm(user),
+                            )
+                          : SquircleTextButton(
+                              text: "Edit goal",
+                              onPressed:
+                                  _isLoading ? null : () => _submitForm(user)),
                     ),
             ),
             SizedBox(

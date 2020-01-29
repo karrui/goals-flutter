@@ -1,6 +1,9 @@
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:clay_containers/widgets/clay_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/theme.dart';
 
 class SquircleIconButton extends StatefulWidget {
   final double height;
@@ -38,6 +41,7 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     Color _getIconColor() {
       if (!widget.enabled) {
         return Theme.of(context).disabledColor;
@@ -67,7 +71,7 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
         width: widget.width,
         borderRadius: widget.borderRadius,
         depth: widget.enabled ? 12 : 0,
-        spread: 5,
+        spread: themeProvider.isDarkTheme ? 4 : 5,
         color: Theme.of(context).primaryColor,
         emboss: _isEmbossed(),
         child: Padding(
@@ -82,16 +86,23 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
                       color: _getIconColor(),
                     )
                   : Container(),
-              Padding(
-                padding:
-                    EdgeInsets.only(left: widget.text.isNotEmpty ? 8.0 : 0.0),
-                child: ClayText(
-                  widget.text,
-                  color: Theme.of(context).primaryColorDark,
-                  parentColor: Theme.of(context).primaryColor,
-                  emboss: true,
-                ),
-              )
+              if (widget.text.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: widget.iconData != null ? 8.0 : 0.0),
+                  child: ClayText(
+                    widget.text,
+                    color: Theme.of(context).primaryColorDark,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subhead
+                        .copyWith(fontWeight: FontWeight.w600),
+                    parentColor: Theme.of(context).primaryColor,
+                    emboss: true,
+                    spread: 1,
+                    depth: 6,
+                  ),
+                )
             ],
           ),
         ),

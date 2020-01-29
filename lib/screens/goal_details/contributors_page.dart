@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/contributor_model.dart';
+import '../../providers/current_goal.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../utils/modal_bottom_sheet.dart';
 import 'widgets/add_contributor_form.dart';
@@ -35,6 +37,7 @@ class ContributorsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var contributors = Provider.of<List<ContributorModel>>(context);
+    var goal = Provider.of<CurrentGoal>(context).goal;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,8 +66,10 @@ class ContributorsPage extends StatelessWidget {
             child: ListView.builder(
           itemCount: contributors.length,
           itemBuilder: (ctx, index) {
+            var contributor = contributors[index];
             var contributorWidget = Contributor(
-              contributor: contributors[index],
+              contributor: contributor,
+              isOwner: goal.owner == contributor.uid,
             );
 
             if (index != contributors.length - 1) {

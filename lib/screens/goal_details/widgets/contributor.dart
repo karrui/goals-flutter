@@ -1,5 +1,6 @@
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../models/contributor_model.dart';
 import '../../../shared/widgets/avatar.dart';
@@ -7,9 +8,11 @@ import '../../../utils/number_util.dart';
 
 class Contributor extends StatelessWidget {
   final ContributorModel contributor;
+  final bool isOwner;
 
   Contributor({
     @required this.contributor,
+    this.isOwner = true,
   });
 
   @override
@@ -58,32 +61,55 @@ class Contributor extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Row(
+              Stack(
+                alignment: Alignment.center,
                 children: <Widget>[
                   Avatar(
                     height: 30,
                     width: 30,
                     imageUrl: contributor.photoUrl,
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        contributor.displayName,
-                        style: Theme.of(context).textTheme.title.copyWith(
-                            fontSize: 16.0, fontWeight: FontWeight.normal),
-                      ),
-                      Text(
-                        contributor.email,
-                        style: Theme.of(context).textTheme.overline.copyWith(
-                            color: Theme.of(context).primaryColorDark),
-                      ),
-                    ],
-                  ),
+                  isOwner
+                      ? Positioned(
+                          bottom: 0,
+                          right: 2,
+                          child: Icon(
+                            FontAwesomeIcons.crown,
+                            color: Color(0xFFF8B632),
+                            size: 10,
+                          ),
+                        )
+                      : Container(),
                 ],
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      contributor.displayName,
+                      style: Theme.of(context).textTheme.title.copyWith(
+                          fontSize: 16.0, fontWeight: FontWeight.normal),
+                    ),
+                    if (isOwner)
+                      Text(
+                        "(Owner)",
+                        style: Theme.of(context).textTheme.overline.copyWith(
+                            color: Theme.of(context).primaryColorDark,
+                            fontSize: 12),
+                      ),
+                    Text(
+                      contributor.email,
+                      style: Theme.of(context)
+                          .textTheme
+                          .overline
+                          .copyWith(color: Theme.of(context).primaryColorDark),
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),

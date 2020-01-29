@@ -101,13 +101,12 @@ class Contributor extends StatelessWidget {
                             color: Theme.of(context).primaryColorDark,
                             fontSize: 12),
                       ),
-                    Text(
-                      contributor.email,
-                      style: Theme.of(context)
-                          .textTheme
-                          .overline
-                          .copyWith(color: Theme.of(context).primaryColorDark),
-                    ),
+                    if (contributor.email.isNotEmpty)
+                      Text(
+                        contributor.email,
+                        style: Theme.of(context).textTheme.overline.copyWith(
+                            color: Theme.of(context).primaryColorDark),
+                      ),
                   ],
                 ),
               ),

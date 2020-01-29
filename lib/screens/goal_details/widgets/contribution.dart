@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../models/contribution_model.dart';
 import '../../../models/user_model.dart';
+import '../../../shared/constants.dart';
 import '../../../shared/widgets/avatar.dart';
 import '../../../shared/widgets/checkbox/checkbox.dart';
 import '../../../utils/number_util.dart';
@@ -98,7 +99,8 @@ class _ContributionState extends State<Contribution> {
                         : Avatar(
                             height: 40,
                             width: 40,
-                            imageUrl: widget.createdByUser.photoUrl,
+                            imageUrl: widget.createdByUser?.photoUrl ??
+                                defaultAvatarUrl,
                           ),
                     SizedBox(
                       width: 10,
@@ -108,7 +110,7 @@ class _ContributionState extends State<Contribution> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Text(
-                            widget.createdByUser.displayName,
+                            widget.createdByUser?.displayName ?? '[User left]',
                             style: Theme.of(context).textTheme.overline,
                           ),
                           widget.contribution.description.isNotEmpty

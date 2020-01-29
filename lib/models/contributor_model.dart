@@ -1,3 +1,4 @@
+import '../shared/constants.dart';
 import 'contribution_model.dart';
 import 'user_model.dart';
 
@@ -36,7 +37,21 @@ class ContributorModel {
       var contributionAmount = currentContribution.type == ContributionType.ADD
           ? currentContribution.amount
           : -currentContribution.amount;
-      acc[currentContribution.uid].totalContribution += contributionAmount;
+
+      if (acc[currentContribution.uid] != null) {
+        acc[currentContribution.uid].totalContribution += contributionAmount;
+      } else {
+        if (acc[userLeftContributorKey] == null) {
+          acc[userLeftContributorKey] = ContributorModel(
+              uid: userLeftContributorKey,
+              displayName: "[Users who left]",
+              photoUrl: defaultAvatarUrl,
+              email: "",
+              totalContribution: contributionAmount);
+        } else {
+          acc[userLeftContributorKey].totalContribution += contributionAmount;
+        }
+      }
       return acc;
     });
     return uidToContributorMap.entries.map((entry) => entry.value).toList()

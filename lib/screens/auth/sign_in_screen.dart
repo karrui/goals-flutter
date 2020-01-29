@@ -114,8 +114,9 @@ class _SignInScreenState extends State<SignInScreen> {
           obscureText: true,
           autofocus: false,
           decoration: InputDecoration(
-              labelText: "Password",
-              hintText: "Password should be at least 6 characters"),
+            labelText: "Password",
+            hintText: "correct horse battery staple",
+          ),
           controller: passwordInputController,
           validator: passwordValidator,
         ),
@@ -228,7 +229,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   _showErrorMessage(_errorMessage),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

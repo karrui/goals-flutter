@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_progress_button/flutter_progress_button.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../services/auth.dart';
+import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import 'utils/form_validator.dart';
 import 'utils/generate_auth_error_message.dart';
 
@@ -44,42 +43,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _showEmailInput() {
     return Form(
       key: _emailFormKey,
-      child: TextFormField(
-        autofocus: true,
-        autocorrect: false,
-        focusNode: emailFocusNode,
-        onFieldSubmitted: (_) {
-          setState(() {
-            hasBlurredEmailInput = true;
-          });
-          _emailFormKey.currentState.validate();
-          FocusScope.of(context).requestFocus(passwordFocusNode);
-        },
-        onChanged: (_) {
-          if (_errorMessage != "") {
+      child: Container(
+        height: 80.0,
+        child: TextFormField(
+          autofocus: true,
+          autocorrect: false,
+          focusNode: emailFocusNode,
+          onFieldSubmitted: (_) {
             setState(() {
-              _errorMessage = "";
+              hasBlurredEmailInput = true;
             });
-          }
-          if (hasBlurredEmailInput) {
             _emailFormKey.currentState.validate();
-          }
-          if (passwordInputController.text.length > 0) {
-            setState(() {
-              isSignUpButtonEnabled = _emailFormKey.currentState.validate() &&
-                  _passwordFormKey.currentState.validate();
-            });
-          }
-        },
-        maxLines: 1,
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          icon: Icon(FontAwesomeIcons.solidEnvelope),
-          labelText: "Email address",
-          hintText: "hello@example.com",
+            FocusScope.of(context).requestFocus(passwordFocusNode);
+          },
+          onChanged: (_) {
+            if (_errorMessage != "") {
+              setState(() {
+                _errorMessage = "";
+              });
+            }
+            if (hasBlurredEmailInput) {
+              _emailFormKey.currentState.validate();
+            }
+            if (passwordInputController.text.length > 0) {
+              setState(() {
+                isSignUpButtonEnabled = _emailFormKey.currentState.validate() &&
+                    _passwordFormKey.currentState.validate();
+              });
+            }
+          },
+          maxLines: 1,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            labelText: "Email address",
+            hintText: "hello@example.com",
+          ),
+          controller: emailInputController,
+          validator: emailValidator,
         ),
-        controller: emailInputController,
-        validator: emailValidator,
       ),
     );
   }
@@ -87,62 +88,61 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _showPasswordInput() {
     return Form(
       key: _passwordFormKey,
-      child: TextFormField(
-        focusNode: passwordFocusNode,
-        onTap: () {
-          setState(() {
-            hasBlurredEmailInput = true;
-          });
-          _emailFormKey.currentState.validate();
-        },
-        onChanged: (_) {
-          if (_errorMessage != "") {
+      child: Container(
+        height: 80.0,
+        child: TextFormField(
+          focusNode: passwordFocusNode,
+          onTap: () {
             setState(() {
-              _errorMessage = "";
+              hasBlurredEmailInput = true;
             });
-          }
-          setState(() {
-            isSignUpButtonEnabled = _emailFormKey.currentState.validate() &&
-                _passwordFormKey.currentState.validate();
-          });
-        },
-        maxLines: 1,
-        obscureText: true,
-        autofocus: false,
-        decoration: InputDecoration(
-          icon: Icon(FontAwesomeIcons.lock),
-          labelText: "Password",
+            _emailFormKey.currentState.validate();
+          },
+          onChanged: (_) {
+            if (_errorMessage != "") {
+              setState(() {
+                _errorMessage = "";
+              });
+            }
+            setState(() {
+              isSignUpButtonEnabled = _emailFormKey.currentState.validate() &&
+                  _passwordFormKey.currentState.validate();
+            });
+          },
+          maxLines: 1,
+          obscureText: true,
+          autofocus: false,
+          decoration: InputDecoration(
+            labelText: "Password",
+            hintText: "Password should be at least 6 characters",
+          ),
+          controller: passwordInputController,
+          validator: passwordValidator,
         ),
-        controller: passwordInputController,
-        validator: passwordValidator,
       ),
     );
   }
 
   Widget _showSignUpButton(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(48.0, 26.0, 48.0, 6.0),
-      child: ProgressButton(
-        progressWidget: const CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-        ),
-        defaultWidget: Text(
-          "Sign up",
-          style: TextStyle(color: Colors.white),
-        ),
-        borderRadius: 30.0,
-        onPressed: isSignUpButtonEnabled ? () => _handleSignUp : null,
-        color: Colors.grey[900],
-      ),
+    return SquircleIconButton(
+      width: double.infinity,
+      text: "Sign up",
+      textColor: Colors.white,
+      iconColor: Colors.white,
+      backgroundColor: Theme.of(context).primaryColorDark,
+      enabled: isSignUpButtonEnabled,
+      onPressed: isSignUpButtonEnabled ? () => _handleSignUp() : null,
     );
   }
 
   Widget _showErrorMessage(String errorMessage) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(
-        errorMessage,
-        style: TextStyle(color: Colors.redAccent),
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Text(
+          errorMessage,
+          style: TextStyle(color: Colors.redAccent),
+        ),
       ),
     );
   }
@@ -169,23 +169,55 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
+  Widget _showAppBar() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          SquircleIconButton(
+            iconData: Icons.arrow_back,
+            onPressed: () => Navigator.pop(context),
+            iconSize: 24.0,
+            height: 50.0,
+            width: 50.0,
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Sign up with email"),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              _showEmailInput(),
-              _showPasswordInput(),
-              _showSignUpButton(context),
-              _showErrorMessage(_errorMessage),
-            ],
-          ),
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            _showAppBar(),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text(
+                    "Sign up",
+                    style: Theme.of(context).textTheme.subtitle,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _showEmailInput(),
+                  _showPasswordInput(),
+                  SizedBox(
+                    height: 25.0,
+                  ),
+                  _showSignUpButton(context),
+                  _showErrorMessage(_errorMessage),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

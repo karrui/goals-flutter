@@ -8,7 +8,7 @@ import '../../services/auth.dart';
 import '../../shared/widgets/avatar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/toggle_switch.dart';
-import 'image_capture.dart';
+import 'widgets/image_capture.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

@@ -17,13 +17,49 @@ class ThemePreference {
 
 class AppTheme {
   static final _darkTheme = ThemeData(
-    primarySwatch: Colors.grey,
-    primaryColor: Colors.black,
+    fontFamily: 'Gilroy',
+    scaffoldBackgroundColor: Color(0xFF171C26),
     brightness: Brightness.dark,
-    backgroundColor: const Color(0xFF212121),
-    accentColor: Colors.white,
-    accentIconTheme: IconThemeData(color: Colors.black),
-    dividerColor: Colors.black12,
+    errorColor: Color(0xFFFF416C),
+    indicatorColor: Color(0xFF63FF79),
+    primarySwatch: Colors.grey,
+    primaryColor: Color(0xFF171C26),
+    primaryColorLight: Color(0xFFF2F2F2),
+    primaryColorDark: Color(0xFFF2F2F2),
+    buttonColor: Colors.white,
+    cursorColor: Color(0xFF495C83),
+    backgroundColor: Color(0xFF171C26),
+    textTheme: TextTheme(
+      title: TextStyle(
+        color: Color(0xFFF2F2F2),
+        fontWeight: FontWeight.w800,
+        fontSize: 32.0,
+      ),
+      body2: TextStyle(
+        color: Color(0xFFF2F2F2),
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 1.5,
+      ),
+      subhead: TextStyle(fontWeight: FontWeight.w600),
+      subtitle: TextStyle(
+        color: Color(0xFFF0F1F5),
+        fontWeight: FontWeight.w600,
+        fontSize: 20,
+      ),
+      overline: TextStyle(
+        color: Color(0xFFF0F1F5),
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0,
+      ),
+      button: TextStyle(
+        color: Color(0xFFF2F2F2),
+      ),
+    ),
+    accentColor: Colors.green.withOpacity(0.65),
+    accentIconTheme: IconThemeData(color: Colors.white),
+    dividerColor: Colors.white54,
   );
 
   static final _lightTheme = ThemeData(

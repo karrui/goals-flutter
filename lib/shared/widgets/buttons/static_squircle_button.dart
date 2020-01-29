@@ -1,5 +1,8 @@
+import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
-import 'package:goals_flutter/shared/decorations/squircle_button_box_decoration.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/theme.dart';
 
 class StaticSquircleButton extends StatelessWidget {
   final double height;
@@ -16,15 +19,20 @@ class StaticSquircleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    var themeProvider = Provider.of<ThemeProvider>(context);
+
+    return ClayContainer(
       height: height,
       width: width,
-      decoration: isActive
-          ? squircleButtonBoxDecorationDepressed(context)
-          : squircleButtonBoxDecoration(context),
-      child: Center(
-        child: child,
-      ),
+      emboss: isActive,
+      child: Center(child: child),
+      color: themeProvider.isDarkTheme
+          ? Theme.of(context).primaryColor
+          : Theme.of(context).primaryColorDark,
+      parentColor: Theme.of(context).primaryColor,
+      borderRadius: 25,
+      depth: 10,
+      spread: 6,
     );
   }
 }

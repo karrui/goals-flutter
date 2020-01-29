@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/theme.dart';
 import '../../services/auth.dart';
 import '../../shared/route_constants.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
@@ -100,6 +102,7 @@ class _AuthButtonsState extends State<AuthButtons> {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Column(
@@ -139,9 +142,11 @@ class _AuthButtonsState extends State<AuthButtons> {
             iconSize: 20,
             width: double.infinity,
             text: "Sign in with email",
-            textColor: Colors.white,
-            iconColor: Colors.white,
-            backgroundColor: Theme.of(context).primaryColorDark,
+            textColor: themeProvider.isDarkTheme ? null : Colors.white,
+            iconColor: themeProvider.isDarkTheme ? null : Colors.white,
+            backgroundColor: themeProvider.isDarkTheme
+                ? null
+                : Theme.of(context).primaryColorDark,
             iconData: FontAwesomeIcons.solidEnvelope,
             enabled: !_areButtonsDisabled,
             onPressed: () => _handleSignInWithEmail(context),

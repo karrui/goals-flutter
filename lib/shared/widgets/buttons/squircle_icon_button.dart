@@ -78,7 +78,7 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
         depth: widget.enabled ? 12 : 0,
         spread: themeProvider.isDarkTheme ? 4 : 5,
         color: !widget.enabled
-            ? Theme.of(context).disabledColor
+            ? Theme.of(context).disabledColor.withOpacity(0.15)
             : widget.backgroundColor ?? Theme.of(context).backgroundColor,
         parentColor: Theme.of(context).backgroundColor,
         emboss: _isEmbossed(),

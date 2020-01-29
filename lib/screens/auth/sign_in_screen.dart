@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/theme.dart';
 import '../../services/auth.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../utils/notification_util.dart';
@@ -125,12 +127,14 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget _showSignInButton(BuildContext context, Map arguments) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return SquircleIconButton(
       width: double.infinity,
       text: "Sign in",
-      textColor: Colors.white,
-      iconColor: Colors.white,
-      backgroundColor: Theme.of(context).primaryColorDark,
+      textColor: themeProvider.isDarkTheme ? null : Colors.white,
+      iconColor: themeProvider.isDarkTheme ? null : Colors.white,
+      backgroundColor:
+          themeProvider.isDarkTheme ? null : Theme.of(context).primaryColorDark,
       enabled: isSignInButtonEnabled,
       onPressed: isSignInButtonEnabled ? () => _handleSignIn(arguments) : null,
     );

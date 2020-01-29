@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:goals_flutter/providers/theme.dart';
+import 'package:provider/provider.dart';
 
 import '../../services/auth.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
@@ -124,12 +126,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget _showSignUpButton(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return SquircleIconButton(
       width: double.infinity,
       text: "Sign up",
-      textColor: Colors.white,
-      iconColor: Colors.white,
-      backgroundColor: Theme.of(context).primaryColorDark,
+      textColor: themeProvider.isDarkTheme ? null : Colors.white,
+      iconColor: themeProvider.isDarkTheme ? null : Colors.white,
+      backgroundColor:
+          themeProvider.isDarkTheme ? null : Theme.of(context).primaryColorDark,
       enabled: isSignUpButtonEnabled,
       onPressed: isSignUpButtonEnabled ? () => _handleSignUp() : null,
     );

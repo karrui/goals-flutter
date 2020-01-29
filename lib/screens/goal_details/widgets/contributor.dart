@@ -1,8 +1,10 @@
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/contributor_model.dart';
+import '../../../providers/theme.dart';
 import '../../../shared/widgets/avatar.dart';
 import '../../../utils/number_util.dart';
 
@@ -17,6 +19,7 @@ class Contributor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     _buildContributionAmount() {
       var totalContributionString =
           convertDoubleToCurrencyString(contributor.totalContribution.abs());
@@ -50,11 +53,10 @@ class Contributor extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
       child: ClayContainer(
-        emboss: true,
         color: Theme.of(context).backgroundColor,
         borderRadius: 10,
-        spread: 1,
-        depth: 10,
+        spread: themeProvider.isDarkTheme ? 4 : 5,
+        depth: themeProvider.isDarkTheme ? 8 : 10,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
           child: Row(

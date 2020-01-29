@@ -101,11 +101,11 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
                 onPressed: () {},
               ),
               _buildLeaveSheetAction(),
-              CupertinoActionSheetAction(
-                child: const Text('Cancel'),
-                onPressed: () => Navigator.pop(context),
-              ),
             ],
+            cancelButton: CupertinoActionSheetAction(
+              child: const Text('Cancel'),
+              onPressed: () => Navigator.pop(context),
+            ),
           );
         });
   }

@@ -60,16 +60,18 @@ class _ImageCaptureState extends State<ImageCapture> {
               return CupertinoActionSheet(
                 actions: <Widget>[
                   CupertinoActionSheetAction(
-                    child: Text("Camera"),
+                    child: Text("Camera", style: TextStyle(color: Colors.blue)),
                     onPressed: () => _changeProfilePicture(ImageSource.camera),
                   ),
                   CupertinoActionSheetAction(
-                    child: Text("Choose Photo"),
+                    child: Text("Choose Photo",
+                        style: TextStyle(color: Colors.blue)),
                     onPressed: () => _changeProfilePicture(ImageSource.gallery),
                   ),
                 ],
                 cancelButton: CupertinoActionSheetAction(
-                  child: Text("Cancel"),
+                  isDefaultAction: true,
+                  child: Text("Cancel", style: TextStyle(color: Colors.blue)),
                   onPressed: () => Navigator.pop(context),
                 ),
               );

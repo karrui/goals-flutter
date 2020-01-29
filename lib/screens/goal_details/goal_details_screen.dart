@@ -99,7 +99,10 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
             actions: <Widget>[
               if (isUserOwner)
                 CupertinoActionSheetAction(
-                  child: const Text('Edit goal'),
+                  child: const Text(
+                    'Edit goal',
+                    style: TextStyle(color: Colors.blue),
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                     showModalBottomSheetWithChild(
@@ -112,7 +115,8 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
               _buildLeaveSheetAction(),
             ],
             cancelButton: CupertinoActionSheetAction(
-              child: const Text('Cancel'),
+              isDefaultAction: true,
+              child: const Text('Cancel', style: TextStyle(color: Colors.blue)),
               onPressed: () => Navigator.pop(context),
             ),
           );

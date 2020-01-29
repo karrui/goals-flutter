@@ -8,6 +8,7 @@ import '../../services/auth.dart';
 import '../../shared/widgets/avatar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/toggle_switch.dart';
+import 'account_settings_screen.dart';
 import 'widgets/image_capture.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -107,7 +108,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   iconData: Icons.navigate_next,
                   height: 25,
                   width: 35,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => AccountSettingsScreen()));
+                  },
                 )
               ],
             ),

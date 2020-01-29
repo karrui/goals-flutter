@@ -62,6 +62,11 @@ class DatabaseService {
         );
   }
 
+  Future<void> updateUserDisplayName(String userId, String newName) {
+    final userRef = _db.collection('users').document(userId);
+    return userRef.updateData({'displayName': newName});
+  }
+
   Future<void> updateUserProfileUrl(String userId, String photoUrl) {
     final userRef = _db.collection('users').document(userId);
     return userRef.updateData({'photoUrl': photoUrl});

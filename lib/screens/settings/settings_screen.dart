@@ -132,14 +132,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
           style: Theme.of(context).textTheme.subtitle,
         ),
         SizedBox(
-          height: 10,
+          height: 15,
         ),
         ClayContainer(
           borderRadius: 15,
           color: Theme.of(context).backgroundColor,
-          depth: 10,
-          spread: 1,
-          emboss: true,
+          depth: 8,
+          spread: 4,
           child: ListTile(
             title: Text('Enable Dark Mode'),
             trailing: GestureDetector(

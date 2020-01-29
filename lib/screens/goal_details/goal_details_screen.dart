@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import './widgets/add_contribution_sliding_up_panel.dart';
 import '../../models/contribution_model.dart';
 import '../../models/contributor_model.dart';
+import '../../models/goal_model.dart';
 import '../../models/user_model.dart';
 import '../../providers/current_goal.dart';
 import '../../services/database.dart';
@@ -24,7 +25,7 @@ class GoalDetailsScreen extends StatefulWidget {
 class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
   final db = DatabaseService();
 
-  Widget _showAppBar() {
+  Widget _showAppBar(GoalModel goal) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
@@ -39,7 +40,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
           ),
           SquircleIconButton(
             iconData: Icons.more_horiz,
-            onPressed: _showActionSheet,
+            onPressed: () => _showActionSheet(goal),
             iconSize: 24.0,
             height: 50.0,
             width: 50.0,
@@ -49,8 +50,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
     );
   }
 
-  Future<void> _showActionSheet() async {
-    final goal = Provider.of<CurrentGoal>(context, listen: false).goal;
+  Future<void> _showActionSheet(GoalModel goal) async {
     final user = Provider.of<FirebaseUser>(context, listen: false);
     final isUserOwner = user.uid == goal.owner;
 
@@ -61,66 +61,68 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
         onPressed: () {
           Navigator.pop(context);
           showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (ctx) => CupertinoAlertDialog(
-                    title: Text(isUserOwner ? 'Delete goal' : 'Leave goal'),
-                    content: Text(
-                        "Are you sure you want to ${isUserOwner ? 'delete' : 'leave'} this goal?"),
-                    actions: <Widget>[
-                      CupertinoDialogAction(
-                        child: Text("Cancel"),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          return null;
-                        },
-                      ),
-                      CupertinoDialogAction(
-                        isDestructiveAction: true,
-                        child: Text(isUserOwner ? 'Delete' : 'Leave'),
-                        onPressed: () {
-                          isUserOwner
-                              ? db.deleteGoal(goal.id)
-                              : db.leaveGoal(goal.id, user.uid);
-                          Navigator.popUntil(
-                              context, ModalRoute.withName(splashRoute));
-                        },
-                      ),
-                    ],
-                  ));
+            context: context,
+            barrierDismissible: false,
+            builder: (ctx) => CupertinoAlertDialog(
+              title: Text(isUserOwner ? 'Delete goal' : 'Leave goal'),
+              content: Text(
+                  "Are you sure you want to ${isUserOwner ? 'delete' : 'leave'} this goal?"),
+              actions: <Widget>[
+                CupertinoDialogAction(
+                  child: Text("Cancel"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    return null;
+                  },
+                ),
+                CupertinoDialogAction(
+                  isDestructiveAction: true,
+                  child: Text(isUserOwner ? 'Delete' : 'Leave'),
+                  onPressed: () {
+                    isUserOwner
+                        ? db.deleteGoal(goal.id)
+                        : db.leaveGoal(goal.id, user.uid);
+                    Navigator.popUntil(
+                        context, ModalRoute.withName(splashRoute));
+                  },
+                ),
+              ],
+            ),
+          );
         },
       );
     }
 
     return showCupertinoModalPopup(
-        context: context,
-        builder: (_) {
-          return CupertinoActionSheet(
-            actions: <Widget>[
-              if (isUserOwner)
-                CupertinoActionSheetAction(
-                  child: const Text(
-                    'Edit goal',
-                    style: TextStyle(color: Colors.blue),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    showModalBottomSheetWithChild(
-                        context,
-                        EditGoalForm(
-                          goal: goal,
-                        ));
-                  },
+      context: context,
+      builder: (_) {
+        return CupertinoActionSheet(
+          actions: <Widget>[
+            if (isUserOwner)
+              CupertinoActionSheetAction(
+                child: const Text(
+                  'Edit goal',
+                  style: TextStyle(color: Colors.blue),
                 ),
-              _buildLeaveSheetAction(),
-            ],
-            cancelButton: CupertinoActionSheetAction(
-              isDefaultAction: true,
-              child: const Text('Cancel', style: TextStyle(color: Colors.blue)),
-              onPressed: () => Navigator.pop(context),
-            ),
-          );
-        });
+                onPressed: () {
+                  Navigator.pop(context);
+                  showModalBottomSheetWithChild(
+                      context,
+                      EditGoalForm(
+                        goal: goal,
+                      ));
+                },
+              ),
+            _buildLeaveSheetAction(),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            isDefaultAction: true,
+            child: const Text('Cancel', style: TextStyle(color: Colors.blue)),
+            onPressed: () => Navigator.pop(context),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -128,45 +130,53 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
     final goal = Provider.of<CurrentGoal>(context).goal;
     return MultiProvider(
       providers: [
+        Consumer<CurrentGoal>(
+          builder: (ctx, currentGoal, child) => StreamProvider<GoalModel>(
+            initialData: goal,
+            create: (_) => db.streamCurrentGoal(goal.id),
+            catchError: (_, __) => goal,
+            child: child,
+          ),
+        ),
         StreamProvider<List<ContributionModel>>(
           initialData: [],
           create: (_) => db.streamContributions(goal.id),
         ),
-        StreamProvider<Map<String, UserModel>>(
-          initialData: {},
-          create: (_) => db.streamUidToPhotoUrlMap(goal),
+        Consumer<GoalModel>(
+          builder: (ctx, streamedGoal, child) =>
+              StreamProvider<Map<String, UserModel>>(
+            initialData: {},
+            create: (_) => db.streamUidToPhotoUrlMap(streamedGoal),
+            child: child,
+          ),
         ),
         ProxyProvider2<List<ContributionModel>, Map<String, UserModel>,
             List<ContributorModel>>(
           update: (ctx, contributionList, userModelMap, _) =>
               ContributorModel.fromContributionList(
                   contributionList, userModelMap),
-        )
+        ),
       ],
-      child: Scaffold(
-        resizeToAvoidBottomPadding: false,
-        body: AddContributionSlidingUpPanel(
-          goal: goal,
-          body: SafeArea(
-            child: Column(
-              children: <Widget>[
-                _showAppBar(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 16.0),
-                  child: StreamBuilder(
-                    stream: db.streamCurrentGoal(goal.id),
-                    builder: (_, snapshot) => Hero(
-                      tag: goal.id,
-                      child: GoalCard(
-                        goal: snapshot.hasData ? snapshot.data : goal,
-                        showAddButton: false,
-                      ),
+      child: Consumer<GoalModel>(
+        builder: (ctx, streamedGoal, _) => Scaffold(
+          resizeToAvoidBottomPadding: false,
+          body: AddContributionSlidingUpPanel(
+            goal: streamedGoal,
+            body: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  _showAppBar(streamedGoal),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 16.0),
+                    child: GoalCard(
+                      goal: streamedGoal,
+                      showAddButton: false,
                     ),
                   ),
-                ),
-                ContributionPageViews(),
-              ],
+                  ContributionPageViews(),
+                ],
+              ),
             ),
           ),
         ),

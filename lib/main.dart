@@ -34,12 +34,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<ThemeProvider>(
           create: (_) => themeProvider,
         ),
         StreamProvider<FirebaseUser>(
             create: (_) => FirebaseUserReloader.onAuthStateChangedOrReloaded),
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<CurrentGoal>(
           create: (_) => CurrentGoal(),
         ),
       ],

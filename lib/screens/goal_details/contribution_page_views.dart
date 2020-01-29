@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
+import 'package:provider/provider.dart';
 
-import 'contributors_page.dart';
+import '../../models/contributor_model.dart';
 import 'contributions_page.dart';
+import 'contributors_page.dart';
 
 class ContributionPageViews extends StatefulWidget {
   @override
@@ -23,7 +25,9 @@ class _ContributionPageViewsState extends State<ContributionPageViews> {
               controller: _controller,
               children: <Widget>[
                 ContributionsPage(),
-                ContributorsPage(),
+                ContributorsPage(
+                  contributors: Provider.of<List<ContributorModel>>(context),
+                ),
               ],
               onPageChanged: (index) {
                 _currentPageNotifier.value = index;

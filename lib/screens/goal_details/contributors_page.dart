@@ -1,14 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/contributor_model.dart';
 import '../../providers/current_goal.dart';
+import '../../shared/constants.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../utils/modal_bottom_sheet.dart';
 import 'widgets/add_contributor_form.dart';
 import 'widgets/contributor.dart';
 
 class ContributorsPage extends StatelessWidget {
+  final List<ContributorModel> contributors;
+
+  ContributorsPage({this.contributors});
+
   _buildAddContributor(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -34,7 +40,6 @@ class ContributorsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var contributors = Provider.of<List<ContributorModel>>(context);
     var goal = Provider.of<CurrentGoal>(context).goal;
 
     return Column(
@@ -64,10 +69,16 @@ class ContributorsPage extends StatelessWidget {
             child: ListView.builder(
           itemCount: contributors.length,
           itemBuilder: (ctx, index) {
+            var user = Provider.of<FirebaseUser>(context);
             var contributor = contributors[index];
+            var ownerContributor = goal.owner == contributor.uid;
             var contributorWidget = Contributor(
               contributor: contributor,
-              isOwner: goal.owner == contributor.uid,
+              isOwner: ownerContributor,
+              canRemove: goal.owner == user.uid &&
+                  !ownerContributor &&
+                  contributor.uid != userLeftContributorKey,
+              goalId: goal.id,
             );
 
             if (index != contributors.length - 1) {

@@ -183,10 +183,19 @@ class DatabaseService {
     return _db.collection('goals').document(goalId).delete();
   }
 
-  Future<void> leaveGoal(String goalId, String userId) {
-    return _db.collection('goals').document(goalId).updateData({
+  Future<void> leaveGoal(String goalId, String userId,
+      {bool isOwnerRemove = false}) async {
+    await _db.collection('goals').document(goalId).updateData({
       "usersWithAccess": FieldValue.arrayRemove([userId])
     });
+
+    if (isOwnerRemove) {
+      showSuccessToast("User removed from goal");
+    } else {
+      showSuccessToast("Goal left");
+    }
+
+    return;
   }
 
   Future<void> deleteContributions(

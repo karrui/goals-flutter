@@ -27,7 +27,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
 
   Widget _showAppBar(GoalModel goal) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -169,9 +169,12 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 16.0),
-                    child: GoalCard(
-                      goal: streamedGoal,
-                      showAddButton: false,
+                    child: Hero(
+                      tag: streamedGoal.id,
+                      child: GoalCard(
+                        goal: streamedGoal,
+                        showAddButton: false,
+                      ),
                     ),
                   ),
                   ContributionPageViews(),

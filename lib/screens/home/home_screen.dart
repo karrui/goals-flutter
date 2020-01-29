@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
             height: 12.0,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0),
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20),
             child: themeProvider.isDarkTheme
                 ? SquircleIconButton(
                     width: double.infinity,

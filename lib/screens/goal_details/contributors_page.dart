@@ -27,16 +27,6 @@ class ContributorsPage extends StatelessWidget {
           SizedBox(
             height: 12.0,
           ),
-          SquircleIconButton(
-            alignment: MainAxisAlignment.start,
-            width: double.infinity,
-            iconSize: 25,
-            iconData: Icons.link,
-            text: "Invite via link",
-            onPressed: () {
-              print("Invite via link button clicked");
-            },
-          ),
         ],
       ),
     );

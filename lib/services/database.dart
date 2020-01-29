@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import '../models/contribution_model.dart';
 import '../models/goal_model.dart';
 import '../models/user_model.dart';
+import '../providers/current_goal.dart';
+import '../utils/notification_util.dart';
 
 class DatabaseService {
   final Firestore _db = Firestore.instance;
@@ -96,6 +98,29 @@ class DatabaseService {
     }
 
     return batch.commit();
+  }
+
+  Future<void> shareGoal({
+    @required String email,
+    @required String goalId,
+  }) async {
+    var userSnapshot = await _db
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .getDocuments();
+    if (userSnapshot.documents.isEmpty) {
+      showFailureToast("User with email not found.");
+      return Future.error("User not found");
+    }
+    var user = UserModel.fromFirestore(userSnapshot.documents[0]);
+
+    final goalRef = _db.collection('goals').document(goalId);
+
+    await goalRef.updateData({
+      'usersWithAccess': FieldValue.arrayUnion([user.uid])
+    });
+    showSuccessToast("User added to goal!");
+    return;
   }
 
   Future<void> addContributionToGoal({

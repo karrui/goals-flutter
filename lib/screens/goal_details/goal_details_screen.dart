@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import './widgets/add_contribution_sliding_up_panel.dart';
 import '../../models/contribution_model.dart';
@@ -48,6 +49,47 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
 
   Future<void> _showActionSheet() async {
     final goal = Provider.of<CurrentGoal>(context, listen: false).goal;
+    final user = Provider.of<FirebaseUser>(context, listen: false);
+
+    _buildLeaveSheetAction() {
+      var isUserOwner = user.uid == goal.owner;
+
+      return CupertinoActionSheetAction(
+        isDestructiveAction: true,
+        child: Text(isUserOwner ? 'Delete goal' : 'Leave goal'),
+        onPressed: () {
+          Navigator.pop(context);
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (ctx) => CupertinoAlertDialog(
+                    title: Text(isUserOwner ? 'Delete goal' : 'Leave goal'),
+                    content: Text(
+                        "Are you sure you want to ${isUserOwner ? 'delete' : 'leave'} this goal?"),
+                    actions: <Widget>[
+                      CupertinoDialogAction(
+                        child: Text("Cancel"),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          return null;
+                        },
+                      ),
+                      CupertinoDialogAction(
+                        isDestructiveAction: true,
+                        child: Text(isUserOwner ? 'Delete' : 'Leave'),
+                        onPressed: () {
+                          isUserOwner
+                              ? db.deleteGoal(goal.id)
+                              : db.leaveGoal(goal.id, user.uid);
+                          Navigator.popUntil(
+                              context, ModalRoute.withName(splashRoute));
+                        },
+                      ),
+                    ],
+                  ));
+        },
+      );
+    }
 
     return showCupertinoModalPopup(
         context: context,
@@ -58,39 +100,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
                 child: const Text('Edit goal'),
                 onPressed: () {},
               ),
-              CupertinoActionSheetAction(
-                isDestructiveAction: true,
-                child: const Text('Delete goal'),
-                onPressed: () {
-                  Navigator.pop(context);
-                  showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (ctx) => CupertinoAlertDialog(
-                            title: Text("Delete goal"),
-                            content: Text(
-                                "Are you sure you want to delete this goal?"),
-                            actions: <Widget>[
-                              CupertinoDialogAction(
-                                child: Text("Cancel"),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  return null;
-                                },
-                              ),
-                              CupertinoDialogAction(
-                                isDestructiveAction: true,
-                                child: Text("Delete"),
-                                onPressed: () {
-                                  db.deleteGoal(goal.id);
-                                  Navigator.popUntil(context,
-                                      ModalRoute.withName(splashRoute));
-                                },
-                              ),
-                            ],
-                          ));
-                },
-              ),
+              _buildLeaveSheetAction(),
               CupertinoActionSheetAction(
                 child: const Text('Cancel'),
                 onPressed: () => Navigator.pop(context),

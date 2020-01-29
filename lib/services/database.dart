@@ -165,6 +165,12 @@ class DatabaseService {
     return _db.collection('goals').document(goalId).delete();
   }
 
+  Future<void> leaveGoal(String goalId, String userId) {
+    return _db.collection('goals').document(goalId).updateData({
+      "usersWithAccess": FieldValue.arrayRemove([userId])
+    });
+  }
+
   Future<void> deleteContributions(
       String goalId, Map<String, ContributionModel> contributions) {
     final batch = _db.batch();

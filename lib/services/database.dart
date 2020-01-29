@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import '../models/contribution_model.dart';
 import '../models/goal_model.dart';
 import '../models/user_model.dart';
-import '../providers/current_goal.dart';
 import '../utils/notification_util.dart';
 
 class DatabaseService {

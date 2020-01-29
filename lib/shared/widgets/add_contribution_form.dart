@@ -184,7 +184,7 @@ class _AddContributionFormState extends State<AddContributionForm> {
                               enabled: !_isLoading,
                               focusNode: _descriptionFocusNode,
                               autocorrect: true,
-                              textInputAction: TextInputAction.continueAction,
+                              textInputAction: TextInputAction.done,
                               controller: _descriptionTextController,
                               maxLines: 1,
                               style: Theme.of(context)

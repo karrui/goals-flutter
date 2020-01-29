@@ -21,7 +21,6 @@ class ContributorsPage extends StatelessWidget {
             iconData: Icons.add,
             text: "Add contributor",
             onPressed: () {
-              print("Add contributor button clicked");
               showModalBottomSheetWithChild(context, AddContributorForm());
             },
           ),

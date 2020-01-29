@@ -79,10 +79,10 @@ class _AddGoalFormState extends State<AddGoalForm> {
               width: double.infinity,
               child: Padding(
                 padding:
-                    const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+                    const EdgeInsets.only(top: 20.0, left: 25.0, right: 25.0),
                 child: Text(
-                  'New goal',
-                  style: Theme.of(context).textTheme.title,
+                  'Create new goal',
+                  style: Theme.of(context).textTheme.subtitle,
                 ),
               ),
             ),

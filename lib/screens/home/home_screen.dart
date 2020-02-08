@@ -7,8 +7,6 @@ import '../../services/database.dart';
 import '../../shared/route_constants.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/buttons/squircle_text_button.dart';
-import '../../utils/modal_bottom_sheet.dart';
-import 'widgets/goal_type_modal.dart';
 import 'widgets/goals_list.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -18,7 +16,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var user = Provider.of<FirebaseUser>(context);
 
-    Widget _showAppBar() {
+    _showAppBar() {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Row(
@@ -58,10 +56,7 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
             child: SquircleTextButton(
               text: "Add new goal",
-              onPressed: () => showModalBottomSheetWithChild(
-                context,
-                GoalTypeModal(),
-              ),
+              onPressed: () => Navigator.pushNamed(context, newGoalRoute),
             ),
           ),
         ],

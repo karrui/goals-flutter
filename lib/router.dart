@@ -4,6 +4,7 @@ import 'screens/auth/auth_screen.dart';
 import 'screens/auth/sign_in_screen.dart';
 import 'screens/auth/sign_up_screen.dart';
 import 'screens/goal_details/goal_details_screen.dart';
+import 'screens/new_goal/new_goal_screen.dart';
 import 'screens/settings/settings_screen.dart';
 import 'shared/route_constants.dart';
 
@@ -23,6 +24,8 @@ class Router {
         return MaterialPageRoute(
           builder: (_) => GoalDetailsScreen(),
         );
+      case newGoalRoute:
+        return MaterialPageRoute(builder: (_) => NewGoalScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

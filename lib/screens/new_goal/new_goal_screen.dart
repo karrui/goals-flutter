@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
-import '../home/add_goal_form.dart';
+import 'add_goal_form.dart';
 
 class NewGoalScreen extends StatelessWidget {
   @override

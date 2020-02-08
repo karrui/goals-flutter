@@ -4,7 +4,10 @@ showModalBottomSheetWithChild(BuildContext context, Widget child) {
   showModalBottomSheet(
     backgroundColor: Theme.of(context).backgroundColor,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(25.0),
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(25.0),
+        topRight: Radius.circular(25.0),
+      ),
     ),
     isScrollControlled: true,
     context: context,

@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import 'models/goal_model.dart';
 import 'providers/current_goal.dart';
 import 'providers/theme.dart';
 import 'router.dart';
 import 'screens/splash_screen.dart';
+import 'services/database.dart';
 import 'shared/theme.dart';
 
 void main() => runApp(MyApp());
@@ -39,6 +41,15 @@ class _MyAppState extends State<MyApp> {
         ),
         StreamProvider<FirebaseUser>(
             create: (_) => FirebaseUserReloader.onAuthStateChangedOrReloaded),
+        Consumer<FirebaseUser>(
+          builder: (context, user, child) {
+            return StreamProvider<List<GoalModel>>(
+              initialData: [],
+              create: (_) => DatabaseService().streamGoals(user),
+              child: child,
+            );
+          },
+        ),
         ChangeNotifierProvider<CurrentGoal>(
           create: (_) => CurrentGoal(),
         ),

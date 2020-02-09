@@ -23,7 +23,7 @@ class NewGoalScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 'New Goal',
-                style: Theme.of(context).textTheme.title,
+                style: Theme.of(context).textTheme.subtitle,
               ),
             ),
             SizedBox(

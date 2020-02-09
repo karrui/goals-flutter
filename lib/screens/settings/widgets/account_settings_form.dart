@@ -4,7 +4,6 @@ import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../../providers/loading_state.dart';

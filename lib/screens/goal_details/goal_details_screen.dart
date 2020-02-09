@@ -127,7 +127,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final goal = Provider.of<CurrentGoal>(context).goal;
+    var goal = Provider.of<CurrentGoal>(context).goal;
     return MultiProvider(
       providers: [
         StreamProvider<GoalModel>(
@@ -139,8 +139,8 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
           initialData: [],
           create: (_) => db.streamContributions(goal.id),
         ),
-        FutureProvider<Map<String, UserModel>>.value(
-          value: db.getUidsToPhotoUrlsMap(goal.usersWithAccess),
+        StreamProvider<Map<String, UserModel>>.value(
+          value: db.streamUidsToPhotoUrlsMap(goal.usersWithAccess),
           initialData: {},
         ),
         ProxyProvider2<List<ContributionModel>, Map<String, UserModel>,

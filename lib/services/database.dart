@@ -44,22 +44,19 @@ class DatabaseService {
               ..sort((a, b) => b.createdAt.compareTo(a.createdAt)));
   }
 
-  Future<Map<String, UserModel>> getUidsToPhotoUrlsMap(
-      List<String> uids) async {
-    var userDocs = (await _db
-            .collection('users')
-            .where('uid', whereIn: uids)
-            .getDocuments())
-        .documents
-        .fold(
-      <String, UserModel>{},
-      (Map<String, UserModel> acc, currentUserData) {
-        acc[currentUserData.data['uid']] =
-            UserModel.fromFirestore(currentUserData);
-        return acc;
-      },
-    );
-    return userDocs;
+  Stream<Map<String, UserModel>> streamUidsToPhotoUrlsMap(List<String> uids) {
+    return _db
+        .collection('users')
+        .where('uid', whereIn: uids)
+        .snapshots()
+        .map((list) => list.documents.fold(
+              <String, UserModel>{},
+              (Map<String, UserModel> acc, currentUserData) {
+                acc[currentUserData.data['uid']] =
+                    UserModel.fromFirestore(currentUserData);
+                return acc;
+              },
+            ));
   }
 
   Future<void> updateUser(String userId, UserUpdateInfo userUpdateInfo) {

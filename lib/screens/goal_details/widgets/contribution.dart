@@ -113,7 +113,8 @@ class _ContributionState extends State<Contribution> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Text(
-                            widget.createdByUser?.displayName ?? '[User left]',
+                            widget.createdByUser?.displayName ??
+                                '[Unknown user]',
                             style: Theme.of(context).textTheme.overline,
                           ),
                           widget.contribution.description.isNotEmpty

@@ -5,9 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/contributor_model.dart';
+import '../../../providers/current_goal.dart';
 import '../../../providers/theme.dart';
 import '../../../services/database.dart';
-import '../../../shared/route_constants.dart';
 import '../../../shared/widgets/avatar/networked_avatar.dart';
 import '../../../utils/number_util.dart';
 
@@ -64,6 +64,16 @@ class _ContributorState extends State<Contributor> {
             );
     }
 
+    _handleRemoveUser() async {
+      var currentGoal = Provider.of<CurrentGoal>(context, listen: false);
+      DatabaseService().leaveGoal(widget.goalId, widget.contributor.uid,
+          isOwnerRemove: true);
+      var currentContributors = [...currentGoal.goal.usersWithAccess];
+      currentGoal.usersWithAccess = currentContributors
+        ..remove(widget.contributor.uid);
+      Navigator.pop(context);
+    }
+
     _showRemoveUserActionSheet() {
       return showCupertinoModalPopup(
         context: context,
@@ -75,13 +85,7 @@ class _ContributorState extends State<Contributor> {
                 child: Text(
                   'Remove user from goal',
                 ),
-                onPressed: () {
-                  DatabaseService().leaveGoal(
-                      widget.goalId, widget.contributor.uid,
-                      isOwnerRemove: true);
-                  // Pop until home screen, since currentGoal does not update due to wonky architecture.
-                  Navigator.popUntil(context, ModalRoute.withName(splashRoute));
-                },
+                onPressed: _handleRemoveUser,
               ),
             ],
             cancelButton: CupertinoActionSheetAction(

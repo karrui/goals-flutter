@@ -11,4 +11,9 @@ class CurrentGoal extends ChangeNotifier {
     _currentGoal = newGoal;
     notifyListeners();
   }
+
+  set usersWithAccess(List<String> newUids) {
+    _currentGoal = _currentGoal.copyWith(usersWithAccess: newUids);
+    notifyListeners();
+  }
 }

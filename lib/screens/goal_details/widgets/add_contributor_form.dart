@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../../providers/current_goal.dart';
 import '../../../providers/theme.dart';
 import '../../../services/database.dart';
-import '../../../shared/route_constants.dart';
 import '../../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../auth/utils/form_validator.dart';
@@ -35,12 +34,14 @@ class _AddContributorFormState extends State<AddContributorForm> {
             _isLoading = true;
           });
           try {
-            await DatabaseService().shareGoal(
+            var newUserUid = await DatabaseService().shareGoal(
               goalId: currentGoal.goal.id,
               email: emailInputController.value.text,
             );
-            // Pop until home screen, since currentGoal does not update due to wonky architecture.
-            Navigator.popUntil(context, ModalRoute.withName(splashRoute));
+            var currentContributors = currentGoal.goal.usersWithAccess;
+            // Add new user's uid into current goal to update the contributor list.
+            currentGoal.usersWithAccess = [...currentContributors, newUserUid];
+            Navigator.pop(context);
             setState(() {
               _isLoading = false;
             });

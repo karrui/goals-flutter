@@ -130,25 +130,18 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
     final goal = Provider.of<CurrentGoal>(context).goal;
     return MultiProvider(
       providers: [
-        Consumer<CurrentGoal>(
-          builder: (ctx, currentGoal, child) => StreamProvider<GoalModel>(
-            initialData: goal,
-            create: (_) => db.streamCurrentGoal(goal.id),
-            catchError: (_, __) => goal,
-            child: child,
-          ),
+        StreamProvider<GoalModel>(
+          initialData: goal,
+          create: (_) => db.streamCurrentGoal(goal.id),
+          catchError: (_, __) => goal,
         ),
         StreamProvider<List<ContributionModel>>(
           initialData: [],
           create: (_) => db.streamContributions(goal.id),
         ),
-        Consumer<GoalModel>(
-          builder: (ctx, streamedGoal, child) =>
-              StreamProvider<Map<String, UserModel>>(
-            initialData: {},
-            create: (_) => db.streamUidToPhotoUrlMap(streamedGoal),
-            child: child,
-          ),
+        FutureProvider<Map<String, UserModel>>.value(
+          value: db.getUidsToPhotoUrlsMap(goal.usersWithAccess),
+          initialData: {},
         ),
         ProxyProvider2<List<ContributionModel>, Map<String, UserModel>,
             List<ContributorModel>>(

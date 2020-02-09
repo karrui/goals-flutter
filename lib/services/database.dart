@@ -44,22 +44,22 @@ class DatabaseService {
               ..sort((a, b) => b.createdAt.compareTo(a.createdAt)));
   }
 
-  Stream<Map<String, UserModel>> streamUidToPhotoUrlMap(GoalModel goal) {
-    var usersWithAccess = goal.usersWithAccess;
-    return _db
-        .collection('users')
-        .where('uid', whereIn: usersWithAccess)
-        .snapshots()
-        .map(
-          (list) => list.documents.fold(
-            {},
-            (Map<String, UserModel> acc, currentUserData) {
-              acc[currentUserData.data['uid']] =
-                  UserModel.fromFirestore(currentUserData);
-              return acc;
-            },
-          ),
-        );
+  Future<Map<String, UserModel>> getUidsToPhotoUrlsMap(
+      List<String> uids) async {
+    var userDocs = (await _db
+            .collection('users')
+            .where('uid', whereIn: uids)
+            .getDocuments())
+        .documents
+        .fold(
+      <String, UserModel>{},
+      (Map<String, UserModel> acc, currentUserData) {
+        acc[currentUserData.data['uid']] =
+            UserModel.fromFirestore(currentUserData);
+        return acc;
+      },
+    );
+    return userDocs;
   }
 
   Future<void> updateUser(String userId, UserUpdateInfo userUpdateInfo) {
@@ -119,7 +119,7 @@ class DatabaseService {
     });
   }
 
-  Future<void> shareGoal({
+  Future<String> shareGoal({
     @required String email,
     @required String goalId,
   }) async {
@@ -139,7 +139,7 @@ class DatabaseService {
       'usersWithAccess': FieldValue.arrayUnion([user.uid])
     });
     NotificationUtil.showSuccessToast("User added to goal!");
-    return;
+    return user.uid;
   }
 
   Future<void> addContributionToGoal({

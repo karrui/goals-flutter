@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 
 import './widgets/contribution.dart';
 import '../../models/contribution_model.dart';
+import '../../models/goal_model.dart';
 import '../../models/user_model.dart';
-import '../../providers/current_goal.dart';
 import '../../services/database.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 
@@ -32,7 +32,7 @@ class _ContributionsPageState extends State<ContributionsPage> {
   Widget build(BuildContext context) {
     final contributions = Provider.of<List<ContributionModel>>(context);
     final contributorsMap = Provider.of<Map<String, UserModel>>(context);
-    final goal = Provider.of<CurrentGoal>(context, listen: false).goal;
+    final goal = Provider.of<GoalModel>(context, listen: false);
 
     _buildActionButtons() {
       if (_isDeleteMode) {

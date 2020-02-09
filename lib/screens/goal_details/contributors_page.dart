@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/contributor_model.dart';
-import '../../providers/current_goal.dart';
+import '../../models/goal_model.dart';
 import '../../shared/constants.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../utils/modal_bottom_sheet.dart';
@@ -40,7 +40,7 @@ class ContributorsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var goal = Provider.of<CurrentGoal>(context).goal;
+    var goal = Provider.of<GoalModel>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

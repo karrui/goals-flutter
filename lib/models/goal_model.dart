@@ -21,6 +21,28 @@ class GoalModel {
     this.lastUpdated,
   });
 
+  GoalModel copyWith({
+    String id,
+    String name,
+    String owner,
+    List<String> usersWithAccess,
+    double currentAmount,
+    double goalAmount,
+    DateTime createdAt,
+    DateTime lastUpdated,
+  }) {
+    return GoalModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      owner: owner ?? this.owner,
+      usersWithAccess: usersWithAccess ?? this.usersWithAccess,
+      currentAmount: currentAmount ?? this.currentAmount,
+      goalAmount: goalAmount ?? this.goalAmount,
+      createdAt: createdAt ?? this.createdAt,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
+    );
+  }
+
   factory GoalModel.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data;
 

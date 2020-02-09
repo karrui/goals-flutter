@@ -155,8 +155,8 @@ class _EditGoalFormState extends State<EditGoalForm> {
                                 child: Column(
                                   children: <Widget>[
                                     TextFormField(
-                                      initialValue:
-                                          convertDoubleToCurrencyString(
+                                      initialValue: NumberUtil
+                                          .convertDoubleToCurrencyString(
                                               widget.goal.currentAmount),
                                       enabled: false,
                                       textAlign: TextAlign.start,

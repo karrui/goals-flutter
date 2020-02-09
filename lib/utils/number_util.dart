@@ -1,13 +1,14 @@
 import 'package:intl/intl.dart';
 
-// TODO: Allow currency format to be set by user
-final currencyFormatter = new NumberFormat("#,##0.00", "en_SG");
-final percentFormatter = new NumberFormat.percentPattern("en_SG");
+class NumberUtil {
+  // TODO: Allow currency format to be set by user
+  static String convertDoubleToCurrencyString(double value) {
+    final _currencyFormatter = NumberFormat("#,##0.00", "en_SG");
+    return _currencyFormatter.format(value);
+  }
 
-String convertDoubleToCurrencyString(double value) {
-  return currencyFormatter.format(value);
-}
-
-String convertDoubleToPercentString(double value) {
-  return percentFormatter.format(value);
+  static String convertDoubleToPercentString(double value) {
+    final _percentFormatter = NumberFormat.percentPattern("en_SG");
+    return _percentFormatter.format(value);
+  }
 }

@@ -30,7 +30,8 @@ class _AnimatedCountState extends AnimatedWidgetBaseState<AnimatedPercentage> {
         children: <TextSpan>[
           TextSpan(text: "You have reached "),
           TextSpan(
-            text: convertDoubleToPercentString(_percentage.evaluate(animation)),
+            text: NumberUtil.convertDoubleToPercentString(
+                _percentage.evaluate(animation)),
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           TextSpan(text: " of your goal.")

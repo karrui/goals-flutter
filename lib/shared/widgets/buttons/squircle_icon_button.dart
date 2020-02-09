@@ -1,5 +1,4 @@
 import 'package:clay_containers/widgets/clay_containers.dart';
-import 'package:clay_containers/widgets/clay_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

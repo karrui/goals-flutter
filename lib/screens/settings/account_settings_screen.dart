@@ -24,6 +24,14 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             height: 50.0,
             width: 50.0,
           ),
+          Text(
+            "Edit Account",
+            style: Theme.of(context).textTheme.subtitle,
+          ),
+          SizedBox(
+            height: 50.0,
+            width: 50.0,
+          ),
         ],
       ),
     );

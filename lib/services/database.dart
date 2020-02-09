@@ -126,7 +126,7 @@ class DatabaseService {
         .where('email', isEqualTo: email)
         .getDocuments();
     if (userSnapshot.documents.isEmpty) {
-      showFailureToast("User with email not found.");
+      NotificationUtil.showFailureToast("User with email not found.");
       return Future.error("User not found");
     }
     var user = UserModel.fromFirestore(userSnapshot.documents[0]);
@@ -136,7 +136,7 @@ class DatabaseService {
     await goalRef.updateData({
       'usersWithAccess': FieldValue.arrayUnion([user.uid])
     });
-    showSuccessToast("User added to goal!");
+    NotificationUtil.showSuccessToast("User added to goal!");
     return;
   }
 
@@ -190,9 +190,9 @@ class DatabaseService {
     });
 
     if (isOwnerRemove) {
-      showSuccessToast("User removed from goal");
+      NotificationUtil.showSuccessToast("User removed from goal");
     } else {
-      showSuccessToast("Goal left");
+      NotificationUtil.showSuccessToast("Goal left");
     }
 
     return;

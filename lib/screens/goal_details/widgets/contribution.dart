@@ -171,7 +171,7 @@ class _ContributionState extends State<Contribution> {
 
   String _generateDisplayAmount() {
     String currencyString =
-        convertDoubleToCurrencyString(widget.contribution.amount);
+        NumberUtil.convertDoubleToCurrencyString(widget.contribution.amount);
     if (widget.contribution.type == ContributionType.ADD) {
       return '+\$ $currencyString';
     }

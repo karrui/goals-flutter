@@ -167,9 +167,9 @@ class _SignInScreenState extends State<SignInScreen> {
       if (arguments != null) {
         if (emailInputController.text == arguments['oldEmail']) {
           await result.linkWithCredential(arguments['credential']);
-          showSuccessToast("Successfully linked accounts.");
+          NotificationUtil.showSuccessToast("Successfully linked accounts.");
         } else {
-          showFailureToast(
+          NotificationUtil.showFailureToast(
               "Logged in email address does not match, no linking of accounts was done.");
         }
       }

@@ -2,12 +2,9 @@ import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../../providers/theme.dart';
 import '../../../services/database.dart';
 import '../../../shared/widgets/avatar.dart';
-import '../../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../../shared/widgets/buttons/squircle_text_button.dart';
 import 'image_capture.dart';
 
@@ -36,18 +33,9 @@ class _AccountSettingsFormState extends State<AccountSettingsForm> {
 
   @override
   Widget build(BuildContext context) {
-    var themeProvider = Provider.of<ThemeProvider>(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text(
-          "Edit Account Settings",
-          style: Theme.of(context).textTheme.subtitle,
-        ),
-        SizedBox(
-          height: 10,
-        ),
         ClayContainer(
           borderRadius: 15,
           color: Theme.of(context).backgroundColor,
@@ -128,17 +116,11 @@ class _AccountSettingsFormState extends State<AccountSettingsForm> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
-          child: themeProvider.isDarkTheme
-              ? SquircleIconButton(
-                  enabled: !_isLoading,
-                  text: "Save changes",
-                  onPressed: _handleOnPressed,
-                )
-              : SquircleTextButton(
-                  enabled: !_isLoading,
-                  text: "Save changes",
-                  onPressed: _handleOnPressed,
-                ),
+          child: SquircleTextButton(
+            enabled: !_isLoading,
+            text: "Save changes",
+            onPressed: _handleOnPressed,
+          ),
         ),
       ],
     );

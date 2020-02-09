@@ -149,11 +149,12 @@ class AuthService {
                       await authResult.linkWithCredential(credential);
                       final result =
                           await _auth.signInWithCredential(credential);
-                      showSuccessToast("Successfully linked accounts.");
+                      NotificationUtil.showSuccessToast(
+                          "Successfully linked accounts.");
                       return result.user;
                     } else {
                       if (authResult != null && authResult.email != oldEmail) {
-                        showFailureToast(
+                        NotificationUtil.showFailureToast(
                             "Logged in email address does not match, no linking of accounts was done.");
                       }
                       return null;

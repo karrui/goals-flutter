@@ -32,7 +32,7 @@ class AppTheme {
     textTheme: TextTheme(
       title: TextStyle(
         color: Color(0xFFF2F2F2),
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w700,
         fontSize: 32.0,
       ),
       body2: TextStyle(
@@ -90,7 +90,7 @@ class AppTheme {
     textTheme: TextTheme(
       title: TextStyle(
         color: Color(0xFF38496C),
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w700,
         fontSize: 32.0,
       ),
       body2: TextStyle(

@@ -35,7 +35,7 @@ class _ContributorState extends State<Contributor> {
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
     _buildContributionAmount() {
-      var totalContributionString = convertDoubleToCurrencyString(
+      var totalContributionString = NumberUtil.convertDoubleToCurrencyString(
           widget.contributor.totalContribution.abs());
 
       if (widget.contributor.totalContribution == 0) {

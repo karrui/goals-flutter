@@ -62,14 +62,16 @@ class DatabaseService {
         );
   }
 
-  Future<void> updateUserDisplayName(String userId, String newName) {
+  Future<void> updateUser(String userId, UserUpdateInfo userUpdateInfo) {
     final userRef = _db.collection('users').document(userId);
-    return userRef.updateData({'displayName': newName});
-  }
-
-  Future<void> updateUserProfileUrl(String userId, String photoUrl) {
-    final userRef = _db.collection('users').document(userId);
-    return userRef.updateData({'photoUrl': photoUrl});
+    var updateInfo = <String, String>{};
+    if (userUpdateInfo.displayName != null) {
+      updateInfo['displayName'] = userUpdateInfo.displayName;
+    }
+    if (userUpdateInfo.photoUrl != null) {
+      updateInfo['photoUrl'] = userUpdateInfo.photoUrl;
+    }
+    return userRef.updateData(updateInfo);
   }
 
   Future<void> createGoal({

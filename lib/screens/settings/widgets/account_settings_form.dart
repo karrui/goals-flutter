@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/material.dart';
 
-import '../../../services/database.dart';
 import '../../../shared/widgets/avatar.dart';
 import '../../../shared/widgets/buttons/squircle_text_button.dart';
+import '../../../utils/user_util.dart';
 import 'image_capture.dart';
 
 class AccountSettingsForm extends StatefulWidget {
@@ -132,10 +132,7 @@ class _AccountSettingsFormState extends State<AccountSettingsForm> {
     });
     if (_formKey.currentState.validate()) {
       var newName = displayNameInputController.value.text.trim();
-      var userUpdateInfo = UserUpdateInfo();
-      userUpdateInfo.displayName = newName;
-      await widget.user.updateProfile(userUpdateInfo);
-      await DatabaseService().updateUserDisplayName(widget.user.uid, newName);
+      await UserUtil.updateUserProfile(widget.user, newDisplayName: newName);
       await FirebaseUserReloader.reloadCurrentUser();
       Navigator.pop(context);
     } else {

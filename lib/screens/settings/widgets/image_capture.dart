@@ -8,8 +8,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../../services/database.dart';
-import '../../../services/storage.dart';
+import '../../../utils/user_util.dart';
 
 class ImageCapture extends StatefulWidget {
   @override
@@ -19,20 +18,14 @@ class ImageCapture extends StatefulWidget {
 class _ImageCaptureState extends State<ImageCapture> {
   Future<void> _changeProfilePicture(ImageSource source) async {
     Navigator.pop(context);
-    var image = await ImagePicker.pickImage(source: source);
+    var image = await ImagePicker.pickImage(
+        source: source, imageQuality: 60, maxHeight: 800, maxWidth: 800);
     if (image == null) return;
     var croppedImage = await _cropImage(image);
     if (croppedImage == null) return;
     // Upload image to Firebase.
     var user = Provider.of<FirebaseUser>(context, listen: false);
-    var uploadedUrl =
-        await StorageService().uploadProfileImage(croppedImage, user.uid);
-    // Update user's profile url.
-    var newUserUpdateInfo = UserUpdateInfo();
-    newUserUpdateInfo.photoUrl = uploadedUrl;
-    await user.updateProfile(newUserUpdateInfo);
-    // Update firestore user document.
-    await DatabaseService().updateUserProfileUrl(user.uid, uploadedUrl);
+    await UserUtil.updateUserProfile(user, newProfileImage: croppedImage);
     await FirebaseUserReloader.reloadCurrentUser();
   }
 
@@ -40,8 +33,6 @@ class _ImageCaptureState extends State<ImageCapture> {
     File cropped = await ImageCropper.cropImage(
       sourcePath: image.path,
       cropStyle: CropStyle.circle,
-      compressFormat: ImageCompressFormat.png,
-      compressQuality: 100,
     );
 
     return cropped;

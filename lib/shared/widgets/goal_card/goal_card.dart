@@ -29,7 +29,7 @@ class GoalCard extends StatelessWidget {
       spread: themeProvider.isDarkTheme ? 4 : 5,
       depth: themeProvider.isDarkTheme ? 8 : 10,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        padding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -64,7 +64,7 @@ class GoalCard extends StatelessWidget {
                       ),
               ],
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 8.0),
             Text(
               "Total Amount Saved",
               style: Theme.of(context).textTheme.overline,
@@ -74,13 +74,18 @@ class GoalCard extends StatelessWidget {
               currentAmount: goal.currentAmount,
               goalAmount: goal.goalAmount,
             ),
-            SizedBox(height: 8.0),
-            AnimatedPercentage(
-              percentage: (goal.currentAmount / goal.goalAmount),
-            ),
-            SizedBox(
-              height: 8.0,
-            )
+            SizedBox(height: 4.0),
+            goal.goalAmount == 0
+                ? Text("Open goal",
+                    style: Theme.of(context).textTheme.overline.copyWith(
+                        color: Theme.of(context)
+                            .textTheme
+                            .overline
+                            .color
+                            .withOpacity(0.5)))
+                : AnimatedPercentage(
+                    percentage: (goal.currentAmount / goal.goalAmount),
+                  ),
           ],
         ),
       ),

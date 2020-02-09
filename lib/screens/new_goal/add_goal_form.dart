@@ -70,7 +70,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
 
     _buildGoalCard() {
       return Container(
-        padding: const EdgeInsets.fromLTRB(24.0, 10.0, 24.0, 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
         width: double.infinity,
         child: ClayContainer(
           color: Theme.of(context).backgroundColor,
@@ -78,7 +78,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
           depth: 10,
           child: SingleChildScrollView(
             child: Container(
-              margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0),
+              margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 5.0),
               child: Column(
                 children: <Widget>[
                   SizedBox(
@@ -113,7 +113,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
                     children: <Widget>[
                       Expanded(
                         child: SizedBox(
-                          height: 80.0,
+                          height: 84.0,
                           child: Column(
                             children: <Widget>[
                               TextFormField(
@@ -139,7 +139,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
                         ),
                       ),
                       Container(
-                        height: 80,
+                        height: 84,
                         child: Padding(
                           padding: const EdgeInsets.only(
                               left: 10.0, right: 10.0, top: 25.0),
@@ -148,7 +148,7 @@ class _AddGoalFormState extends State<AddGoalForm> {
                       ),
                       Expanded(
                         child: SizedBox(
-                          height: 80.0,
+                          height: 84.0,
                           child: TextFormField(
                             enabled: !_isLoading,
                             focusNode: _goalAmountFocusNode,
@@ -174,22 +174,12 @@ class _AddGoalFormState extends State<AddGoalForm> {
                             decoration: InputDecoration(
                               labelText: "Goal amount",
                               contentPadding: EdgeInsets.symmetric(vertical: 5),
-                              errorMaxLines: 1,
+                              errorMaxLines: 2,
                             ),
                           ),
                         ),
                       ),
                     ],
-                  ),
-                  Text(
-                    "An open goal will be created if the goal amount is \$0.",
-                    style: Theme.of(context)
-                        .textTheme
-                        .overline
-                        .copyWith(fontStyle: FontStyle.italic, fontSize: 12.0),
-                  ),
-                  SizedBox(
-                    height: 15.0,
                   ),
                 ],
               ),
@@ -207,8 +197,17 @@ class _AddGoalFormState extends State<AddGoalForm> {
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Column(
             children: <Widget>[
-              // Goal card
               _buildGoalCard(),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 5.0),
+                child: Text(
+                  "An open goal will be created if the goal amount is \$0.",
+                  style: Theme.of(context)
+                      .textTheme
+                      .overline
+                      .copyWith(fontStyle: FontStyle.italic, fontSize: 12.0),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: _isLoading

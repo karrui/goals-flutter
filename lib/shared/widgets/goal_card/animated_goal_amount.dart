@@ -41,10 +41,11 @@ class _AnimatedCountState extends AnimatedWidgetBaseState<AnimatedGoalAmount> {
             text: convertDoubleToCurrencyString(
                 _currentAmount.evaluate(animation)),
           ),
-          TextSpan(
-            text: ' / \$${convertDoubleToCurrencyString(widget.goalAmount)}',
-            style: Theme.of(context).textTheme.subtitle,
-          ),
+          if (widget.goalAmount != 0)
+            TextSpan(
+              text: ' / \$${convertDoubleToCurrencyString(widget.goalAmount)}',
+              style: Theme.of(context).textTheme.subtitle,
+            ),
         ],
       ),
     );

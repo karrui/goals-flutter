@@ -8,7 +8,7 @@ class NewGoalScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _showAppBar() {
       return Padding(
-        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 15.0),
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

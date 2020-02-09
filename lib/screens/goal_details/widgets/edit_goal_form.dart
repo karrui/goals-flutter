@@ -106,7 +106,8 @@ class _EditGoalFormState extends State<EditGoalForm> {
             ),
             // Goal card
             Container(
-              padding: const EdgeInsets.fromLTRB(24.0, 10.0, 24.0, 20.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
               constraints: BoxConstraints(maxHeight: 300),
               width: double.infinity,
               child: ClayContainer(
@@ -115,7 +116,7 @@ class _EditGoalFormState extends State<EditGoalForm> {
                 depth: 10,
                 child: SingleChildScrollView(
                   child: Container(
-                    margin: const EdgeInsets.all(20.0),
+                    margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 5.0),
                     child: Column(
                       children: <Widget>[
                         SizedBox(
@@ -150,7 +151,7 @@ class _EditGoalFormState extends State<EditGoalForm> {
                           children: <Widget>[
                             Expanded(
                               child: SizedBox(
-                                height: 90.0,
+                                height: 84.0,
                                 child: Column(
                                   children: <Widget>[
                                     TextFormField(
@@ -161,30 +162,43 @@ class _EditGoalFormState extends State<EditGoalForm> {
                                       textAlign: TextAlign.start,
                                       decoration: InputDecoration(
                                         labelText: "Current amount",
+                                        contentPadding:
+                                            EdgeInsets.symmetric(vertical: 5),
                                       ),
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).disabledColor),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Text("/"),
+                            Container(
+                              height: 84,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0, top: 25.0),
+                                child: Text("/"),
+                              ),
                             ),
                             Expanded(
                               child: SizedBox(
-                                height: 90.0,
+                                height: 84.0,
                                 child: TextFormField(
                                   enabled: !_isLoading,
                                   focusNode: _goalAmountFocusNode,
                                   controller: _goalAmountTextController,
                                   keyboardType: TextInputType.number,
                                   textInputAction: TextInputAction.next,
-                                  validator: (_) =>
-                                      _goalAmountTextController.numberValue <= 0
-                                          ? "Invalid goal amount"
-                                          : null,
+                                  validator: (_) {
+                                    var goalAmount =
+                                        _goalAmountTextController.numberValue;
+                                    return goalAmount == 0 ||
+                                            goalAmount >
+                                                widget.goal.currentAmount
+                                        ? null
+                                        : "Goal must be higher than current amount";
+                                  },
                                   onChanged: (_) {
                                     if (_hasErrorOccured) {
                                       _formKey.currentState.validate();
@@ -193,6 +207,8 @@ class _EditGoalFormState extends State<EditGoalForm> {
                                   textAlign: TextAlign.start,
                                   decoration: InputDecoration(
                                       labelText: "Goal amount",
+                                      contentPadding:
+                                          EdgeInsets.symmetric(vertical: 5),
                                       errorMaxLines: 2),
                                 ),
                               ),
@@ -203,6 +219,16 @@ class _EditGoalFormState extends State<EditGoalForm> {
                     ),
                   ),
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 5.0),
+              child: Text(
+                "An open goal will be created if the goal amount is \$0.",
+                style: Theme.of(context)
+                    .textTheme
+                    .overline
+                    .copyWith(fontStyle: FontStyle.italic, fontSize: 12.0),
               ),
             ),
             Padding(

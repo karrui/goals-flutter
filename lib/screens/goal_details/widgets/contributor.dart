@@ -8,7 +8,7 @@ import '../../../models/contributor_model.dart';
 import '../../../providers/theme.dart';
 import '../../../services/database.dart';
 import '../../../shared/route_constants.dart';
-import '../../../shared/widgets/avatar.dart';
+import '../../../shared/widgets/avatar/networked_avatar.dart';
 import '../../../utils/number_util.dart';
 
 class Contributor extends StatefulWidget {
@@ -133,7 +133,7 @@ class _ContributorState extends State<Contributor> {
                 Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
-                    Avatar(
+                    NetworkedAvatar(
                       height: 30,
                       width: 30,
                       imageUrl: widget.contributor.photoUrl,

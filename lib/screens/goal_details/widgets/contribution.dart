@@ -7,7 +7,7 @@ import '../../../models/contribution_model.dart';
 import '../../../models/user_model.dart';
 import '../../../providers/theme.dart';
 import '../../../shared/constants.dart';
-import '../../../shared/widgets/avatar.dart';
+import '../../../shared/widgets/avatar/networked_avatar.dart';
 import '../../../shared/widgets/checkbox/checkbox.dart';
 import '../../../utils/number_util.dart';
 
@@ -99,7 +99,7 @@ class _ContributionState extends State<Contribution> {
                   children: <Widget>[
                     widget.showCheckBox
                         ? _buildCheckbox()
-                        : Avatar(
+                        : NetworkedAvatar(
                             height: 40,
                             width: 40,
                             imageUrl: widget.createdByUser?.photoUrl ??

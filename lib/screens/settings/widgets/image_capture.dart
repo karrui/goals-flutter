@@ -31,7 +31,8 @@ class ImageCapture extends StatelessWidget {
               return CupertinoActionSheet(
                 actions: <Widget>[
                   CupertinoActionSheetAction(
-                    child: Text("Camera", style: TextStyle(color: Colors.blue)),
+                    child: Text("Take Photo",
+                        style: TextStyle(color: Colors.blue)),
                     onPressed: () => _changeProfilePicture(ImageSource.camera),
                   ),
                   CupertinoActionSheetAction(

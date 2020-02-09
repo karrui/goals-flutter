@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/material.dart';
 
-import '../../../shared/widgets/avatar.dart';
+import '../../../shared/widgets/avatar/image_avatar.dart';
+import '../../../shared/widgets/avatar/networked_avatar.dart';
 import '../../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../../utils/user_util.dart';
 import 'image_capture.dart';
@@ -19,16 +22,22 @@ class AccountSettingsForm extends StatefulWidget {
 
 class _AccountSettingsFormState extends State<AccountSettingsForm> {
   final _formKey = GlobalKey<FormState>();
+
   bool _isLoading = false;
-  TextEditingController displayNameInputController;
-  TextEditingController emailInputController;
+  File _currentImage;
+  TextEditingController _displayNameInputController;
 
   @override
   void initState() {
     super.initState();
-    displayNameInputController =
+    _displayNameInputController =
         TextEditingController(text: widget.user.displayName);
-    emailInputController = TextEditingController(text: widget.user.email);
+  }
+
+  _onObtainImage(File image) {
+    setState(() {
+      _currentImage = image;
+    });
   }
 
   @override
@@ -53,20 +62,26 @@ class _AccountSettingsFormState extends State<AccountSettingsForm> {
                       height: 65,
                       width: 65,
                       alignment: Alignment.topLeft,
-                      child: Avatar(
-                        imageUrl: widget.user.photoUrl,
-                      ),
+                      child: _currentImage == null
+                          ? NetworkedAvatar(
+                              imageUrl: widget.user.photoUrl,
+                            )
+                          : ImageAvatar(
+                              image: _currentImage,
+                            ),
                     ),
                     Positioned(
                       bottom: 0,
                       right: 0,
                       child: Icon(
                         Icons.camera_alt,
-                        color: Colors.white,
+                        color: Theme.of(context).backgroundColor,
                         size: 25,
                       ),
                     ),
-                    ImageCapture(),
+                    ImageCapture(
+                      onObtainImage: _onObtainImage,
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -86,9 +101,10 @@ class _AccountSettingsFormState extends State<AccountSettingsForm> {
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             labelText: "Display Name",
-                            hintText: "Superpringles",
+                            hintText: "John Doe",
+                            contentPadding: EdgeInsets.symmetric(vertical: 5),
                           ),
-                          controller: displayNameInputController,
+                          controller: _displayNameInputController,
                           validator: (val) =>
                               val.isEmpty ? "Name must not be empty" : null,
                         ),
@@ -131,8 +147,9 @@ class _AccountSettingsFormState extends State<AccountSettingsForm> {
       _isLoading = true;
     });
     if (_formKey.currentState.validate()) {
-      var newName = displayNameInputController.value.text.trim();
-      await UserUtil.updateUserProfile(widget.user, newDisplayName: newName);
+      var newName = _displayNameInputController.value.text.trim();
+      await UserUtil.updateUserProfile(widget.user,
+          newDisplayName: newName, newProfileImage: _currentImage);
       await FirebaseUserReloader.reloadCurrentUser();
       Navigator.pop(context);
     } else {

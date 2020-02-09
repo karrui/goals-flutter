@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
             ),
             SquircleIconButton(
               iconData: Icons.settings,
-              onPressed: () => Navigator.pushNamed(context, settingsRoute),
+              onPressed: () => Navigator.pushNamed(context, SETTINGS_ROUTE),
               iconSize: 24.0,
               height: 50.0,
               width: 50.0,
@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
             child: SquircleTextButton(
               text: "Add new goal",
-              onPressed: () => Navigator.pushNamed(context, newGoalRoute),
+              onPressed: () => Navigator.pushNamed(context, NEW_GOAL_ROUTE),
             ),
           ),
         ],

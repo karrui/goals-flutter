@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../utils/user_util.dart';
@@ -15,10 +17,45 @@ class ImageCapture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _showEnablePermissionsDialog({@required bool isRequestCamera}) {
+      return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (ctx) => CupertinoAlertDialog(
+          title: Text(
+            "Goals does not have access to your ${isRequestCamera ? 'camera' : 'photos'}. To enable access, tap Settings and turn on ${isRequestCamera ? 'Camera' : 'Photos'}.",
+          ),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: Text("Cancel"),
+              onPressed: () => Navigator.pop(context),
+            ),
+            CupertinoDialogAction(
+                child: Text("Settings"),
+                onPressed: () async {
+                  Navigator.pop(context);
+                  await AppSettings.openAppSettings();
+                }),
+          ],
+        ),
+      );
+    }
+
     Future<void> _changeProfilePicture(ImageSource source) async {
       Navigator.pop(context);
-      var croppedImage = await UserUtil.getCroppedPicture(source);
-      onObtainImage(croppedImage);
+
+      try {
+        var croppedImage = await UserUtil.getCroppedPicture(source);
+        onObtainImage(croppedImage);
+      } on PlatformException catch (err) {
+        if (err.code == "camera_access_denied" ||
+            err.code == "photo_access_denied") {
+          _showEnablePermissionsDialog(
+              isRequestCamera: err.code == "camera_access_denied");
+        }
+        print(err);
+      }
     }
 
     return Positioned(

@@ -114,7 +114,7 @@ class AuthService {
         isEmailSignInMethod = true;
         signInFunction = () => Navigator.pushNamed(
               context,
-              signInRoute,
+              SIGN_IN_ROUTE,
               arguments: {'credential': credential, 'oldEmail': oldEmail},
             );
         break;

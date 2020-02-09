@@ -30,7 +30,7 @@ class GoalsList extends StatelessWidget {
                     onTap: () {
                       Provider.of<CurrentGoal>(context, listen: false).goal =
                           goals[index];
-                      Navigator.pushNamed(context, goalDetailsRoute);
+                      Navigator.pushNamed(context, GOAL_DETAILS_ROUTE);
                     });
               },
             )

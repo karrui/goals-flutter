@@ -5,26 +5,36 @@ import 'screens/auth/sign_in_screen.dart';
 import 'screens/auth/sign_up_screen.dart';
 import 'screens/goal_details/goal_details_screen.dart';
 import 'screens/new_goal/new_goal_screen.dart';
+import 'screens/settings/account_settings_screen.dart';
 import 'screens/settings/settings_screen.dart';
+import 'screens/splash_screen.dart';
 import 'shared/route_constants.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    // Some routes do not have settings because we don't want to restore state of the route, since they depend on prior data.
     switch (settings.name) {
-      case authRoute:
-        return MaterialPageRoute(builder: (_) => AuthScreen());
-      case signInRoute:
+      case SPLASH_ROUTE:
+        return MaterialPageRoute(
+            builder: (_) => SplashScreen(), settings: settings);
+      case AUTH_ROUTE:
+        return MaterialPageRoute(
+            builder: (_) => AuthScreen(), settings: settings);
+      case SIGN_IN_ROUTE:
         return MaterialPageRoute(
             builder: (_) => SignInScreen(), settings: settings);
-      case signUpRoute:
-        return MaterialPageRoute(builder: (_) => SignUpScreen());
-      case settingsRoute:
-        return MaterialPageRoute(builder: (_) => SettingsScreen());
-      case goalDetailsRoute:
+      case SIGN_UP_ROUTE:
         return MaterialPageRoute(
-          builder: (_) => GoalDetailsScreen(),
-        );
-      case newGoalRoute:
+            builder: (_) => SignUpScreen(), settings: settings);
+      case SETTINGS_ROUTE:
+        return MaterialPageRoute(
+            builder: (_) => SettingsScreen(), settings: settings);
+      case ACCOUNT_SETTINGS_ROUTE:
+        return MaterialPageRoute(
+            builder: (_) => AccountSettingsScreen(), settings: settings);
+      case GOAL_DETAILS_ROUTE:
+        return MaterialPageRoute(builder: (_) => GoalDetailsScreen());
+      case NEW_GOAL_ROUTE:
         return MaterialPageRoute(builder: (_) => NewGoalScreen());
       default:
         return MaterialPageRoute(

@@ -63,11 +63,11 @@ class _AuthButtonsState extends State<AuthButtons> {
   bool _areButtonsDisabled = false;
 
   void _handleSignInWithEmail(BuildContext context) {
-    Navigator.pushNamed(context, signInRoute);
+    Navigator.pushNamed(context, SIGN_IN_ROUTE);
   }
 
   void _handleSignUpWithEmail(BuildContext context) {
-    Navigator.pushNamed(context, signUpRoute);
+    Navigator.pushNamed(context, SIGN_UP_ROUTE);
   }
 
   void _handleSignInWithGoogle(BuildContext context) async {

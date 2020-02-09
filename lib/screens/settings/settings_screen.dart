@@ -9,12 +9,12 @@ import 'package:provider/provider.dart';
 import '../../providers/loading_state.dart';
 import '../../providers/theme.dart';
 import '../../services/auth.dart';
+import '../../shared/route_constants.dart';
 import '../../shared/widgets/avatar/networked_avatar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/nav_blocker.dart';
 import '../../shared/widgets/toggle_switch.dart';
 import '../../utils/user_util.dart';
-import 'account_settings_screen.dart';
 import 'widgets/image_capture.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -137,10 +137,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 25,
                     width: 35,
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => AccountSettingsScreen()));
+                      Navigator.pushNamed(context, ACCOUNT_SETTINGS_ROUTE);
                     },
                   )
                 ],

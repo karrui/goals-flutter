@@ -83,7 +83,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
                         ? db.deleteGoal(goal.id)
                         : db.leaveGoal(goal.id, user.uid);
                     Navigator.popUntil(
-                        context, ModalRoute.withName(splashRoute));
+                        context, ModalRoute.withName(SPLASH_ROUTE));
                   },
                 ),
               ],

@@ -1,45 +1,25 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/user_util.dart';
 
-class ImageCapture extends StatefulWidget {
-  @override
-  _ImageCaptureState createState() => _ImageCaptureState();
-}
-
-class _ImageCaptureState extends State<ImageCapture> {
-  Future<void> _changeProfilePicture(ImageSource source) async {
-    Navigator.pop(context);
-    var image = await ImagePicker.pickImage(
-        source: source, imageQuality: 60, maxHeight: 800, maxWidth: 800);
-    if (image == null) return;
-    var croppedImage = await _cropImage(image);
-    if (croppedImage == null) return;
-    // Upload image to Firebase.
-    var user = Provider.of<FirebaseUser>(context, listen: false);
-    await UserUtil.updateUserProfile(user, newProfileImage: croppedImage);
-    await FirebaseUserReloader.reloadCurrentUser();
-  }
-
-  Future<File> _cropImage(File image) async {
-    File cropped = await ImageCropper.cropImage(
-      sourcePath: image.path,
-      cropStyle: CropStyle.circle,
-    );
-
-    return cropped;
-  }
-
+class ImageCapture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Future<void> _changeProfilePicture(ImageSource source) async {
+      Navigator.pop(context);
+      var croppedImage = await UserUtil.getCroppedPicture(source);
+      if (croppedImage == null) return;
+      // Upload image to Firebase.
+      var user = Provider.of<FirebaseUser>(context, listen: false);
+      await UserUtil.updateUserProfile(user, newProfileImage: croppedImage);
+      await FirebaseUserReloader.reloadCurrentUser();
+    }
+
     return Positioned(
       bottom: 3,
       right: 3,

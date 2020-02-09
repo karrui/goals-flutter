@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'models/goal_model.dart';
 import 'providers/current_goal.dart';
+import 'providers/loading_state.dart';
 import 'providers/theme.dart';
 import 'router.dart';
 import 'screens/splash_screen.dart';
@@ -52,6 +53,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider<CurrentGoal>(
           create: (_) => CurrentGoal(),
+        ),
+        ChangeNotifierProvider<LoadingState>(
+          create: (_) => LoadingState(),
         ),
       ],
       child: Consumer<ThemeProvider>(builder: (context, _, child) {

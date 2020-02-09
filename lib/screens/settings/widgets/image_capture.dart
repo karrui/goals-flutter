@@ -9,8 +9,9 @@ import '../../../utils/user_util.dart';
 class ImageCapture extends StatelessWidget {
   /// Function to call after image file has been obtained.
   final Function(File) onObtainImage;
+  final bool enabled;
 
-  ImageCapture({@required this.onObtainImage});
+  ImageCapture({@required this.onObtainImage, this.enabled = true});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class ImageCapture extends StatelessWidget {
       right: 3,
       child: GestureDetector(
         onTap: () {
+          if (!enabled) return;
           showCupertinoModalPopup(
             context: context,
             builder: (_) {
@@ -53,7 +55,9 @@ class ImageCapture extends StatelessWidget {
         child: Icon(
           Icons.camera_alt,
           size: 20,
-          color: Theme.of(context).buttonColor,
+          color: enabled
+              ? Theme.of(context).buttonColor
+              : Theme.of(context).disabledColor,
         ),
       ),
     );

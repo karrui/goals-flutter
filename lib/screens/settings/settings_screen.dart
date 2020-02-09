@@ -6,10 +6,12 @@ import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/loading_state.dart';
 import '../../providers/theme.dart';
 import '../../services/auth.dart';
 import '../../shared/widgets/avatar/networked_avatar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
+import '../../shared/widgets/nav_blocker.dart';
 import '../../shared/widgets/toggle_switch.dart';
 import '../../utils/user_util.dart';
 import 'account_settings_screen.dart';
@@ -21,25 +23,20 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _isLoading = false;
-
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<FirebaseUser>(context);
-    final themeProvider = Provider.of<ThemeProvider>(context);
+    var themeProvider = Provider.of<ThemeProvider>(context);
+    var _loadingState = Provider.of<LoadingState>(context);
 
     _onObtainImage(File image) async {
       if (image == null) return;
-      setState(() {
-        _isLoading = true;
-      });
+      _loadingState.isLoading = true;
       // Upload image to Firebase.
       var user = Provider.of<FirebaseUser>(context, listen: false);
       await UserUtil.updateUserProfile(user, newProfileImage: image);
       await FirebaseUserReloader.reloadCurrentUser();
-      setState(() {
-        _isLoading = false;
-      });
+      _loadingState.isLoading = false;
     }
 
     _showAppBar() {
@@ -53,6 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               style: Theme.of(context).textTheme.title,
             ),
             SquircleIconButton(
+              enabled: !_loadingState.isLoading,
               iconData: Icons.close,
               onPressed: () => Navigator.pop(context),
               iconSize: 24.0,
@@ -94,7 +92,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         alignment: Alignment.topLeft,
                         child: NetworkedAvatar(
                           imageUrl: user.photoUrl,
-                          isLoading: _isLoading,
+                          isLoading: _loadingState.isLoading,
                         ),
                       ),
                       Positioned(
@@ -107,6 +105,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       ImageCapture(
+                        enabled: !_loadingState.isLoading,
                         onObtainImage: _onObtainImage,
                       ),
                     ],
@@ -133,6 +132,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     width: 10,
                   ),
                   SquircleIconButton(
+                    enabled: !_loadingState.isLoading,
                     iconData: Icons.navigate_next,
                     height: 25,
                     width: 35,
@@ -183,39 +183,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
       );
     }
 
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            _showAppBar(),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 20.0),
-                child: ListView(
-                  children: <Widget>[
-                    if (user != null) _showAccountDetails(),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    _showAppearanceDetails(),
-                    SizedBox(
-                      height: 40.0,
-                    ),
-                    SquircleIconButton(
-                      text: "Logout",
-                      onPressed: () {
-                        AuthService().logout();
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
+    return NavBlocker(
+      child: Scaffold(
+        resizeToAvoidBottomPadding: false,
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              _showAppBar(),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 20.0),
+                  child: ListView(
+                    children: <Widget>[
+                      if (user != null) _showAccountDetails(),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      _showAppearanceDetails(),
+                      SizedBox(
+                        height: 40.0,
+                      ),
+                      SquircleIconButton(
+                        enabled: !_loadingState.isLoading,
+                        text: "Logout",
+                        onPressed: () {
+                          AuthService().logout();
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

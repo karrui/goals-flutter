@@ -4,7 +4,10 @@ import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 
+import '../../../providers/loading_state.dart';
 import '../../../shared/widgets/avatar/image_avatar.dart';
 import '../../../shared/widgets/avatar/networked_avatar.dart';
 import '../../../shared/widgets/buttons/squircle_text_button.dart';
@@ -22,8 +25,6 @@ class AccountSettingsForm extends StatefulWidget {
 
 class _AccountSettingsFormState extends State<AccountSettingsForm> {
   final _formKey = GlobalKey<FormState>();
-
-  bool _isLoading = false;
   File _currentImage;
   TextEditingController _displayNameInputController;
 
@@ -42,6 +43,22 @@ class _AccountSettingsFormState extends State<AccountSettingsForm> {
 
   @override
   Widget build(BuildContext context) {
+    var _loadingState = Provider.of<LoadingState>(context);
+
+    _handleOnPressed() async {
+      _loadingState.isLoading = true;
+      if (_formKey.currentState.validate()) {
+        var newName = _displayNameInputController.value.text.trim();
+        await UserUtil.updateUserProfile(widget.user,
+            newDisplayName: newName, newProfileImage: _currentImage);
+        await FirebaseUserReloader.reloadCurrentUser();
+        Navigator.pop(context);
+        _loadingState.isLoading = false;
+      } else {
+        _loadingState.isLoading = false;
+      }
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -94,7 +111,7 @@ class _AccountSettingsFormState extends State<AccountSettingsForm> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         TextFormField(
-                          enabled: !_isLoading,
+                          enabled: !_loadingState.isLoading,
                           autofocus: true,
                           autocorrect: false,
                           maxLines: 1,
@@ -133,29 +150,13 @@ class _AccountSettingsFormState extends State<AccountSettingsForm> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
           child: SquircleTextButton(
-            enabled: !_isLoading,
+            enabled: !_loadingState.isLoading,
+            showLoading: true,
             text: "Save changes",
             onPressed: _handleOnPressed,
           ),
         ),
       ],
     );
-  }
-
-  _handleOnPressed() async {
-    setState(() {
-      _isLoading = true;
-    });
-    if (_formKey.currentState.validate()) {
-      var newName = _displayNameInputController.value.text.trim();
-      await UserUtil.updateUserProfile(widget.user,
-          newDisplayName: newName, newProfileImage: _currentImage);
-      await FirebaseUserReloader.reloadCurrentUser();
-      Navigator.pop(context);
-    } else {
-      setState(() {
-        _isLoading = false;
-      });
-    }
   }
 }

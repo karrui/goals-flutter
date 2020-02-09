@@ -1,6 +1,6 @@
 // This file contains all the route constants used in the app
 
-const String SPLASH_ROUTE = '/';
+const String SPLASH_ROUTE = '/splash';
 const String HOME_ROUTE = '/home';
 const String AUTH_ROUTE = '/auth';
 const String SIGN_IN_ROUTE = '/auth/signin';

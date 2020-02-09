@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/material.dart';
+import 'package:goals_flutter/utils/user_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/theme.dart';
@@ -11,11 +15,32 @@ import '../../shared/widgets/toggle_switch.dart';
 import 'account_settings_screen.dart';
 import 'widgets/image_capture.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+  @override
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<FirebaseUser>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
+
+    _onObtainImage(File image) async {
+      if (image == null) return;
+      setState(() {
+        _isLoading = true;
+      });
+      // Upload image to Firebase.
+      var user = Provider.of<FirebaseUser>(context, listen: false);
+      await UserUtil.updateUserProfile(user, newProfileImage: image);
+      await FirebaseUserReloader.reloadCurrentUser();
+      setState(() {
+        _isLoading = false;
+      });
+    }
 
     _showAppBar() {
       return Padding(
@@ -69,6 +94,7 @@ class SettingsScreen extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         child: Avatar(
                           imageUrl: user.photoUrl,
+                          isLoading: _isLoading,
                         ),
                       ),
                       Positioned(
@@ -80,7 +106,9 @@ class SettingsScreen extends StatelessWidget {
                           size: 25,
                         ),
                       ),
-                      ImageCapture(),
+                      ImageCapture(
+                        onObtainImage: _onObtainImage,
+                      ),
                     ],
                   ),
                   SizedBox(

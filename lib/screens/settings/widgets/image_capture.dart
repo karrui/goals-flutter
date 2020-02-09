@@ -1,23 +1,23 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_user_stream/firebase_user_stream.dart';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 import '../../../utils/user_util.dart';
 
 class ImageCapture extends StatelessWidget {
+  /// Function to call after image file has been obtained.
+  final Function(File) onObtainImage;
+
+  ImageCapture({@required this.onObtainImage});
+
   @override
   Widget build(BuildContext context) {
     Future<void> _changeProfilePicture(ImageSource source) async {
       Navigator.pop(context);
       var croppedImage = await UserUtil.getCroppedPicture(source);
-      if (croppedImage == null) return;
-      // Upload image to Firebase.
-      var user = Provider.of<FirebaseUser>(context, listen: false);
-      await UserUtil.updateUserProfile(user, newProfileImage: croppedImage);
-      await FirebaseUserReloader.reloadCurrentUser();
+      onObtainImage(croppedImage);
     }
 
     return Positioned(

@@ -15,8 +15,7 @@ class Router {
     // Some routes do not have settings because we don't want to restore state of the route, since they depend on prior data.
     switch (settings.name) {
       case SPLASH_ROUTE:
-        return MaterialPageRoute(
-            builder: (_) => SplashScreen(), settings: settings);
+        return MaterialPageRoute(builder: (_) => SplashScreen());
       case AUTH_ROUTE:
         return MaterialPageRoute(
             builder: (_) => AuthScreen(), settings: settings);

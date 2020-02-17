@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../services/auth.dart';
+import '../../shared/route_constants.dart';
 import '../../shared/widgets/app_nav_bar.dart';
 import '../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../utils/notification_util.dart';
@@ -169,8 +170,7 @@ class _SignInScreenState extends State<SignInScreen> {
         }
       }
 
-      // Required to trigger navigation since this screen is stacked on the main screen that changes.
-      Navigator.pop(context);
+      Navigator.pushNamedAndRemoveUntil(context, SPLASH_ROUTE, (_) => false);
     } on PlatformException catch (error) {
       setState(() {
         _errorMessage = generateAuthErrorMessage(error);

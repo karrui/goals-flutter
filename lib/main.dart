@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:native_state/native_state.dart';
 import 'package:provider/provider.dart';
 
 import 'models/goal_model.dart';
@@ -12,10 +11,9 @@ import 'providers/theme.dart';
 import 'router.dart';
 import 'screens/splash_screen.dart';
 import 'services/database.dart';
-import 'shared/route_constants.dart';
 import 'shared/theme.dart';
 
-void main() => runApp(SavedState(child: MyApp()));
+void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
@@ -37,7 +35,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var savedState = SavedState.of(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ThemeProvider>(
@@ -67,14 +64,10 @@ class _MyAppState extends State<MyApp> {
               themeProvider.isDarkTheme ? Brightness.dark : Brightness.light,
         ));
         return MaterialApp(
-          navigatorKey: GlobalKey(),
-          navigatorObservers: [SavedStateRouteObserver(savedState: savedState)],
           debugShowCheckedModeBanner: false,
           theme: AppTheme.themeData(themeProvider.isDarkTheme, context),
           title: 'Goals',
           onGenerateRoute: Router.generateRoute,
-          initialRoute:
-              SavedStateRouteObserver.restoreRoute(savedState) ?? SPLASH_ROUTE,
           home: SplashScreen(),
         );
       }),

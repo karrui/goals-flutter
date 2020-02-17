@@ -38,7 +38,6 @@ dependencies:
   image_cropper: 1.2.0
   simple_gravatar: 1.0.5
   app_settings: 3.0.0+1
-  native_state: 1.0.2
   url_launcher:
   # Firebase
   firebase_core: ^0.4.3+2

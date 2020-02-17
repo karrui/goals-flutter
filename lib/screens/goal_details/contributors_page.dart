@@ -77,7 +77,7 @@ class ContributorsPage extends StatelessWidget {
               isOwner: ownerContributor,
               canRemove: goal.owner == user.uid &&
                   !ownerContributor &&
-                  contributor.uid != userLeftContributorKey,
+                  contributor.uid != USER_LEFT_CONTRIBUTOR_KEY,
               goalId: goal.id,
             );
 

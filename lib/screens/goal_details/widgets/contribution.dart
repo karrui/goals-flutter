@@ -103,7 +103,7 @@ class _ContributionState extends State<Contribution> {
                             height: 40,
                             width: 40,
                             imageUrl: widget.createdByUser?.photoUrl ??
-                                defaultAvatarUrl,
+                                DEFAULT_AVATAR_URL,
                           ),
                     SizedBox(
                       width: 10,

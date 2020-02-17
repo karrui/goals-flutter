@@ -41,15 +41,16 @@ class ContributorModel {
       if (acc[currentContribution.uid] != null) {
         acc[currentContribution.uid].totalContribution += contributionAmount;
       } else {
-        if (acc[userLeftContributorKey] == null) {
-          acc[userLeftContributorKey] = ContributorModel(
-              uid: userLeftContributorKey,
+        if (acc[USER_LEFT_CONTRIBUTOR_KEY] == null) {
+          acc[USER_LEFT_CONTRIBUTOR_KEY] = ContributorModel(
+              uid: USER_LEFT_CONTRIBUTOR_KEY,
               displayName: "[Users who left]",
-              photoUrl: defaultAvatarUrl,
+              photoUrl: DEFAULT_AVATAR_URL,
               email: "",
               totalContribution: contributionAmount);
         } else {
-          acc[userLeftContributorKey].totalContribution += contributionAmount;
+          acc[USER_LEFT_CONTRIBUTOR_KEY].totalContribution +=
+              contributionAmount;
         }
       }
       return acc;

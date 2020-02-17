@@ -11,6 +11,7 @@ class SquircleIconButton extends StatefulWidget {
   final String text;
   final Color iconColor;
   final Color backgroundColor;
+  final String fontFamily;
   final Color textColor;
   final double borderRadius;
   final IconData iconData;
@@ -26,6 +27,7 @@ class SquircleIconButton extends StatefulWidget {
     this.text = "",
     this.iconColor,
     this.backgroundColor,
+    this.fontFamily,
     this.textColor,
     this.borderRadius = 15.0,
     this.enabled = true,
@@ -102,6 +104,8 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
                   child: Text(
                     widget.text,
                     style: Theme.of(context).textTheme.subhead.copyWith(
+                        fontFamily: widget.fontFamily ??
+                            Theme.of(context).textTheme.body2.fontFamily,
                         fontWeight: FontWeight.w600,
                         color: !widget.enabled
                             ? Theme.of(context).disabledColor

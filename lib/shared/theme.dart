@@ -36,6 +36,7 @@ class AppTheme {
         fontSize: 32.0,
       ),
       body2: TextStyle(
+        fontFamily: 'Gilroy',
         color: Color(0xFFF2F2F2),
         fontSize: 20,
         fontWeight: FontWeight.w700,
@@ -94,6 +95,7 @@ class AppTheme {
         fontSize: 32.0,
       ),
       body2: TextStyle(
+        fontFamily: 'Gilroy',
         color: Color(0xFF495C83),
         fontSize: 20,
         fontWeight: FontWeight.w700,

@@ -1,3 +1,4 @@
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -61,6 +62,18 @@ class AuthButtons extends StatefulWidget {
 class _AuthButtonsState extends State<AuthButtons> {
   static AuthService _authService = AuthService();
   bool _areButtonsDisabled = false;
+  bool _supportsAppleSignIn = false;
+
+  @override
+  initState() {
+    super.initState();
+
+    AppleSignIn.isAvailable().then((isAvailable) {
+      setState(() {
+        _supportsAppleSignIn = isAvailable;
+      });
+    });
+  }
 
   void _handleSignInWithEmail(BuildContext context) {
     Navigator.pushNamed(context, SIGN_IN_ROUTE);
@@ -94,6 +107,21 @@ class _AuthButtonsState extends State<AuthButtons> {
 
     // Only set back to disabled if there were errors
     if (result == null) {
+      setState(() {
+        _areButtonsDisabled = false;
+      });
+    }
+  }
+
+  void _handleSignInWithApple() async {
+    if (!_supportsAppleSignIn) return;
+    setState(() {
+      _areButtonsDisabled = true;
+    });
+
+    try {
+      await _authService.signInWithApple(scopes: [Scope.email, Scope.fullName]);
+    } catch (e) {
       setState(() {
         _areButtonsDisabled = false;
       });
@@ -151,6 +179,26 @@ class _AuthButtonsState extends State<AuthButtons> {
             enabled: !_areButtonsDisabled,
             onPressed: () => _handleSignInWithEmail(context),
           ),
+          if (_supportsAppleSignIn)
+            Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: SquircleIconButton(
+                alignment: MainAxisAlignment.spaceBetween,
+                iconSize: 25,
+                width: double.infinity,
+                text: "Sign in with Apple",
+                fontFamily: '.SF UI Text',
+                textColor:
+                    themeProvider.isDarkTheme ? Colors.black : Colors.white,
+                iconColor:
+                    themeProvider.isDarkTheme ? Colors.black : Colors.white,
+                backgroundColor:
+                    themeProvider.isDarkTheme ? Colors.white : Colors.black,
+                iconData: FontAwesomeIcons.apple,
+                enabled: !_areButtonsDisabled,
+                onPressed: _handleSignInWithApple,
+              ),
+            ),
           SizedBox(
             height: 15.0,
           ),

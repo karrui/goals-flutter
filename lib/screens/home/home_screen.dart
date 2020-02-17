@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../services/database.dart';
 import '../../shared/route_constants.dart';
+import '../../shared/widgets/app_nav_bar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/buttons/squircle_text_button.dart';
 import 'widgets/goals_list.dart';
@@ -11,28 +12,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _showAppBar() {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              'Current goals',
-              style: Theme.of(context).textTheme.title,
-            ),
-            SquircleIconButton(
-              iconData: Icons.settings,
-              onPressed: () => Navigator.pushNamed(context, SETTINGS_ROUTE),
-              iconSize: 24.0,
-              height: 50.0,
-              width: 50.0,
-            )
-          ],
-        ),
-      );
-    }
-
     _showGoalList() {
       return Expanded(
         child: Scrollbar(
@@ -64,7 +43,17 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            _showAppBar(),
+            AppNavBar(
+              title: "Current goals",
+              canGoBack: false,
+              rightButton: SquircleIconButton(
+                iconData: Icons.settings,
+                onPressed: () => Navigator.pushNamed(context, SETTINGS_ROUTE),
+                iconSize: 24.0,
+                height: 50.0,
+                width: 50.0,
+              ),
+            ),
             _showGoalList(),
             _showAddGoalButton(),
           ],

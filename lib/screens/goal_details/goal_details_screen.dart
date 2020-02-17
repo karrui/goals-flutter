@@ -11,6 +11,7 @@ import '../../models/user_model.dart';
 import '../../providers/current_goal.dart';
 import '../../services/database.dart';
 import '../../shared/route_constants.dart';
+import '../../shared/widgets/app_nav_bar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/goal_card/goal_card.dart';
 import '../../utils/modal_bottom_sheet.dart';
@@ -24,31 +25,6 @@ class GoalDetailsScreen extends StatefulWidget {
 
 class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
   final db = DatabaseService();
-
-  Widget _showAppBar(GoalModel goal) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          SquircleIconButton(
-            iconData: Icons.arrow_back,
-            onPressed: () => Navigator.pop(context),
-            iconSize: 24.0,
-            height: 50.0,
-            width: 50.0,
-          ),
-          SquircleIconButton(
-            iconData: Icons.more_horiz,
-            onPressed: () => _showActionSheet(goal),
-            iconSize: 24.0,
-            height: 50.0,
-            width: 50.0,
-          )
-        ],
-      ),
-    );
-  }
 
   Future<void> _showActionSheet(GoalModel goal) async {
     final user = Provider.of<FirebaseUser>(context, listen: false);
@@ -158,7 +134,15 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
             body: SafeArea(
               child: Column(
                 children: <Widget>[
-                  _showAppBar(streamedGoal),
+                  AppNavBar(
+                    rightButton: SquircleIconButton(
+                      iconData: Icons.more_horiz,
+                      onPressed: () => _showActionSheet(streamedGoal),
+                      iconSize: 24.0,
+                      height: 50.0,
+                      width: 50.0,
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 16.0),

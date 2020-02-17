@@ -10,6 +10,7 @@ import '../../providers/loading_state.dart';
 import '../../providers/theme.dart';
 import '../../services/auth.dart';
 import '../../shared/route_constants.dart';
+import '../../shared/widgets/app_nav_bar.dart';
 import '../../shared/widgets/avatar/networked_avatar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/nav_blocker.dart';
@@ -37,29 +38,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       await UserUtil.updateUserProfile(user, newProfileImage: image);
       await FirebaseUserReloader.reloadCurrentUser();
       _loadingState.isLoading = false;
-    }
-
-    _showAppBar() {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              'Settings',
-              style: Theme.of(context).textTheme.title,
-            ),
-            SquircleIconButton(
-              enabled: !_loadingState.isLoading,
-              iconData: Icons.close,
-              onPressed: () => Navigator.pop(context),
-              iconSize: 24.0,
-              height: 50.0,
-              width: 50.0,
-            )
-          ],
-        ),
-      );
     }
 
     _showAccountDetails() {
@@ -187,7 +165,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              _showAppBar(),
+              AppNavBar(
+                title: "Settings",
+                canGoBack: false,
+                rightButton: SquircleIconButton(
+                  enabled: !_loadingState.isLoading,
+                  iconData: Icons.close,
+                  onPressed: () => Navigator.pop(context),
+                  iconSize: 24.0,
+                  height: 50.0,
+                  width: 50.0,
+                ),
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

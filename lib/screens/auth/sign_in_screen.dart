@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
-import '../../providers/theme.dart';
 import '../../services/auth.dart';
-import '../../shared/widgets/buttons/squircle_icon_button.dart';
+import '../../shared/widgets/app_nav_bar.dart';
+import '../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../utils/notification_util.dart';
 import 'utils/form_validator.dart';
 import 'utils/generate_auth_error_message.dart';
@@ -20,6 +19,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   String _errorMessage = "";
   bool isSignInButtonEnabled = false;
+  bool isLoading = false;
 
   FocusNode emailFocusNode;
   FocusNode passwordFocusNode;
@@ -127,16 +127,11 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget _showSignInButton(BuildContext context, Map arguments) {
-    var themeProvider = Provider.of<ThemeProvider>(context);
-    return SquircleIconButton(
-      width: double.infinity,
+    return SquircleTextButton(
       text: "Sign in",
-      textColor: themeProvider.isDarkTheme ? null : Colors.white,
-      iconColor: themeProvider.isDarkTheme ? null : Colors.white,
-      backgroundColor:
-          themeProvider.isDarkTheme ? null : Theme.of(context).primaryColorDark,
-      enabled: isSignInButtonEnabled,
       onPressed: isSignInButtonEnabled ? () => _handleSignIn(arguments) : null,
+      enabled: !isLoading && isSignInButtonEnabled,
+      showLoading: isSignInButtonEnabled && isLoading,
     );
   }
 
@@ -160,7 +155,7 @@ class _SignInScreenState extends State<SignInScreen> {
     }
     try {
       setState(() {
-        isSignInButtonEnabled = false;
+        isLoading = true;
       });
       final result = await AuthService().signInWithEmailAndPassword(
           emailInputController.text, passwordInputController.text);
@@ -180,26 +175,9 @@ class _SignInScreenState extends State<SignInScreen> {
       setState(() {
         _errorMessage = generateAuthErrorMessage(error);
         isSignInButtonEnabled = true;
+        isLoading = false;
       });
     }
-  }
-
-  Widget _showAppBar() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          SquircleIconButton(
-            iconData: Icons.arrow_back,
-            onPressed: () => Navigator.pop(context),
-            iconSize: 24.0,
-            height: 50.0,
-            width: 50.0,
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -210,20 +188,16 @@ class _SignInScreenState extends State<SignInScreen> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            _showAppBar(),
+            AppNavBar(
+              title: "Sign in",
+              disabled: isLoading,
+            ),
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text(
-                    "Sign in",
-                    style: Theme.of(context).textTheme.subtitle,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
                   _showEmailInput(),
                   _showPasswordInput(),
                   SizedBox(

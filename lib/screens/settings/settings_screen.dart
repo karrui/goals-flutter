@@ -4,17 +4,20 @@ import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/loading_state.dart';
 import '../../providers/theme.dart';
 import '../../services/auth.dart';
+import '../../shared/constants.dart';
 import '../../shared/route_constants.dart';
 import '../../shared/widgets/app_nav_bar.dart';
 import '../../shared/widgets/avatar/networked_avatar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/nav_blocker.dart';
 import '../../shared/widgets/toggle_switch.dart';
+import '../../utils/url_util.dart';
 import '../../utils/user_util.dart';
 import 'widgets/image_capture.dart';
 import 'widgets/settings_list_tile.dart';
@@ -30,6 +33,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     var user = Provider.of<FirebaseUser>(context);
     var themeProvider = Provider.of<ThemeProvider>(context);
     var _loadingState = Provider.of<LoadingState>(context);
+
+    _launchUrl(String url) async {
+      try {
+        await UrlUtil.launchURL(url);
+      } on PlatformException catch (_) {}
+    }
 
     _onObtainImage(File image) async {
       if (image == null) return;
@@ -175,7 +184,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SettingsListTile(
               title: "Privacy Policy",
               trailing: Icon(Icons.navigate_next),
-              onPressed: () {},
+              onPressed: () => _launchUrl(PRIVACY_URL),
             ),
             SizedBox(
               height: 10,
@@ -183,7 +192,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SettingsListTile(
               title: "Terms of Use",
               trailing: Icon(Icons.navigate_next),
-              onPressed: () {},
+              onPressed: () => _launchUrl(TERMS_URL),
             ),
           ],
         ),

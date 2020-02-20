@@ -3,5 +3,5 @@ const String DEFAULT_AVATAR_URL =
 
 const String USER_LEFT_CONTRIBUTOR_KEY = 'user-left';
 
-const String PRIVACY_URL = "https://goals.karrui.dev/privacy";
-const String TERMS_URL = "https://goals.karrui.dev/terms";
+const String PRIVACY_URL = "https://reify.rocks/privacy";
+const String TERMS_URL = "https://reify.rocks/terms";

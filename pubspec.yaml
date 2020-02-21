@@ -1,5 +1,5 @@
-name: goals_flutter
-description: A new Flutter project.
+name: Reify
+description: Make your goals concrete.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.0+4
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -46,6 +46,7 @@ dependencies:
   firebase_analytics: ^5.0.2
   firebase_auth: ^0.15.3+1
   cloud_firestore: ^0.12.9+5
+  firebase_messaging: 6.0.9
   # Firebase helpers
   firebase_user_stream: ^0.1.0+2
   # Facebook login (with Firebase)

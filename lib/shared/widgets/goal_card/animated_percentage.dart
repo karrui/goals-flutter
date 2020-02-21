@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goals_flutter/utils/number_util.dart';
+import '../../../utils/number_util.dart';
 
 /// Retrieved and modified from https://gist.github.com/Nolence/b7d43cd9ad25d614f52aba2c74a597fd
 class AnimatedPercentage extends ImplicitlyAnimatedWidget {

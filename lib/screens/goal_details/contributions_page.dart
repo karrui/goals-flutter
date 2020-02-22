@@ -136,7 +136,7 @@ class _ContributionsPageState extends State<ContributionsPage> {
                   _isDeleteMode
                       ? "${_selectedItems.length} selected"
                       : "Contributions",
-                  style: Theme.of(context).textTheme.subhead,
+                  style: Theme.of(context).textTheme.subtitle1,
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(

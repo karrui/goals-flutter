@@ -109,7 +109,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         children: <Widget>[
                           Text(
                             user.displayName,
-                            style: Theme.of(context).textTheme.subhead,
+                            style: Theme.of(context).textTheme.subtitle1,
                           ),
                           Text(
                             user.email,

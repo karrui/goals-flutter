@@ -34,7 +34,7 @@ class _TextButtonState extends State<TextButton> {
         widget.text,
         style: Theme.of(context)
             .textTheme
-            .subhead
+            .subtitle1
             .copyWith(color: color, fontSize: 14),
       ),
       onTap: () {

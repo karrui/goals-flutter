@@ -55,7 +55,7 @@ class ContributorsPage extends StatelessWidget {
               children: <Widget>[
                 Text(
                   "Contributors",
-                  style: Theme.of(context).textTheme.subhead,
+                  style: Theme.of(context).textTheme.subtitle1,
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(

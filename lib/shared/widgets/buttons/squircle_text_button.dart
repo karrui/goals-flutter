@@ -37,7 +37,7 @@ class _SquircleTextButtonState extends State<SquircleTextButton> {
 
     return Text(
       widget.text,
-      style: Theme.of(context).textTheme.subhead.copyWith(
+      style: Theme.of(context).textTheme.subtitle1.copyWith(
           fontWeight: FontWeight.w600,
           color: Theme.of(context).primaryColorLight),
     );

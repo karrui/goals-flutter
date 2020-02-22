@@ -234,7 +234,7 @@ class AuthService {
   Future<void> logout() async {
     var user = await _auth.currentUser();
     var token = await FirebaseMessaging().getToken();
-    await DatabaseService().deleteDeviceToken(userId: user.uid, token: token);
+    DatabaseService().deleteDeviceToken(userId: user.uid, token: token);
     final result = await _auth.signOut();
     return result;
   }

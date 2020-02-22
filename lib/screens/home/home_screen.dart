@@ -52,11 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        // TODO optional
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
-        // TODO optional
       },
     );
   }

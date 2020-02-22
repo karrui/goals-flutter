@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_user_stream/firebase_user_stream.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:simple_gravatar/simple_gravatar.dart';
 
 import '../shared/route_constants.dart';
 import '../utils/notification_util.dart';
+import 'database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -229,7 +231,10 @@ class AuthService {
     return currentUser;
   }
 
-  Future logout() async {
+  Future<void> logout() async {
+    var user = await _auth.currentUser();
+    var token = await FirebaseMessaging().getToken();
+    await DatabaseService().deleteDeviceToken(userId: user.uid, token: token);
     final result = await _auth.signOut();
     return result;
   }

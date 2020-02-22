@@ -32,6 +32,21 @@ class DatabaseService {
     });
   }
 
+  Future<void> deleteDeviceToken({
+    @required String userId,
+    @required String token,
+  }) async {
+    if (token == null) return;
+
+    // Delete token from Firestore
+    return _db
+        .collection('users')
+        .document(userId)
+        .collection('tokens')
+        .document(token)
+        .delete();
+  }
+
   // Goal handlers
   // =============
   Stream<GoalModel> streamCurrentGoal(String goalId) {

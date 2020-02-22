@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +28,8 @@ class _AddContributorFormState extends State<AddContributorForm> {
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
+    var user = Provider.of<FirebaseUser>(context);
+
     return Consumer<CurrentGoal>(builder: (context, currentGoal, _) {
       _handleOnPressed() async {
         if (_emailFormKey.currentState.validate()) {
@@ -35,7 +38,8 @@ class _AddContributorFormState extends State<AddContributorForm> {
           });
           try {
             var newUserUid = await DatabaseService().shareGoal(
-              goalId: currentGoal.goal.id,
+              sharedBy: user,
+              goal: currentGoal.goal,
               email: emailInputController.value.text,
             );
             var currentContributors = currentGoal.goal.usersWithAccess;

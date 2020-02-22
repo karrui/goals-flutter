@@ -67,15 +67,15 @@ class DatabaseService {
       'goalAmount': goalAmount,
       'owner': user.uid,
       'usersWithAccess': [user.uid],
-      'createdAt': DateTime.now(),
-      'lastUpdated': DateTime.now(),
+      'createdAt': FieldValue.serverTimestamp(),
+      'lastUpdated': FieldValue.serverTimestamp(),
     });
     if (startingAmount > 0) {
       final newGoalContribRef =
           newGoalRef.collection('contributions').document();
       batch.setData(newGoalContribRef, {
         'amount': startingAmount,
-        'createdAt': DateTime.now(),
+        'createdAt': FieldValue.serverTimestamp(),
         'description': 'Starting amount',
         'uid': user.uid,
         'type': 'add',
@@ -99,8 +99,9 @@ class DatabaseService {
   }
 
   Future<String> shareGoal({
+    @required FirebaseUser sharedBy,
     @required String email,
-    @required String goalId,
+    @required GoalModel goal,
   }) async {
     var userSnapshot = await _db
         .collection('users')
@@ -112,11 +113,24 @@ class DatabaseService {
     }
     var user = UserModel.fromFirestore(userSnapshot.documents[0]);
 
-    final goalRef = _db.collection('goals').document(goalId);
-
-    await goalRef.updateData({
+    final goalRef = _db.collection('goals').document(goal.id);
+    final shareHistoryRef = goalRef.collection('shareHistory').document();
+    var batch = _db.batch();
+    batch.updateData(goalRef, {
       'usersWithAccess': FieldValue.arrayUnion([user.uid])
     });
+    batch.setData(shareHistoryRef, {
+      // extra details for push notification
+      'sharedByName': sharedBy.displayName,
+      // extra details for push notification
+      'currGoalName': goal.name,
+      'sharedByUid': sharedBy.uid,
+      'sharedToUid': user.uid,
+      'sharedToName': user.displayName,
+      'createdAt': FieldValue.serverTimestamp(),
+      'type': 'share',
+    });
+    await batch.commit();
     NotificationUtil.showSuccessToast("User added to goal!");
     return user.uid;
   }
@@ -179,13 +193,13 @@ class DatabaseService {
     batch.updateData(goalRef, {
       "currentAmount":
           FieldValue.increment(type == ContributionType.ADD ? amount : -amount),
-      "lastUpdated": DateTime.now(),
+      "lastUpdated": FieldValue.serverTimestamp(),
     });
 
     final newGoalContribRef = goalRef.collection('contributions').document();
     batch.setData(newGoalContribRef, {
       'amount': amount,
-      'createdAt': DateTime.now(),
+      'createdAt': FieldValue.serverTimestamp(),
       'description': description,
       'uid': user.uid,
       'type': type == ContributionType.ADD ? 'add' : 'withdraw',
@@ -214,7 +228,7 @@ class DatabaseService {
 
     batch.updateData(goalRef, {
       "currentAmount": FieldValue.increment(amountDelta),
-      "lastUpdated": DateTime.now(),
+      "lastUpdated": FieldValue.serverTimestamp(),
     });
 
     return batch.commit();

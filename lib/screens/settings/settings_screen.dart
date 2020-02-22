@@ -222,6 +222,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SettingsListTile(
               title: "Tip Jar",
               trailing: Icon(Icons.navigate_next),
+              onPressed: () {
+                Navigator.pushNamed(context, TIP_JAR_ROUTE);
+              },
             ),
             SizedBox(
               height: 10,

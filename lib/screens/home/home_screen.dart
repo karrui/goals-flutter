@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final DatabaseService _db = DatabaseService();
 
   StreamSubscription<String> _tokenListener;
+  StreamSubscription<IosNotificationSettings> _iosSettingsListener;
 
   @override
   void initState() {
@@ -33,6 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     if (_tokenListener != null) {
       _tokenListener.cancel();
+    }
+
+    if (_iosSettingsListener != null) {
+      _iosSettingsListener.cancel();
     }
     super.dispose();
   }
@@ -76,7 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void _getIosPermissions() {
     _fcm.requestNotificationPermissions(
         IosNotificationSettings(sound: true, badge: true, alert: true));
-    _fcm.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
+    _iosSettingsListener =
+        _fcm.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
   }

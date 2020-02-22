@@ -213,13 +213,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               height: 15,
             ),
             SettingsListTile(
-              title: "Upgrade to Reify Pro",
-              trailing: Icon(Icons.navigate_next),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            SettingsListTile(
               title: "Tip Jar",
               trailing: Icon(Icons.navigate_next),
               onPressed: () {

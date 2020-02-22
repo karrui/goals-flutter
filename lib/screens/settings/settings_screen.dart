@@ -58,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: <Widget>[
             Text(
               "Account",
-              style: Theme.of(context).textTheme.subtitle,
+              style: Theme.of(context).textTheme.subtitle2,
             ),
             SizedBox(
               height: 10,
@@ -147,7 +147,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: <Widget>[
             Text(
               "Appearance",
-              style: Theme.of(context).textTheme.subtitle,
+              style: Theme.of(context).textTheme.subtitle2,
             ),
             SizedBox(
               height: 15,
@@ -176,7 +176,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: <Widget>[
             Text(
               "About",
-              style: Theme.of(context).textTheme.subtitle,
+              style: Theme.of(context).textTheme.subtitle2,
             ),
             SizedBox(
               height: 15,

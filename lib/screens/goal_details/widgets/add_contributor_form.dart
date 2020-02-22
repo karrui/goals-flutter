@@ -71,7 +71,7 @@ class _AddContributorFormState extends State<AddContributorForm> {
             children: <Widget>[
               Text(
                 "Invite someone to this goal!",
-                style: Theme.of(context).textTheme.subtitle,
+                style: Theme.of(context).textTheme.subtitle2,
                 textAlign: TextAlign.start,
               ),
               SizedBox(

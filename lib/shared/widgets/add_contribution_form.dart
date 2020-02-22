@@ -190,10 +190,10 @@ class _AddContributionFormState extends State<AddContributionForm> {
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle
+                                  .subtitle2
                                   .copyWith(fontSize: 16.0),
                               cursorColor:
-                                  Theme.of(context).textTheme.subtitle.color,
+                                  Theme.of(context).textTheme.subtitle2.color,
                               textAlign: TextAlign.start,
                               decoration: InputDecoration(
                                 hintText: "Enter notes (optional)",

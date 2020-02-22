@@ -24,7 +24,7 @@ class _TextButtonState extends State<TextButton> {
       return Theme.of(context).disabledColor;
     }
 
-    return Theme.of(context).textTheme.subtitle.color;
+    return Theme.of(context).textTheme.subtitle2.color;
   }
 
   @override

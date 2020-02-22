@@ -43,7 +43,7 @@ class AppTheme {
         letterSpacing: 1.5,
       ),
       subtitle1: TextStyle(fontWeight: FontWeight.w600),
-      subtitle: TextStyle(
+      subtitle2: TextStyle(
         color: Color(0xFFF0F1F5),
         fontWeight: FontWeight.w600,
         fontSize: 20,
@@ -102,7 +102,7 @@ class AppTheme {
         letterSpacing: 1.5,
       ),
       subtitle1: TextStyle(fontWeight: FontWeight.w600),
-      subtitle: TextStyle(
+      subtitle2: TextStyle(
         color: Color(0xFF495C83),
         fontWeight: FontWeight.w600,
         fontSize: 20,

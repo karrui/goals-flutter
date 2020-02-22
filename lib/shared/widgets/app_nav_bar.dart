@@ -34,7 +34,7 @@ class AppNavBar extends StatelessWidget {
           Text(
             title,
             style: canGoBack
-                ? Theme.of(context).textTheme.subtitle
+                ? Theme.of(context).textTheme.subtitle2
                 : Theme.of(context).textTheme.headline6,
           ),
           rightButton ??

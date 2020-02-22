@@ -100,7 +100,7 @@ class _EditGoalFormState extends State<EditGoalForm> {
                     top: 20.0, left: 25.0, right: 25.0, bottom: 10.0),
                 child: Text(
                   'Edit goal details',
-                  style: Theme.of(context).textTheme.subtitle,
+                  style: Theme.of(context).textTheme.subtitle2,
                 ),
               ),
             ),

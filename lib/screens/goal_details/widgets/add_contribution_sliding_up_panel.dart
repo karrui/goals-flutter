@@ -200,7 +200,8 @@ class _AddContributionSlidingUpPanelState
                                       keyboardType: TextInputType.number,
                                       textInputAction: TextInputAction.next,
                                       textAlign: TextAlign.start,
-                                      style: Theme.of(context).textTheme.title,
+                                      style:
+                                          Theme.of(context).textTheme.headline6,
                                       cursorColor:
                                           Theme.of(context).cursorColor,
                                       validator: (_) {

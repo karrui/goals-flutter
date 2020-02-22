@@ -164,7 +164,7 @@ class _ContributorState extends State<Contributor> {
                     children: <Widget>[
                       Text(
                         widget.contributor.displayName,
-                        style: Theme.of(context).textTheme.title.copyWith(
+                        style: Theme.of(context).textTheme.headline6.copyWith(
                             fontSize: 16.0, fontWeight: FontWeight.normal),
                       ),
                       if (widget.isOwner)

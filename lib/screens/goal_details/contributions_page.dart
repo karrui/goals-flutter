@@ -199,8 +199,12 @@ class _ContributionsPageState extends State<ContributionsPage> {
                           child: Text(
                             "No contributions yet.",
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.title.copyWith(
-                                fontSize: 16.0, fontWeight: FontWeight.normal),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.normal),
                           ),
                         ),
                       ),

@@ -125,7 +125,7 @@ class _ContributionState extends State<Contribution> {
                                     widget.contribution.description,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .title
+                                        .headline6
                                         .copyWith(
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.normal),

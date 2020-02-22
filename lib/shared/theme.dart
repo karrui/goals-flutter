@@ -30,7 +30,7 @@ class AppTheme {
     cursorColor: Color(0xFF495C83),
     backgroundColor: Color(0xFF171C26),
     textTheme: TextTheme(
-      title: TextStyle(
+      headline6: TextStyle(
         color: Color(0xFFF2F2F2),
         fontWeight: FontWeight.w700,
         fontSize: 32.0,
@@ -89,7 +89,7 @@ class AppTheme {
     cursorColor: Color(0xFF495C83),
     backgroundColor: Color(0xFFF4FAFF),
     textTheme: TextTheme(
-      title: TextStyle(
+      headline6: TextStyle(
         color: Color(0xFF38496C),
         fontWeight: FontWeight.w700,
         fontSize: 32.0,

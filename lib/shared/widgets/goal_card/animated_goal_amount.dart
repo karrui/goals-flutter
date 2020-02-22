@@ -32,7 +32,7 @@ class _AnimatedCountState extends AnimatedWidgetBaseState<AnimatedGoalAmount> {
     return RichText(
       textAlign: TextAlign.start,
       text: TextSpan(
-        style: Theme.of(context).textTheme.title,
+        style: Theme.of(context).textTheme.headline6,
         children: <TextSpan>[
           TextSpan(
             text: '\$ ',

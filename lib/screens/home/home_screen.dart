@@ -100,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
             child: SquircleTextButton(
+              width: double.infinity,
               text: "Add new goal",
               onPressed: () => Navigator.pushNamed(context, NEW_GOAL_ROUTE),
             ),

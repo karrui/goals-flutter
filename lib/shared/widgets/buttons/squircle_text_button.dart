@@ -13,7 +13,7 @@ class SquircleTextButton extends StatefulWidget {
 
   SquircleTextButton({
     this.height = 40.0,
-    this.width = double.infinity,
+    this.width,
     this.enabled = true,
     this.showLoading = false,
     @required this.text,
@@ -35,11 +35,14 @@ class _SquircleTextButtonState extends State<SquircleTextButton> {
       );
     }
 
-    return Text(
-      widget.text,
-      style: Theme.of(context).textTheme.subtitle1.copyWith(
-          fontWeight: FontWeight.w600,
-          color: Theme.of(context).primaryColorLight),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: Text(
+        widget.text,
+        style: Theme.of(context).textTheme.subtitle1.copyWith(
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).primaryColorLight),
+      ),
     );
   }
 

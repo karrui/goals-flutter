@@ -13,7 +13,7 @@ class StaticSquircleButton extends StatelessWidget {
 
   StaticSquircleButton({
     this.height = 40.0,
-    this.width = double.infinity,
+    this.width,
     this.isActive = false,
     this.enabled = true,
     @required this.child,
@@ -27,7 +27,13 @@ class StaticSquircleButton extends StatelessWidget {
       height: height,
       width: width,
       emboss: isActive,
-      child: Center(child: child),
+      child: Wrap(
+        runAlignment: WrapAlignment.center,
+        alignment: WrapAlignment.center,
+        children: [
+          child,
+        ],
+      ),
       color: !enabled
           ? Theme.of(context).disabledColor.withOpacity(0.15)
           : themeProvider.isDarkTheme

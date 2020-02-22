@@ -22,25 +22,62 @@ class AuthScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.fromLTRB(48.0, 24.0, 48.0, 6.0),
               child: Center(
-                child: Text("Goals logo here"),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: SizedBox(
+                        height: 50.0,
+                        child: Image(
+                          fit: BoxFit.contain,
+                          image: AssetImage('assets/images/Logo.png'),
+                          excludeFromSemantics: true,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "Reify",
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          .copyWith(fontSize: 40.0),
+                    ),
+                  ],
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: Image(
-                image: AssetImage('assets/images/signInSavings.png'),
-                excludeFromSemantics: true,
+            Expanded(
+              child: FractionallySizedBox(
+                widthFactor: 0.8,
+                child: Image(
+                  fit: BoxFit.contain,
+                  image: AssetImage('assets/images/signInHero.png'),
+                  excludeFromSemantics: true,
+                ),
               ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.fromLTRB(48.0, 24.0, 48.0, 24.0),
+                  padding:
+                      EdgeInsets.only(left: 48.0, right: 48.0, bottom: 24.0),
                   child: Center(
-                    child: Text(
-                      'Welcome to Goals!\nSign in to start goals and to be able to share your goals for others to contribute.',
-                      textAlign: TextAlign.center,
+                    child: RichText(
+                      text: TextSpan(
+                        style: Theme.of(context).textTheme.subtitle1,
+                        children: [
+                          TextSpan(
+                            text: 'Welcome to Reify!\n',
+                            style: TextStyle(fontSize: 20, height: 2),
+                          ),
+                          TextSpan(
+                            text:
+                                'Sign in to start goals and to be able to share your goals for others to contribute.',
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

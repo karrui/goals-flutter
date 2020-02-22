@@ -31,6 +31,9 @@ class DatabaseService {
       'platform': Platform.operatingSystem
     });
   }
+
+  // Goal handlers
+  // =============
   Stream<GoalModel> streamCurrentGoal(String goalId) {
     return _db
         .collection('goals')
@@ -48,46 +51,6 @@ class DatabaseService {
         .map((list) =>
             list.documents.map((doc) => GoalModel.fromFirestore(doc)).toList()
               ..sort((a, b) => b.createdAt.compareTo(a.createdAt)));
-  }
-
-  /// Returns a stream of a all contributions of the goal with its [goalId]
-  Stream<List<ContributionModel>> streamContributions(String goalId) {
-    return _db
-        .collection('goals')
-        .document(goalId)
-        .collection('contributions')
-        .snapshots()
-        .map((list) => list.documents
-            .map((doc) => ContributionModel.fromFirestore(doc))
-            .toList()
-              ..sort((a, b) => b.createdAt.compareTo(a.createdAt)));
-  }
-
-  Stream<Map<String, UserModel>> streamUidsToPhotoUrlsMap(List<String> uids) {
-    return _db
-        .collection('users')
-        .where('uid', whereIn: uids)
-        .snapshots()
-        .map((list) => list.documents.fold(
-              <String, UserModel>{},
-              (Map<String, UserModel> acc, currentUserData) {
-                acc[currentUserData.data['uid']] =
-                    UserModel.fromFirestore(currentUserData);
-                return acc;
-              },
-            ));
-  }
-
-  Future<void> updateUser(String userId, UserUpdateInfo userUpdateInfo) {
-    final userRef = _db.collection('users').document(userId);
-    var updateInfo = <String, String>{};
-    if (userUpdateInfo.displayName != null) {
-      updateInfo['displayName'] = userUpdateInfo.displayName;
-    }
-    if (userUpdateInfo.photoUrl != null) {
-      updateInfo['photoUrl'] = userUpdateInfo.photoUrl;
-    }
-    return userRef.updateData(updateInfo);
   }
 
   Future<void> createGoal({
@@ -158,34 +121,6 @@ class DatabaseService {
     return user.uid;
   }
 
-  Future<void> addContributionToGoal({
-    @required String goalId,
-    @required double amount,
-    @required ContributionType type,
-    @required FirebaseUser user,
-    String description,
-  }) {
-    final batch = _db.batch();
-    final goalRef = _db.collection('goals').document(goalId);
-
-    batch.updateData(goalRef, {
-      "currentAmount":
-          FieldValue.increment(type == ContributionType.ADD ? amount : -amount),
-      "lastUpdated": DateTime.now(),
-    });
-
-    final newGoalContribRef = goalRef.collection('contributions').document();
-    batch.setData(newGoalContribRef, {
-      'amount': amount,
-      'createdAt': DateTime.now(),
-      'description': description,
-      'uid': user.uid,
-      'type': type == ContributionType.ADD ? 'add' : 'withdraw',
-    });
-
-    return batch.commit();
-  }
-
   Future<void> deleteGoal(String goalId) {
     _db
         .collection('goals')
@@ -216,6 +151,49 @@ class DatabaseService {
     return;
   }
 
+  // Contribution handlers
+  // ======================
+  /// Returns a stream of a all contributions of the goal with its [goalId]
+  Stream<List<ContributionModel>> streamContributions(String goalId) {
+    return _db
+        .collection('goals')
+        .document(goalId)
+        .collection('contributions')
+        .snapshots()
+        .map((list) => list.documents
+            .map((doc) => ContributionModel.fromFirestore(doc))
+            .toList()
+              ..sort((a, b) => b.createdAt.compareTo(a.createdAt)));
+  }
+
+  Future<void> addContributionToGoal({
+    @required String goalId,
+    @required double amount,
+    @required ContributionType type,
+    @required FirebaseUser user,
+    String description,
+  }) {
+    final batch = _db.batch();
+    final goalRef = _db.collection('goals').document(goalId);
+
+    batch.updateData(goalRef, {
+      "currentAmount":
+          FieldValue.increment(type == ContributionType.ADD ? amount : -amount),
+      "lastUpdated": DateTime.now(),
+    });
+
+    final newGoalContribRef = goalRef.collection('contributions').document();
+    batch.setData(newGoalContribRef, {
+      'amount': amount,
+      'createdAt': DateTime.now(),
+      'description': description,
+      'uid': user.uid,
+      'type': type == ContributionType.ADD ? 'add' : 'withdraw',
+    });
+
+    return batch.commit();
+  }
+
   Future<void> deleteContributions(
       String goalId, Map<String, ContributionModel> contributions) {
     final batch = _db.batch();
@@ -240,5 +218,34 @@ class DatabaseService {
     });
 
     return batch.commit();
+  }
+
+  // User handlers
+  // =============
+  Stream<Map<String, UserModel>> streamUidsToPhotoUrlsMap(List<String> uids) {
+    return _db
+        .collection('users')
+        .where('uid', whereIn: uids)
+        .snapshots()
+        .map((list) => list.documents.fold(
+              <String, UserModel>{},
+              (Map<String, UserModel> acc, currentUserData) {
+                acc[currentUserData.data['uid']] =
+                    UserModel.fromFirestore(currentUserData);
+                return acc;
+              },
+            ));
+  }
+
+  Future<void> updateUser(String userId, UserUpdateInfo userUpdateInfo) {
+    final userRef = _db.collection('users').document(userId);
+    var updateInfo = <String, String>{};
+    if (userUpdateInfo.displayName != null) {
+      updateInfo['displayName'] = userUpdateInfo.displayName;
+    }
+    if (userUpdateInfo.photoUrl != null) {
+      updateInfo['photoUrl'] = userUpdateInfo.photoUrl;
+    }
+    return userRef.updateData(updateInfo);
   }
 }

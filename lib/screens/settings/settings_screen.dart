@@ -199,6 +199,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
       );
     }
 
+    _showSupportDetails() {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text(
+              "Support",
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            SettingsListTile(
+              title: "Upgrade to Reify Pro",
+              trailing: Icon(Icons.navigate_next),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            SettingsListTile(
+              title: "Tip Jar",
+              trailing: Icon(Icons.navigate_next),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+      );
+    }
+
     return NavBlocker(
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
@@ -230,6 +262,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       height: 20.0,
                     ),
                     _showAboutDetails(),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    _showSupportDetails(),
                     SizedBox(
                       height: 40.0,
                     ),

@@ -1,14 +1,76 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-import '../../services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import '../../shared/route_constants.dart';
 import '../../shared/widgets/app_nav_bar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/buttons/squircle_text_button.dart';
 import 'widgets/goals_list.dart';
+import '../../services/database.dart';
 
-class HomeScreen extends StatelessWidget {
-  final db = DatabaseService();
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+  final DatabaseService _db = DatabaseService();
+
+  @override
+  void initState() {
+    super.initState();
+    initFcmListeners();
+  }
+
+  initFcmListeners() {
+    if (Platform.isIOS) {
+      _getIosPermissions();
+    }
+
+    _fcm.onTokenRefresh.listen((newToken) {
+      _saveDeviceToken(newToken);
+    });
+
+    _fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        // TODO optional
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        // TODO optional
+      },
+    );
+  }
+
+  /// Get the token, save it to the database for current user
+  _saveDeviceToken(String fcmToken) async {
+    // Get the current user
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    if (user == null) return;
+
+    print("saving fcmToken $fcmToken and uid ${user.uid}");
+
+    // Save it to Firestore
+    if (fcmToken != null) {
+      await _db.saveDeviceToken(userId: user.uid, token: fcmToken);
+    }
+  }
+
+  void _getIosPermissions() {
+    _fcm.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    _fcm.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +13,24 @@ import '../utils/notification_util.dart';
 class DatabaseService {
   final Firestore _db = Firestore.instance;
 
+  // FCMToken handlers
+  /// Save [user]'s current fcm [token] to the database
+  Future<void> saveDeviceToken(
+      {@required String userId, @required String token}) async {
+    if (token == null) return;
+
+    // Save token to Firestore
+    return _db
+        .collection('users')
+        .document(userId)
+        .collection('tokens')
+        .document(token)
+        .setData({
+      'token': token,
+      'createdAt': FieldValue.serverTimestamp(),
+      'platform': Platform.operatingSystem
+    });
+  }
   Stream<GoalModel> streamCurrentGoal(String goalId) {
     return _db
         .collection('goals')

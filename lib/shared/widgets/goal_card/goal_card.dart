@@ -39,7 +39,7 @@ class GoalCard extends StatelessWidget {
                 Flexible(
                   child: Text(
                     goal.name.toUpperCase(),
-                    style: Theme.of(context).textTheme.body2,
+                    style: Theme.of(context).textTheme.bodyText1,
                     maxLines: null,
                   ),
                 ),

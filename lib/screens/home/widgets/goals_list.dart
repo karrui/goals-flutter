@@ -54,7 +54,7 @@ class GoalsList extends StatelessWidget {
                     "No goals yet",
                     style: Theme.of(context)
                         .textTheme
-                        .body2
+                        .bodyText1
                         .copyWith(letterSpacing: 0.15),
                   ),
                 ),

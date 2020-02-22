@@ -105,7 +105,7 @@ class _SquircleIconButtonState extends State<SquircleIconButton> {
                     widget.text,
                     style: Theme.of(context).textTheme.subtitle1.copyWith(
                         fontFamily: widget.fontFamily ??
-                            Theme.of(context).textTheme.body2.fontFamily,
+                            Theme.of(context).textTheme.bodyText1.fontFamily,
                         fontWeight: FontWeight.w600,
                         color: !widget.enabled
                             ? Theme.of(context).disabledColor

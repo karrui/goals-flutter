@@ -129,7 +129,7 @@ class _EditGoalFormState extends State<EditGoalForm> {
                             controller: _goalNameTextController,
                             maxLines: null,
                             autofocus: true,
-                            style: Theme.of(context).textTheme.body2,
+                            style: Theme.of(context).textTheme.bodyText1,
                             cursorColor: Theme.of(context).cursorColor,
                             onChanged: (_) {
                               if (_hasErrorOccured) {

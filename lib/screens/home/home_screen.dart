@@ -5,8 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
+import '../../routes/constants.dart';
 import '../../services/database.dart';
-import '../../shared/route_constants.dart';
 import '../../shared/widgets/app_nav_bar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/buttons/squircle_text_button.dart';

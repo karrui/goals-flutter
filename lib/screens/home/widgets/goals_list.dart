@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../models/goal_model.dart';
 import '../../../providers/current_goal.dart';
-import '../../../shared/route_constants.dart';
+import '../../../routes/constants.dart';
 import '../../../shared/widgets/goal_card/goal_card.dart';
 
 class GoalsList extends StatelessWidget {

@@ -9,3 +9,4 @@ const String SETTINGS_ROUTE = '/settings';
 const String ACCOUNT_SETTINGS_ROUTE = '/settings/account';
 const String GOAL_DETAILS_ROUTE = '/goals';
 const String NEW_GOAL_ROUTE = '/goals/new';
+const String TIP_JAR_ROUTE = '/tipjar';

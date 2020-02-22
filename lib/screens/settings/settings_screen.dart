@@ -9,9 +9,9 @@ import 'package:provider/provider.dart';
 
 import '../../providers/loading_state.dart';
 import '../../providers/theme.dart';
+import '../../routes/constants.dart';
 import '../../services/auth.dart';
 import '../../shared/constants.dart';
-import '../../shared/route_constants.dart';
 import '../../shared/widgets/app_nav_bar.dart';
 import '../../shared/widgets/avatar/networked_avatar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';

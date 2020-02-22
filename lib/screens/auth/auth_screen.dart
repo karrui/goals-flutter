@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/theme.dart';
+import '../../routes/constants.dart';
 import '../../services/auth.dart';
-import '../../shared/route_constants.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
 import '../../shared/widgets/text_button.dart';
 

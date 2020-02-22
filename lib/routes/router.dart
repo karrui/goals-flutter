@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'screens/auth/auth_screen.dart';
-import 'screens/auth/sign_in_screen.dart';
-import 'screens/auth/sign_up_screen.dart';
-import 'screens/goal_details/goal_details_screen.dart';
-import 'screens/new_goal/new_goal_screen.dart';
-import 'screens/settings/account_settings_screen.dart';
-import 'screens/settings/settings_screen.dart';
-import 'screens/splash_screen.dart';
-import 'shared/route_constants.dart';
+import '../screens/auth/auth_screen.dart';
+import '../screens/auth/sign_in_screen.dart';
+import '../screens/auth/sign_up_screen.dart';
+import '../screens/goal_details/goal_details_screen.dart';
+import '../screens/new_goal/new_goal_screen.dart';
+import '../screens/settings/account_settings_screen.dart';
+import '../screens/settings/settings_screen.dart';
+import '../screens/splash_screen.dart';
+import './constants.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {

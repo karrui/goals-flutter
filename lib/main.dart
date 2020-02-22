@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'providers/current_goal.dart';
 import 'providers/loading_state.dart';
 import 'providers/theme.dart';
-import 'router.dart';
+import 'routes/router.dart';
 import 'screens/splash_screen.dart';
 import 'shared/theme.dart';
 

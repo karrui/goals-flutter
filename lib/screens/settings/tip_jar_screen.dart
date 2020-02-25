@@ -96,7 +96,7 @@ class _TipJarScreenState extends State<TipJarScreen> {
 
   void purchaseItem(ProductDetails productDetails) {
     final PurchaseParam purchaseParam =
-        PurchaseParam(productDetails: productDetails, sandboxTesting: true);
+        PurchaseParam(productDetails: productDetails);
     InAppPurchaseConnection.instance
         .buyConsumable(purchaseParam: purchaseParam, autoConsume: true);
   }

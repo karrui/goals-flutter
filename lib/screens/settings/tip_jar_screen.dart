@@ -1,10 +1,12 @@
-import 'package:Reify/shared/widgets/buttons/squircle_icon_button.dart';
-import 'package:Reify/shared/widgets/buttons/squircle_text_button.dart';
-import 'package:flutter/material.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import '../../shared/widgets/app_nav_bar.dart';
+import '../../shared/widgets/buttons/squircle_text_button.dart';
+import '../../utils/notification_util.dart';
 
 class TipJarScreen extends StatefulWidget {
   @override
@@ -13,8 +15,18 @@ class TipJarScreen extends StatefulWidget {
 
 class _TipJarScreenState extends State<TipJarScreen> {
   InAppPurchaseConnection _iap = InAppPurchaseConnection.instance;
-  bool _isIapAvailable = true;
 
+  final Set<String> _kProductIds = {
+    'reify_tip_jar_0_99',
+    'reify_tip_jar_2_99',
+    'reify_tip_jar_4_99',
+    'reify_tip_jar_9_99'
+  };
+
+  bool _isIapAvailable = true;
+  bool _isLoading = true;
+  bool _isPurchasePending = false;
+  bool _madladActuallyBoughtIap = false;
   List<ProductDetails> _products = [];
 
   /// Updates to purchases
@@ -22,7 +34,17 @@ class _TipJarScreenState extends State<TipJarScreen> {
 
   @override
   void initState() {
-    _initIap();
+    final Stream purchaseUpdates =
+        InAppPurchaseConnection.instance.purchaseUpdatedStream;
+    _subscription = purchaseUpdates.listen((purchaseDetailsList) {
+      _listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      _subscription.cancel();
+    }, onError: (error) {
+      // handle error here.
+    });
+
+    initStoreInfo();
     super.initState();
   }
 
@@ -32,33 +54,76 @@ class _TipJarScreenState extends State<TipJarScreen> {
     super.dispose();
   }
 
-  void _initIap() async {
-    _isIapAvailable = await _iap.isAvailable();
-    await _getProduct();
+  Future<void> initStoreInfo() async {
+    final bool isAvailable = await _iap.isAvailable();
+    // Store not available, return immediately
+    if (!isAvailable) {
+      setState(() {
+        _isIapAvailable = isAvailable;
+        _products = [];
+        _isLoading = false;
+      });
+      return;
+    }
 
-    final Stream purchaseUpdates =
-        InAppPurchaseConnection.instance.purchaseUpdatedStream;
-    _subscription = purchaseUpdates.listen((purchases) {
-      // _handlePurchaseUpdates(purchases);
-    });
-  }
+    final QueryPurchaseDetailsResponse pastPurchaseResponse =
+        await _iap.queryPastPurchases();
+    for (var pastPurchase in pastPurchaseResponse.pastPurchases) {
+      if (pastPurchase.pendingCompletePurchase) {
+        await InAppPurchaseConnection.instance.completePurchase(pastPurchase);
+      }
+    }
 
-  _getProduct() async {
-    const Set<String> _kIds = {
-      'reify_tip_jar_0_99',
-      'reify_tip_jar_2_99',
-      'reify_tip_jar_4_99',
-      'reify_tip_jar_9_99'
-    };
     final ProductDetailsResponse response =
-        await _iap.queryProductDetails(_kIds);
-    if (response.notFoundIDs.isNotEmpty) {
-      // Handle the error.
-      print(response.notFoundIDs);
+        await _iap.queryProductDetails(_kProductIds);
+
+    if (response.error != null) {
+      NotificationUtil.showFailureToast(response.error.message);
+      setState(() {
+        _isIapAvailable = isAvailable;
+        _products = response.productDetails;
+        _isLoading = false;
+      });
+      return;
     }
 
     setState(() {
       _products = response.productDetails;
+      _isLoading = false;
+    });
+  }
+
+  void purchaseItem(ProductDetails productDetails) {
+    final PurchaseParam purchaseParam =
+        PurchaseParam(productDetails: productDetails, sandboxTesting: true);
+    InAppPurchaseConnection.instance
+        .buyConsumable(purchaseParam: purchaseParam, autoConsume: true);
+  }
+
+  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+      switch (purchaseDetails.status) {
+        case PurchaseStatus.pending:
+          setState(() {
+            _isPurchasePending = true;
+          });
+          break;
+        case PurchaseStatus.error:
+          setState(() {
+            _isPurchasePending = false;
+          });
+          break;
+        case PurchaseStatus.purchased:
+          setState(() {
+            _isPurchasePending = false;
+            _madladActuallyBoughtIap = true;
+          });
+          break;
+      }
+      if (purchaseDetails.pendingCompletePurchase) {
+        await InAppPurchaseConnection.instance
+            .completePurchase(purchaseDetails);
+      }
     });
   }
 
@@ -76,10 +141,10 @@ class _TipJarScreenState extends State<TipJarScreen> {
                 .copyWith(color: Theme.of(context).buttonColor),
           ),
           SquircleTextButton(
+            enabled: !_isPurchasePending,
             text: productDetail.price,
             onPressed: () {
-              print("click");
-              // purchaseItem(productDetail);
+              purchaseItem(productDetail);
             },
           ),
         ],
@@ -87,27 +152,38 @@ class _TipJarScreenState extends State<TipJarScreen> {
     );
   }
 
-  Widget buildProductRowMock() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            "Small tip mock",
-            style: Theme.of(context)
-                .textTheme
-                .subtitle2
-                .copyWith(color: Theme.of(context).buttonColor),
-          ),
-          SquircleTextButton(
-            text: "\$1.48",
-            onPressed: () {
-              print("click");
-              // purchaseItem(productDetail);
-            },
-          ),
-        ],
+  Widget buildIapScreen() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text(
+              "If you have found this app useful, you can leave a tip to show your appreciation and support further development. You are not obligated in any way whatsoever; I am happy to have you just using my app and hope that this app has helped make achieving your goals more fun and painless! Thank you for even coming to this page and reading this! 🎉",
+              style: Theme.of(context).textTheme.subtitle2.copyWith(
+                  height: 1.4, fontSize: 17, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Expanded(
+              child: _isLoading
+                  ? SpinKitThreeBounce(
+                      color: Theme.of(context).disabledColor,
+                      size: 20.0,
+                    )
+                  : _isIapAvailable
+                      ? ListView(
+                          children: <Widget>[
+                            for (var prod in _products) buildProductRow(prod),
+                          ],
+                        )
+                      : Text("Unable to load :("),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -124,29 +200,11 @@ class _TipJarScreenState extends State<TipJarScreen> {
               title: 'Tip Jar',
               canGoBack: true,
             ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Text(
-                    "If you have found this app useful, you can leave a tip to show your appreciation and support further development. You are not obligated in any way whatsoever; I am happy to have you just using my app and hope that this app has helped make achieving your goals more fun and painless! Thank you for even coming to this page and reading this! 🎉",
-                    style: Theme.of(context).textTheme.subtitle2.copyWith(
-                        height: 1.4, fontSize: 17, fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  for (var prod in _products) buildProductRow(prod),
-                  buildProductRowMock(),
-                  buildProductRowMock(),
-                  buildProductRowMock(),
-                  buildProductRowMock(),
-                ],
-              ),
-            ),
+            _madladActuallyBoughtIap
+                ? Center(
+                    child: Text("you madlad"),
+                  )
+                : buildIapScreen(),
           ],
         ),
       ),

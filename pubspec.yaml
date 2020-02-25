@@ -41,6 +41,7 @@ dependencies:
   url_launcher:
   flutter_launcher_icons: ^0.7.4
   in_app_purchase: 0.3.1+1
+  confetti: 0.3.0
   # Firebase
   firebase_core: ^0.4.3+2
   firebase_storage: ^3.1.1

@@ -7,6 +7,7 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../shared/widgets/app_nav_bar.dart';
 import '../../shared/widgets/buttons/squircle_text_button.dart';
 import '../../utils/notification_util.dart';
+import 'mad_lad_screen.dart';
 
 class TipJarScreen extends StatefulWidget {
   @override
@@ -199,12 +200,9 @@ class _TipJarScreenState extends State<TipJarScreen> {
             AppNavBar(
               title: 'Tip Jar',
               canGoBack: true,
+              disabled: _isPurchasePending,
             ),
-            _madladActuallyBoughtIap
-                ? Center(
-                    child: Text("you madlad"),
-                  )
-                : buildIapScreen(),
+            _madladActuallyBoughtIap ? MadLadScreen() : buildIapScreen(),
           ],
         ),
       ),

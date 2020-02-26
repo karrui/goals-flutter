@@ -35,7 +35,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
         isDestructiveAction: true,
         child: Text(isUserOwner ? 'Delete goal' : 'Leave goal'),
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop();
           showDialog(
             context: context,
             barrierDismissible: false,
@@ -47,8 +47,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
                 CupertinoDialogAction(
                   child: Text("Cancel"),
                   onPressed: () {
-                    Navigator.pop(context);
-                    return null;
+                    Navigator.of(context, rootNavigator: true).pop();
                   },
                 ),
                 CupertinoDialogAction(
@@ -58,8 +57,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
                     isUserOwner
                         ? db.deleteGoal(goal.id)
                         : db.leaveGoal(goal.id, user.uid);
-                    Navigator.popUntil(
-                        context, ModalRoute.withName(SPLASH_ROUTE));
+                    Navigator.of(context).popUntil((route) => route.isFirst);
                   },
                 ),
               ],
@@ -81,7 +79,7 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
                   style: TextStyle(color: Colors.blue),
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.of(context, rootNavigator: true).pop();
                   showModalBottomSheetWithChild(
                       context,
                       EditGoalForm(

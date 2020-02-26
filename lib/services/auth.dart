@@ -5,10 +5,10 @@ import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_user_stream/firebase_user_stream.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:simple_gravatar/simple_gravatar.dart';
 
@@ -167,23 +167,29 @@ class AuthService {
         throw Exception("Invalid sign in method");
     }
 
-    return showDialog(
+    return showPlatformDialog(
         context: context,
-        barrierDismissible: false,
         builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text("Different sign up method found"),
+          return PlatformAlertDialog(
+            title: Text(
+              "Different sign up method found",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontFamily: Platform.isIOS ? "SF Pro Text" : null,
+                fontSize: 17,
+                letterSpacing: Platform.isIOS ? -0.41 : 0,
+              ),
+            ),
             content: Text(
                 "Sign in with your $signInDisplayName account first to also link $failedSignInDisplayName to your Goals account"),
             actions: <Widget>[
-              CupertinoDialogAction(
+              PlatformDialogAction(
                   child: Text("Cancel"),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
                     return null;
                   }),
-              CupertinoDialogAction(
-                  isDefaultAction: true,
+              PlatformDialogAction(
                   child: Text("Continue"),
                   onPressed: () async {
                     Navigator.of(context, rootNavigator: true).pop();

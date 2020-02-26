@@ -42,6 +42,7 @@ dependencies:
   flutter_launcher_icons: ^0.7.4
   in_app_purchase: 0.3.1+1
   confetti: 0.3.0
+  flutter_platform_widgets: 0.32.4
   # Firebase
   firebase_core: ^0.4.3+2
   firebase_storage: ^3.1.1
@@ -96,6 +97,14 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
+    - family: SF Pro Text
+      fonts:
+        - asset: assets/fonts/SF-Pro-Text-Bold.otf
+          weight: 700
+        - asset: assets/fonts/SF-Pro-Text-Regular.otf
+          weight: 400
+        - asset: assets/fonts/SF-Pro-Text-Medium.otf
+          weight: 500
     - family: Gilroy
       fonts:
         - asset: assets/fonts/Gilroy-Regular.otf

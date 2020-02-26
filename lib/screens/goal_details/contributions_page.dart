@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:clay_containers/widgets/clay_containers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import './widgets/contribution.dart';
@@ -45,23 +48,28 @@ class _ContributionsPageState extends State<ContributionsPage> {
             iconData: Icons.delete,
             iconColor: Theme.of(context).errorColor,
             onPressed: () {
-              showDialog(
+              showPlatformDialog(
                 context: context,
-                barrierDismissible: false,
-                builder: (ctx) => CupertinoAlertDialog(
-                  title: Text("Delete contributions"),
+                builder: (ctx) => PlatformAlertDialog(
+                  title: Text(
+                    "Delete contributions",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontFamily: Platform.isIOS ? "SF Pro Text" : null,
+                      fontSize: 17,
+                      letterSpacing: Platform.isIOS ? -0.41 : 0,
+                    ),
+                  ),
                   content: Text(
                       "Are you sure you want to delete the selected contributions?"),
                   actions: <Widget>[
-                    CupertinoDialogAction(
+                    PlatformDialogAction(
                       child: Text("Cancel"),
                       onPressed: () {
-                        Navigator.pop(context);
-                        return null;
+                        Navigator.of(context, rootNavigator: true).pop();
                       },
                     ),
-                    CupertinoDialogAction(
-                      isDestructiveAction: true,
+                    PlatformDialogAction(
                       child: Text("Delete"),
                       onPressed: () {
                         db.deleteContributions(goal.id, _selectedItems);
@@ -69,8 +77,7 @@ class _ContributionsPageState extends State<ContributionsPage> {
                           _isDeleteMode = false;
                           _selectedItems = Map();
                         });
-                        // TODO: Add success/ error notification
-                        Navigator.pop(context);
+                        Navigator.of(context, rootNavigator: true).pop();
                       },
                     ),
                   ],

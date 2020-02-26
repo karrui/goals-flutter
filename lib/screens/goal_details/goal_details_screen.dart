@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import './widgets/add_contribution_sliding_up_panel.dart';
@@ -9,7 +12,6 @@ import '../../models/contributor_model.dart';
 import '../../models/goal_model.dart';
 import '../../models/user_model.dart';
 import '../../providers/current_goal.dart';
-import '../../routes/constants.dart';
 import '../../services/database.dart';
 import '../../shared/widgets/app_nav_bar.dart';
 import '../../shared/widgets/buttons/squircle_icon_button.dart';
@@ -36,22 +38,28 @@ class _GoalDetailsScreenState extends State<GoalDetailsScreen> {
         child: Text(isUserOwner ? 'Delete goal' : 'Leave goal'),
         onPressed: () {
           Navigator.of(context, rootNavigator: true).pop();
-          showDialog(
+          showPlatformDialog(
             context: context,
-            barrierDismissible: false,
-            builder: (ctx) => CupertinoAlertDialog(
-              title: Text(isUserOwner ? 'Delete goal' : 'Leave goal'),
+            builder: (ctx) => PlatformAlertDialog(
+              title: Text(
+                isUserOwner ? 'Delete goal' : 'Leave goal',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontFamily: Platform.isIOS ? "SF Pro Text" : null,
+                  fontSize: 17,
+                  letterSpacing: Platform.isIOS ? -0.41 : 0,
+                ),
+              ),
               content: Text(
                   "Are you sure you want to ${isUserOwner ? 'delete' : 'leave'} this goal?"),
               actions: <Widget>[
-                CupertinoDialogAction(
+                PlatformDialogAction(
                   child: Text("Cancel"),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
                   },
                 ),
-                CupertinoDialogAction(
-                  isDestructiveAction: true,
+                PlatformDialogAction(
                   child: Text(isUserOwner ? 'Delete' : 'Leave'),
                   onPressed: () {
                     isUserOwner

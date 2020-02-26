@@ -4,6 +4,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../utils/user_util.dart';
@@ -18,23 +19,27 @@ class ImageCapture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _showEnablePermissionsDialog({@required bool isRequestCamera}) {
-      return showDialog(
+      return showPlatformDialog(
         context: context,
-        barrierDismissible: false,
-        builder: (ctx) => CupertinoAlertDialog(
+        builder: (ctx) => PlatformAlertDialog(
           title: Text(
             "Goals does not have access to your ${isRequestCamera ? 'camera' : 'photos'}. To enable access, tap Settings and turn on ${isRequestCamera ? 'Camera' : 'Photos'}.",
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontFamily: Platform.isIOS ? "SF Pro Text" : null,
+              fontSize: 17,
+              letterSpacing: Platform.isIOS ? -0.41 : 0,
+            ),
           ),
           actions: <Widget>[
-            CupertinoDialogAction(
-              isDefaultAction: true,
+            PlatformDialogAction(
               child: Text("Cancel"),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
             ),
-            CupertinoDialogAction(
+            PlatformDialogAction(
                 child: Text("Settings"),
                 onPressed: () async {
-                  Navigator.pop(context);
+                  Navigator.of(context, rootNavigator: true).pop();
                   await AppSettings.openAppSettings();
                 }),
           ],

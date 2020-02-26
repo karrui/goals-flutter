@@ -241,6 +241,7 @@ class _AddContributionFormState extends State<AddContributionForm> {
                                   _isLoading ? null : () => _submitForm(user),
                             )
                           : SquircleTextButton(
+                              width: double.infinity,
                               text: "Add contribution",
                               onPressed:
                                   _isLoading ? null : () => _submitForm(user),

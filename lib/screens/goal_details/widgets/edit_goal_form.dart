@@ -248,6 +248,7 @@ class _EditGoalFormState extends State<EditGoalForm> {
                                   _isLoading ? null : () => _submitForm(user),
                             )
                           : SquircleTextButton(
+                              width: double.infinity,
                               text: "Edit goal",
                               onPressed:
                                   _isLoading ? null : () => _submitForm(user)),
